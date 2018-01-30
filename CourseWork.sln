@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormCourseWork", "WinFormCourseWork\WinFormCourseWork.csproj", "{8C0FDB7F-E03E-4879-8470-386306DE6DFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessonLibrary", "LessonLibrary\LessonLibrary.csproj", "{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8C0FDB7F-E03E-4879-8470-386306DE6DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C0FDB7F-E03E-4879-8470-386306DE6DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C0FDB7F-E03E-4879-8470-386306DE6DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

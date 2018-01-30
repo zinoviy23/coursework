@@ -7,31 +7,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using LessonLibrary;
+using System.IO;
 
 namespace WinFormCourseWork
 {
     public partial class MainForm : Form
     {
+        private readonly StreamWriter _debugWriter;
+
         public MainForm()
         {
             InitializeComponent();
-            htmlView.DocumentText =
-            @"<html>
-                <body>
-                    <h1> Теория групп! </h1>
-                    <h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
+            try
+            {
+                var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\lesson1.xml").HtmlString;
+                htmlView.DocumentText = tmp;
+                _debugWriter = new StreamWriter("DebugHelper");
+                _debugWriter.Write(tmp);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, @"Ошибка!", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                htmlView.DocumentText = "";
+            }
 
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-<h1> Теория групп! </h1>
-                </body>
-            </html>";
+            splitContainer1.Panel1MinSize = Math.Min(200, Size.Width / 5);
+            splitContainer1.Panel2MinSize = Size.Width  / 5 * 4;
+
+            Closed += (sender, args) => _debugWriter?.Close();
         }
     }
 }

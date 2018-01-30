@@ -1,0 +1,6 @@
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\LessonLibrary.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\LessonLibrary.pdb
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.pdb

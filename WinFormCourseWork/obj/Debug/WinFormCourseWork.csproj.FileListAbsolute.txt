@@ -2,9 +2,11 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWo
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\WinFormCourseWork.exe
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\WinFormCourseWork.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csprojResolveAssemblyReference.cache
-C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.Form1.resources
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.Properties.Resources.resources
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csproj.GenerateResource.Cache
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csproj.CoreCompileInputs.cache
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.exe
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.pdb
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\LessonLibrary.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\LessonLibrary.pdb
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.MainForm.resources

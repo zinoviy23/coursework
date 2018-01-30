@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
-            treeNode7});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
+            treeNode17});
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
+            treeNode19});
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
@@ -52,12 +52,14 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+            this.splitContainer1.Panel1MinSize = 0;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.htmlView);
+            this.splitContainer1.Panel2MinSize = 0;
             this.splitContainer1.Size = new System.Drawing.Size(856, 529);
-            this.splitContainer1.SplitterDistance = 285;
+            this.splitContainer1.SplitterDistance = 152;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
@@ -65,18 +67,18 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode5.Name = "Узел1";
-            treeNode5.Text = "Глава 1 Введение";
-            treeNode6.Name = "Узел0";
-            treeNode6.Text = "Теория";
-            treeNode7.Name = "Узел3";
-            treeNode7.Text = "Тест 1 Введение";
-            treeNode8.Name = "Узел2";
-            treeNode8.Text = "Тесты";
+            treeNode17.Name = "Узел1";
+            treeNode17.Text = "Глава 1 Введение";
+            treeNode18.Name = "Узел0";
+            treeNode18.Text = "Теория";
+            treeNode19.Name = "Узел3";
+            treeNode19.Text = "Тест 1 Введение";
+            treeNode20.Name = "Узел2";
+            treeNode20.Text = "Тесты";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode8});
-            this.treeView1.Size = new System.Drawing.Size(285, 529);
+            treeNode18,
+            treeNode20});
+            this.treeView1.Size = new System.Drawing.Size(152, 529);
             this.treeView1.TabIndex = 0;
             // 
             // htmlView
@@ -85,7 +87,7 @@
             this.htmlView.Location = new System.Drawing.Point(0, 0);
             this.htmlView.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlView.Name = "htmlView";
-            this.htmlView.Size = new System.Drawing.Size(567, 529);
+            this.htmlView.Size = new System.Drawing.Size(700, 529);
             this.htmlView.TabIndex = 0;
             // 
             // MainForm
@@ -94,6 +96,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 529);
             this.Controls.Add(this.splitContainer1);
+            this.MinimumSize = new System.Drawing.Size(500, 400);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.splitContainer1.Panel1.ResumeLayout(false);
