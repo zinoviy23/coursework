@@ -15,6 +15,9 @@ namespace WinFormCourseWork
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Файл для отладки
+        /// </summary>
         private readonly StreamWriter _debugWriter;
 
         public MainForm()
@@ -22,10 +25,11 @@ namespace WinFormCourseWork
             InitializeComponent();
             try
             {
-                var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\lesson1.xml").HtmlString;
-                htmlView.DocumentText = tmp;
+                var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\test_lesson1.xml");
+                tmp.HtmlView = htmlView;
+                htmlView.DocumentText = tmp.HtmlString;
                 _debugWriter = new StreamWriter("DebugHelper");
-                _debugWriter.Write(tmp);
+                _debugWriter.Write(htmlView.DocumentText);
             }
             catch (Exception exception)
             {
@@ -35,7 +39,7 @@ namespace WinFormCourseWork
             }
 
             splitContainer1.Panel1MinSize = Math.Min(200, Size.Width / 5);
-            splitContainer1.Panel2MinSize = Size.Width  / 5 * 4;
+            splitContainer1.Panel2MinSize = Width - splitContainer1.Panel1MinSize - 30;
 
             Closed += (sender, args) => _debugWriter?.Close();
         }

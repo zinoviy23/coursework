@@ -30,6 +30,16 @@ namespace LessonLibrary
                     };
                     return new SimpleLesson(elements);
                 }
+                else if (root?.Name == "test")
+                {
+                    var elements = new List<XmlNode>();
+                    var questions = root.GetElementsByTagName("q");
+                    foreach (XmlNode node in questions)
+                    {
+                        elements.Add(node);
+                    }
+                    return new TestLesson(elements);
+                }
                 else
                 {
                     throw new Exception("Так пока нельзя!");

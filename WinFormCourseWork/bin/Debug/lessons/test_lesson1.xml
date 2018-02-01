@@ -1,0 +1,7 @@
+<test>
+    <q answer="No" type="radio">
+        <p>1. Являются ли натуральный числа группой по операции +</p>
+        <p><input name="1" type="radio" value="Yes"></input>Да</p>
+        <p><input name="1" type="radio" value="No"></input>Нет</p>
+    </q>
+</test>
