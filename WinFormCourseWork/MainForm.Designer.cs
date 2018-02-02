@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
-            treeNode17});
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
-            treeNode19});
+            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
+            treeNode37});
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
+            treeNode39});
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Куб");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Визуализации", new System.Windows.Forms.TreeNode[] {
+            treeNode41});
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
@@ -67,19 +70,28 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode17.Name = "Узел1";
-            treeNode17.Text = "Глава 1 Введение";
-            treeNode18.Name = "Узел0";
-            treeNode18.Text = "Теория";
-            treeNode19.Name = "Узел3";
-            treeNode19.Text = "Тест 1 Введение";
-            treeNode20.Name = "Узел2";
-            treeNode20.Text = "Тесты";
+            treeNode37.Name = "Узел1";
+            treeNode37.Tag = "lesson1.xml";
+            treeNode37.Text = "Глава 1 Введение";
+            treeNode38.Name = "Узел0";
+            treeNode38.Text = "Теория";
+            treeNode39.Name = "Узел3";
+            treeNode39.Tag = "test_lesson1.xml";
+            treeNode39.Text = "Тест 1 Введение";
+            treeNode40.Name = "Узел2";
+            treeNode40.Text = "Тесты";
+            treeNode41.Name = "Узел3";
+            treeNode41.Tag = "Cube";
+            treeNode41.Text = "Куб";
+            treeNode42.Name = "Узел0";
+            treeNode42.Text = "Визуализации";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode18,
-            treeNode20});
+            treeNode38,
+            treeNode40,
+            treeNode42});
             this.treeView1.Size = new System.Drawing.Size(152, 529);
             this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
             // 
             // htmlView
             // 

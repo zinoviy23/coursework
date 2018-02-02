@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LessonLibrary
 {
@@ -26,6 +27,11 @@ namespace LessonLibrary
 
                 return result.ToString();
             }
+        }
+
+        protected override void SetHtmlView(WebBrowser htmlView)
+        {
+            _htmlView = htmlView;
         }
 
         /// <summary>

@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormCourseWork", "WinFormCourseWork\WinFormCourseWork.csproj", "{8C0FDB7F-E03E-4879-8470-386306DE6DFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessonLibrary", "LessonLibrary\LessonLibrary.csproj", "{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTK", "TestTK\TestTK.csproj", "{5512D846-2649-4B7D-90A1-49D9BDF008E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A57473EA-58EA-48B6-A1E0-C22531448541}"
+	ProjectSection(SolutionItems) = preProject
+		Libs\OpenTK.Compatibility.dll = Libs\OpenTK.Compatibility.dll
+		Libs\OpenTK.dll = Libs\OpenTK.dll
+		Libs\OpenTK.GLControl.dll = Libs\OpenTK.GLControl.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +30,10 @@ Global
 		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF1BDDAB-CB78-4D8C-9F7C-E224EC87D4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,3 +10,7 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWo
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\LessonLibrary.dll
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\LessonLibrary.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.MainForm.resources
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\OpenTK.Compatibility.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\OpenTK.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\OpenTK.GLControl.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.Tmp.resources

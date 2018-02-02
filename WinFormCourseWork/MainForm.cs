@@ -23,13 +23,55 @@ namespace WinFormCourseWork
         public MainForm()
         {
             InitializeComponent();
+            _debugWriter = new StreamWriter("DebugHelper");
+            LoadLesson("title_page.xml");
+            splitContainer1.Panel1MinSize = Math.Min(200, Size.Width / 5);
+            splitContainer1.Panel2MinSize = Width - splitContainer1.Panel1MinSize - 30;
+
+            Closed += (sender, args) => _debugWriter?.Close();
+            Closed += (sender, args) => _debugWriter?.Close();
+        }
+
+        private Tmp _tmp;
+
+        /// <summary>
+        /// Обработчик нажатия на элемент уроков
+        /// </summary>
+        /// <param name="sender">Объект</param>
+        /// <param name="e">Параметры</param>
+        private void LessonsView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            var node = e.Node;
+            if (node.Tag == null) return;
+            _tmp?.Close();
+            _tmp = null;
+            if ((string) node.Tag != "Cube")
+            {
+                LoadLesson((string) node.Tag);
+            }
+            else
+            {
+                _tmp = new Tmp();
+                _tmp.Show();
+            }
+        }
+
+        /// <summary>
+        /// Отображает урок
+        /// </summary>
+        /// <param name="fileName">Файл урока</param>
+        private void LoadLesson(string fileName)
+        {
             try
             {
-                var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\test_lesson1.xml");
-                tmp.HtmlView = htmlView;
+                var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\" + fileName);
                 htmlView.DocumentText = tmp.HtmlString;
-                _debugWriter = new StreamWriter("DebugHelper");
-                _debugWriter.Write(htmlView.DocumentText);
+
+                htmlView.DocumentCompleted += (sender, args) =>
+                {
+                    tmp.HtmlView = htmlView;
+                    _debugWriter.WriteLine(htmlView.DocumentText);
+                };
             }
             catch (Exception exception)
             {
@@ -37,11 +79,6 @@ namespace WinFormCourseWork
                     MessageBoxIcon.Error);
                 htmlView.DocumentText = "";
             }
-
-            splitContainer1.Panel1MinSize = Math.Min(200, Size.Width / 5);
-            splitContainer1.Panel2MinSize = Width - splitContainer1.Panel1MinSize - 30;
-
-            Closed += (sender, args) => _debugWriter?.Close();
         }
     }
 }

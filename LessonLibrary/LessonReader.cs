@@ -32,11 +32,11 @@ namespace LessonLibrary
                 }
                 else if (root?.Name == "test")
                 {
-                    var elements = new List<XmlNode>();
+                    var elements = new List<QuestionInfo>();
                     var questions = root.GetElementsByTagName("q");
                     foreach (XmlNode node in questions)
                     {
-                        elements.Add(node);
+                        elements.Add(new QuestionInfo(node));
                     }
                     return new TestLesson(elements);
                 }

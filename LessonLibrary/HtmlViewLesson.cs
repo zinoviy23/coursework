@@ -9,9 +9,24 @@ namespace LessonLibrary
     public abstract class HtmlViewLesson
     {
         /// <summary>
+        /// Представление страницы
+        /// </summary>
+        protected WebBrowser _htmlView;
+
+        /// <summary>
         /// Отображение страницы
         /// </summary>
-        public WebBrowser HtmlView { get; set; }
+        public WebBrowser HtmlView
+        {
+            get => _htmlView;
+            set => SetHtmlView(value);
+        }
+
+        /// <summary>
+        /// Задаёт отображение страницы
+        /// </summary>
+        /// <param name="htmlView">Отображение страницы</param>
+        protected abstract void SetHtmlView(WebBrowser htmlView);
 
         /// <summary>
         /// Размеченный HTML урок
