@@ -13,6 +13,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace WinFormCourseWork
 {
+    //TODO: удалить это
     public partial class Tmp : Form
     {
         public Tmp()
@@ -21,7 +22,7 @@ namespace WinFormCourseWork
             timer1.Enabled = true;
         }
 
-        private bool loaded = false;
+        private bool loaded;
         private void glControl1_Load(object sender, EventArgs e)
         {
             loaded = true;
@@ -45,7 +46,12 @@ namespace WinFormCourseWork
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             float width = 20;
-            GL.Rotate(_angle, 0, 1, 0);
+            if (_ticked)
+            {
+                GL.Rotate(_angle, 0, 1, 0);
+                _ticked = false;
+            }
+
             //MessageBox.Show(_angle.ToString());
             /*задняя*/
             GL.Color3(Color.Red);
@@ -130,8 +136,10 @@ namespace WinFormCourseWork
         }
 
         private float _angle = 10;
+        private bool _ticked = false;
         private void timer1_Tick(object sender, EventArgs e)
         {
+            _ticked = true;
             glControl1.Refresh();
         }
     }

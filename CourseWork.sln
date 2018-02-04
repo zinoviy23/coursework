@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Libs\OpenTK.GLControl.dll = Libs\OpenTK.GLControl.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{2800B8C6-3558-45BC-86FC-55273753FA4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5512D846-2649-4B7D-90A1-49D9BDF008E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2800B8C6-3558-45BC-86FC-55273753FA4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2800B8C6-3558-45BC-86FC-55273753FA4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2800B8C6-3558-45BC-86FC-55273753FA4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2800B8C6-3558-45BC-86FC-55273753FA4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using LessonLibrary;
 using System.IO;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace WinFormCourseWork
 {
@@ -20,6 +19,12 @@ namespace WinFormCourseWork
         /// </summary>
         private readonly StreamWriter _debugWriter;
 
+        private TestLesson _currentTest;
+
+        /// <summary>
+        /// Конструктор формы
+        /// </summary>
+        /// <inheritdoc cref="Form"/>
         public MainForm()
         {
             InitializeComponent();
@@ -28,7 +33,6 @@ namespace WinFormCourseWork
             splitContainer1.Panel1MinSize = Math.Min(200, Size.Width / 5);
             splitContainer1.Panel2MinSize = Width - splitContainer1.Panel1MinSize - 30;
 
-            Closed += (sender, args) => _debugWriter?.Close();
             Closed += (sender, args) => _debugWriter?.Close();
         }
 
@@ -48,11 +52,14 @@ namespace WinFormCourseWork
             if ((string) node.Tag != "Cube")
             {
                 LoadLesson((string) node.Tag);
+                htmlView.Show();
             }
             else
             {
-                _tmp = new Tmp();
-                _tmp.Show();
+                htmlView.Hide();
+                _currentTest = null;
+                checkTestButton.Enabled = false;
+                checkTestButton.Visible = false;
             }
         }
 
@@ -66,6 +73,18 @@ namespace WinFormCourseWork
             {
                 var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\" + fileName);
                 htmlView.DocumentText = tmp.HtmlString;
+                if (fileName.StartsWith("test"))
+                {
+                    _currentTest = tmp as TestLesson;
+                    checkTestButton.Enabled = true;
+                    checkTestButton.Visible = true;
+                }
+                else
+                {
+                    _currentTest = null;
+                    checkTestButton.Enabled = false;
+                    checkTestButton.Visible = false;
+                }
 
                 htmlView.DocumentCompleted += (sender, args) =>
                 {
@@ -79,6 +98,34 @@ namespace WinFormCourseWork
                     MessageBoxIcon.Error);
                 htmlView.DocumentText = "";
             }
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку проверки ответов
+        /// </summary>
+        /// <param name="sender">Объект</param>
+        /// <param name="e">Параметры</param>
+        private void CheckTestButton_Click(object sender, EventArgs e)
+        {
+            var mistakes = _currentTest.CheckAnswers();
+            if (mistakes == null)
+                return;
+
+            if (mistakes.Count == 0)
+            {
+                MessageBox.Show(@"Всё правильно!", @"Ошибок нет!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var mistakesStringBuilder = new StringBuilder("Ошибки в номерах: \n");
+            foreach (var mistake in mistakes)
+            {
+                mistakesStringBuilder.Append(mistake + 1).Append("\n");
+            }
+
+            MessageBox.Show(mistakesStringBuilder.ToString(), @"Ошибки!",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

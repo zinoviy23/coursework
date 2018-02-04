@@ -19,6 +19,15 @@ namespace LessonLibrary
         /// </summary>
         public List<QuestionInfo> Questions { get; }
 
+        /// <summary>
+        /// Ответы на вопросы
+        /// </summary>
+        private readonly TestAnswers _answers;
+
+        /// <summary>
+        /// Переопределённое свойство для получения HTML
+        /// </summary>
+        /// <inheritdoc cref="HtmlViewLesson"/>
         protected override string Source
         {
             get
@@ -33,6 +42,11 @@ namespace LessonLibrary
             }
         }
 
+        /// <summary>
+        /// Задаёт обработчики событий для ввода
+        /// </summary>
+        /// <param name="htmlView">Отображение html</param>
+        /// <inheritdoc cref="HtmlViewLesson"/>
         protected override void SetHtmlView(WebBrowser htmlView)
         {
             _htmlView = htmlView;
@@ -54,10 +68,20 @@ namespace LessonLibrary
         {
             var element = (HtmlElement) sender;
             var usersAnswer = element.GetAttribute("value");
-            var questionNumber = int.Parse(element.GetAttribute("name"));
-            if (usersAnswer != Questions[questionNumber - 1].Answer)
+            var questionNumber = int.Parse(element.GetAttribute("name")) - 1;
+            switch (Questions[questionNumber].Type)
             {
-                MessageBox.Show("Неправильно!");
+                case "radio":
+                    _answers.SetRadioAnswer(questionNumber, usersAnswer);
+                    break;
+                case "checkbox":
+                    if (element.GetAttribute("checked") != "checked")
+                        _answers.SetCheckBoxAnswer(questionNumber, usersAnswer);
+                    else
+                        _answers.UnSetCheckBoxAnswer(questionNumber, usersAnswer);
+                    break;
+                default:
+                    throw new Exception("Такого нет!");
             }
         }
 
@@ -68,6 +92,13 @@ namespace LessonLibrary
         public TestLesson(List<QuestionInfo> questions)
         {
             Questions = questions;
+            _answers = new TestAnswers(Questions);
         }
+
+        /// <summary>
+        /// Проверяет тест
+        /// </summary>
+        /// <returns>Лист с ошибками</returns>
+        public List<int> CheckAnswers() => _answers.CheckAnswers();
     }
 }

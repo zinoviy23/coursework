@@ -22,29 +22,33 @@ namespace LessonLibrary
             {
                 lesson.Load(lessonPath);
                 var root = lesson.DocumentElement;
-                if (root?.Name == "text")
+                switch (root?.Name)
                 {
-                    var elements = new List<string>()
+                    case "text":
                     {
-                        root.InnerXml
-                    };
-                    return new SimpleLesson(elements);
-                }
-                else if (root?.Name == "test")
-                {
-                    var elements = new List<QuestionInfo>();
-                    var questions = root.GetElementsByTagName("q");
-                    foreach (XmlNode node in questions)
-                    {
-                        elements.Add(new QuestionInfo(node));
+                        var elements = new List<string>()
+                        {
+                            root.InnerXml
+                        };
+                        return new SimpleLesson(elements);
                     }
-                    return new TestLesson(elements);
-                }
-                else
-                {
-                    throw new Exception("Так пока нельзя!");
+                    case "test":
+                    {
+                        var elements = new List<QuestionInfo>();
+                        var questions = root.GetElementsByTagName("q");
+                        foreach (XmlNode node in questions)
+                        {
+                            elements.Add(new QuestionInfo(node));
+                        }
+                        return new TestLesson(elements);
+                    }
+                    default:
+                    {
+                        throw new Exception("Так пока нельзя!");
+                    }
                 }
 
+                
             }
             catch (XmlException exception)
             {
@@ -54,8 +58,6 @@ namespace LessonLibrary
             {
                 throw new DirectoryNotFoundException(exception.Message);
             }
-
-            return null;
         }
     }
 }

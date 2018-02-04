@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
-            treeNode37});
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
-            treeNode39});
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Куб");
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Визуализации", new System.Windows.Forms.TreeNode[] {
-            treeNode41});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
+            treeNode3});
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Куб");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Визуализации", new System.Windows.Forms.TreeNode[] {
+            treeNode5});
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.checkTestButton = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -54,6 +55,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.checkTestButton);
             this.splitContainer1.Panel1.Controls.Add(this.treeView1);
             this.splitContainer1.Panel1MinSize = 0;
             // 
@@ -65,30 +67,40 @@
             this.splitContainer1.SplitterDistance = 152;
             this.splitContainer1.TabIndex = 0;
             // 
+            // checkTestButton
+            // 
+            this.checkTestButton.Location = new System.Drawing.Point(0, 494);
+            this.checkTestButton.Name = "checkTestButton";
+            this.checkTestButton.Size = new System.Drawing.Size(146, 32);
+            this.checkTestButton.TabIndex = 1;
+            this.checkTestButton.Text = "Проверить";
+            this.checkTestButton.UseVisualStyleBackColor = true;
+            this.checkTestButton.Click += new System.EventHandler(this.CheckTestButton_Click);
+            // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode37.Name = "Узел1";
-            treeNode37.Tag = "lesson1.xml";
-            treeNode37.Text = "Глава 1 Введение";
-            treeNode38.Name = "Узел0";
-            treeNode38.Text = "Теория";
-            treeNode39.Name = "Узел3";
-            treeNode39.Tag = "test_lesson1.xml";
-            treeNode39.Text = "Тест 1 Введение";
-            treeNode40.Name = "Узел2";
-            treeNode40.Text = "Тесты";
-            treeNode41.Name = "Узел3";
-            treeNode41.Tag = "Cube";
-            treeNode41.Text = "Куб";
-            treeNode42.Name = "Узел0";
-            treeNode42.Text = "Визуализации";
+            treeNode1.Name = "Узел1";
+            treeNode1.Tag = "lesson1.xml";
+            treeNode1.Text = "Глава 1 Введение";
+            treeNode2.Name = "Узел0";
+            treeNode2.Text = "Теория";
+            treeNode3.Name = "Узел3";
+            treeNode3.Tag = "test_lesson1.xml";
+            treeNode3.Text = "Тест 1 Введение";
+            treeNode4.Name = "Узел2";
+            treeNode4.Text = "Тесты";
+            treeNode5.Name = "Узел3";
+            treeNode5.Tag = "Cube";
+            treeNode5.Text = "Куб";
+            treeNode6.Name = "Узел0";
+            treeNode6.Text = "Визуализации";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode38,
-            treeNode40,
-            treeNode42});
+            treeNode2,
+            treeNode4,
+            treeNode6});
             this.treeView1.Size = new System.Drawing.Size(152, 529);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
@@ -124,6 +136,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.WebBrowser htmlView;
+        private System.Windows.Forms.Button checkTestButton;
     }
 }
 
