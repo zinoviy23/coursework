@@ -47,6 +47,18 @@ namespace LessonLibrary
                 rowIndexies[cayleyTable[i, 0]] = i;
             }
 
+            foreach (var element in rowIndexies.Keys)
+            {
+                if (!columnIndexies.ContainsKey(element))
+                    throw new Exception("В столбцах и строках дожны быть одинаковые элементы");
+            }
+
+            foreach (var element in columnIndexies.Keys)
+            {
+                if (!rowIndexies.ContainsKey(element))
+                    throw new Exception("В столбцах и строках дожны быть одинаковые элементы");
+            }
+
             if (!CheckAssociativity(cayleyTable, columnIndexies, rowIndexies))
                 return CheckResult.NotAssociativity;
 
@@ -158,6 +170,20 @@ namespace LessonLibrary
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Изначальная таблица
+        /// </summary>
+        public string[,] StartTable { get; }
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="table">таблица</param>
+        public CayleyTableTestLesson(string[,] table)
+        {
+            StartTable = table;
         }
     }
 }

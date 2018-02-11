@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
 
 namespace UnitTests
@@ -74,7 +73,7 @@ namespace UnitTests
             Assert.AreEqual(CayleyTableTestLesson.CheckResult.NotAssociativity,
                 CayleyTableTestLesson.CheckTableOnGroup(table1));
         }
-
+        
         /// <summary>
         /// Проверяет "проверку" на группу(нет нейтрального элемента)
         /// </summary>
@@ -105,6 +104,24 @@ namespace UnitTests
             };
             Assert.AreEqual(CayleyTableTestLesson.CheckResult.DontContainsInverts,
                 CayleyTableTestLesson.CheckTableOnGroup(table4));
+        }
+
+        /// <summary>
+        /// Проверяет считывание таблицы
+        /// </summary>
+        [TestMethod]
+        public void ReadCayleyTableTestLessonTest()
+        {
+            var expectedTable = new[,]
+            {
+                {"\\", "0", "1"},
+                {"0", "0", "1"},
+                {"1", "1", "0"}
+            };
+            var cayleyTable = LessonReader.ReadCayleyTableTestLesson(@"lessons\CayleyTables\table_test.xml");
+            for (var i = 0; i < expectedTable.GetLength(0); i++)
+                for (var j = 0; j < expectedTable.GetLength(1); j++)
+                    Assert.AreEqual(expectedTable[i, j], cayleyTable.StartTable[i, j]);
         }
     }
 }

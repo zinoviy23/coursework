@@ -59,5 +59,49 @@ namespace LessonLibrary
                 throw new DirectoryNotFoundException(exception.Message);
             }
         }
+
+        /// <summary>
+        /// Считывает задание с таблицей кэли
+        /// </summary>
+        /// <param name="path">Путь до таблицы</param>
+        /// <returns></returns>
+        public static CayleyTableTestLesson ReadCayleyTableTestLesson(string path)
+        {
+            var table = new XmlDocument();
+            try
+            {
+                table.Load(path);
+                var root = table.DocumentElement;
+                if (root == null || root.Name != "table")
+                {
+                    throw new Exception("Неправильный формат таблицы");
+                }
+                var elements = new List<string[]>();
+                var lines = root.GetElementsByTagName("line");
+                foreach (XmlNode line in lines)
+                {
+                    elements.Add(line.InnerText.Split(' '));
+                }
+
+                var resultTable = new string[elements.Count, elements[0].Length];
+                for (var lineIndex = 0; lineIndex < elements.Count; lineIndex++)
+                {
+                    for (var lineElementIndex = 0; lineElementIndex < elements[0].Length; lineElementIndex++)
+                    {
+                        resultTable[lineIndex, lineElementIndex] = elements[lineIndex][lineElementIndex];
+                    }
+                }
+
+                return new CayleyTableTestLesson(resultTable);
+            }
+            catch (XmlException exception)
+            {
+                throw new XmlException(exception.Message);
+            }
+            catch (DirectoryNotFoundException exception)
+            {
+                throw new DirectoryNotFoundException(exception.Message);
+            }
+        }
     }
 }
