@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LessonLibrary
 {
@@ -72,8 +73,9 @@ namespace LessonLibrary
             {
                 switch (RightAnswers[i].Type)
                 {
+                    case "text":
                     case "radio":
-                        if (RightAnswers[i].Answer != UsersAnswers[i])
+                        if (RightAnswers[i].Answer != UsersAnswers[i].Trim())
                             mistakes.Add(i);
                         break;
                     case "checkbox":
@@ -86,6 +88,16 @@ namespace LessonLibrary
             }
 
             return mistakes;
+        }
+
+        /// <summary>
+        /// Задаёт ответ для текстового поля
+        /// </summary>
+        /// <param name="questionIndex">номер вопроса</param>
+        /// <param name="answer">ответ</param>
+        public void SetTextAnswer(int questionIndex, string answer)
+        {
+            UsersAnswers[questionIndex] = answer;
         }
 
         /// <summary>

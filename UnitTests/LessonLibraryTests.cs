@@ -30,5 +30,81 @@ namespace UnitTests
             Assert.IsFalse(TestAnswers.CompareCheckBoxAnswers("123", "3214"), 
                 "TestAnswers.CompareCheckBoxAnswers('123', '3214') не работает");
         }
+
+        /// <summary>
+        /// Проверяет "проверку" на группу(правилтные таблицы)
+        /// </summary>
+        [TestMethod]
+        public void CheckTableOnGroupTestSuccess()
+        {
+            var table = new[,]
+            {
+                {" ", "0", "1", "2" },
+                {"0", "0", "1", "2" },
+                {"1", "1", "2", "0" },
+                {"2", "2", "0", "1" }
+            };
+            Assert.AreEqual(CayleyTableTestLesson.CheckResult.Success,
+                CayleyTableTestLesson.CheckTableOnGroup(table));
+
+         
+            var table2 = new[,]
+            {
+                {" ", "0", "1"},
+                {"1", "1", "0" },
+                {"0", "0", "1" }
+            };
+            Assert.AreEqual(CayleyTableTestLesson.CheckResult.Success,
+                CayleyTableTestLesson.CheckTableOnGroup(table2));
+        }
+
+        /// <summary>
+        /// Проверяет "проверку" на группу(не выполняется ассоциативность)
+        /// </summary>
+        [TestMethod]
+        public void CheckTableOnGroupTestNotAssociativity()
+        {
+            var table1 = new[,]
+            {
+                {" ", "0", "1", "2" },
+                {"0", "0", "2", "1" },
+                {"1", "1", "2", "0" },
+                {"2", "2", "0", "1" }
+            };
+            Assert.AreEqual(CayleyTableTestLesson.CheckResult.NotAssociativity,
+                CayleyTableTestLesson.CheckTableOnGroup(table1));
+        }
+
+        /// <summary>
+        /// Проверяет "проверку" на группу(нет нейтрального элемента)
+        /// </summary>
+        [TestMethod]
+        public void CheckTableOnGroupTestDontContainsNeutral()
+        {
+            var table3 = new[,]
+            {
+                {" ", "0", "1"},
+                {"1", "1", "1" },
+                {"0", "1", "1" }
+            };
+            Assert.AreEqual(CayleyTableTestLesson.CheckResult.DontContainsNeutral,
+                CayleyTableTestLesson.CheckTableOnGroup(table3));
+        }
+
+        /// <summary>
+        /// Проверяет "проверку" на группу(не для всех есть обратные)
+        /// </summary>
+        [TestMethod]
+        public void CheckTableOnGroupTestDontContainsInverts()
+        {
+            var table4 = new[,]
+            {
+                {" ", "0", "1"},
+                {"0", "0", "1" },
+                {"1", "1", "1" }
+            };
+            Assert.AreEqual(CayleyTableTestLesson.CheckResult.DontContainsInverts,
+                CayleyTableTestLesson.CheckTableOnGroup(table4));
+        }
     }
 }

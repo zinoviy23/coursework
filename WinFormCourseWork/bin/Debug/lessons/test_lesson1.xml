@@ -21,4 +21,26 @@
         <p><input name="4" type="checkbox" value="3"></input>3</p>
         <p><input name="4" type="checkbox" value="4"></input>4</p>
     </q>
+    <q answer="123" type="text">
+        <p>5. Запишите нижнюю строку результата:
+            <table>
+                <tr><td>
+                    <span style="font-size:2.5em;">( </span>
+                </td><td>
+                    <table><tr><td>1 2 3</td></tr><tr><td>1 2 3</td></tr></table>
+                </td><td>
+                    <span style="font-size:2.5em;">) </span>
+                </td><td>
+                    &#186;
+                </td><td>
+                    <span style="font-size:2.5em;">( </span>
+                </td><td>
+                    <table><tr><td>1 2 3</td></tr><tr><td>1 2 3</td></tr></table>
+                </td><td>
+                    <span style="font-size:2.5em;">) </span>
+                </td></tr>
+            </table>
+        </p>
+        <p><input name="5" type="text" value=""></input></p>
+    </q>
 </test>

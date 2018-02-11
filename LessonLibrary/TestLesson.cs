@@ -80,6 +80,9 @@ namespace LessonLibrary
                     else
                         _answers.UnSetCheckBoxAnswer(questionNumber, usersAnswer);
                     break;
+                case "text":
+                    _answers.SetTextAnswer(questionNumber, usersAnswer);
+                    break;
                 default:
                     throw new Exception("Такого нет!");
             }

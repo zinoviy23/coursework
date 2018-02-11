@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CayleyTableTestLesson.cs" />
     <Compile Include="HtmlViewLesson.cs" />
     <Compile Include="LessonReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
