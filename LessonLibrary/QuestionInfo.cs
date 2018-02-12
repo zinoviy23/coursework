@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace LessonLibrary
 {
@@ -28,6 +23,11 @@ namespace LessonLibrary
         public string Type { get; }
 
         /// <summary>
+        /// Номер вопроса
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
         /// Html представление вопроса
         /// </summary>
         public string InnerHtml => _node.InnerXml;
@@ -36,7 +36,8 @@ namespace LessonLibrary
         /// Конструктор
         /// </summary>
         /// <param name="questionNode">Вершина вопроса</param>
-        public QuestionInfo(XmlNode questionNode)
+        /// <param name="name">Номер вопроса</param>
+        public QuestionInfo(XmlNode questionNode, int name)
         {
             _node = questionNode;
             var attributes = questionNode.Attributes;
@@ -45,6 +46,23 @@ namespace LessonLibrary
 
             Answer = attributes["answer"].Value;
             Type = attributes["type"].Value;
+            Name = name.ToString();
+            InitHtmlAttributes();
+        }
+
+        /// <summary>
+        /// Задаёт элементам нужные атрибуты
+        /// </summary>
+        private void InitHtmlAttributes()
+        {
+            var inputs = (_node as XmlElement)?.GetElementsByTagName("input");
+            if (inputs == null) return;
+
+            foreach (XmlElement input in inputs)
+            {
+                input.SetAttribute("name", Name);
+                input.SetAttribute("type", Type);
+            }
         }
     }
 }

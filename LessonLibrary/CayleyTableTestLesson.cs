@@ -59,6 +59,15 @@ namespace LessonLibrary
                     throw new Exception("В столбцах и строках дожны быть одинаковые элементы");
             }
 
+            for (var rowIndex = 1; rowIndex < cayleyTable.GetLength(0); rowIndex++)
+            {
+                for (var columnIndex = 1; columnIndex < cayleyTable.GetLength(1); columnIndex++)
+                {
+                    if (!rowIndexies.ContainsKey(cayleyTable[rowIndex, columnIndex]))
+                        throw new Exception("Элементы в таблице должны принадлежать группе");
+                }
+            }
+
             if (!CheckAssociativity(cayleyTable, columnIndexies, rowIndexies))
                 return CheckResult.NotAssociativity;
 

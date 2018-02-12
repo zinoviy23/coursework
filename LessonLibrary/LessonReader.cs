@@ -36,9 +36,10 @@ namespace LessonLibrary
                     {
                         var elements = new List<QuestionInfo>();
                         var questions = root.GetElementsByTagName("q");
+                        var name = 1;
                         foreach (XmlNode node in questions)
                         {
-                            elements.Add(new QuestionInfo(node));
+                            elements.Add(new QuestionInfo(node, name++));
                         }
                         return new TestLesson(elements);
                     }

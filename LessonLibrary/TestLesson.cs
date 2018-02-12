@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace LessonLibrary
 {
@@ -55,7 +52,10 @@ namespace LessonLibrary
                 return;
             foreach (HtmlElement input in inputs)
             {
-                input.Click += OnAnswerClicked;
+                if (input.GetAttribute("type") != "text")
+                    input.Click += OnAnswerClicked;
+                else
+                    input.KeyUp += OnAnswerClicked;
             }
         }
 
