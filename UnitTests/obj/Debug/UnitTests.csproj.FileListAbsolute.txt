@@ -21,3 +21,5 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\D
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\LessonLibrary.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\WinFormCourseWork.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\WinFormCourseWork.exe.config
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\OpenTK.xml
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\OpenTK.GLControl.xml

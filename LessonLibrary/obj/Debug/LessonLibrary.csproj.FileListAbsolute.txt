@@ -4,3 +4,8 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\o
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.csproj.CoreCompileInputs.cache
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.dll
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.pdb
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.Compatibility.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.GLControl.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.xml
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.GLControl.xml

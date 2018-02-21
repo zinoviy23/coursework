@@ -37,32 +37,31 @@
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Куб");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Визуализации", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
-            this.checkTestButton = new System.Windows.Forms.Button();
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Тетраэдр");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Куб");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Октаэдр");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Икосаэдр");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Визуализации", new System.Windows.Forms.TreeNode[] {
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.glControl1 = new OpenTK.GLControl();
             this.cayleyTableGridView = new System.Windows.Forms.DataGridView();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // checkTestButton
-            // 
-            this.checkTestButton.Location = new System.Drawing.Point(6, 485);
-            this.checkTestButton.Name = "checkTestButton";
-            this.checkTestButton.Size = new System.Drawing.Size(146, 32);
-            this.checkTestButton.TabIndex = 1;
-            this.checkTestButton.Text = "Проверить";
-            this.checkTestButton.UseVisualStyleBackColor = true;
-            this.checkTestButton.Click += new System.EventHandler(this.CheckTestButton_Click);
             // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Location = new System.Drawing.Point(0, 28);
             this.treeView1.Name = "treeView1";
             treeNode1.Name = "Узел1";
             treeNode1.Tag = "lesson1.xml";
@@ -77,26 +76,35 @@
             treeNode4.Text = "Таблица Кэли";
             treeNode5.Name = "Узел2";
             treeNode5.Text = "Тесты";
-            treeNode6.Name = "Узел3";
-            treeNode6.Tag = "Cube";
-            treeNode6.Text = "Куб";
-            treeNode7.Name = "Узел0";
-            treeNode7.Text = "Визуализации";
+            treeNode6.Name = "Узел0";
+            treeNode6.Tag = "VisualisationTetrahedron";
+            treeNode6.Text = "Тетраэдр";
+            treeNode7.Name = "Узел3";
+            treeNode7.Tag = "VisualisationCube";
+            treeNode7.Text = "Куб";
+            treeNode8.Name = "Узел1";
+            treeNode8.Tag = "VisualisationOctahedron";
+            treeNode8.Text = "Октаэдр";
+            treeNode9.Name = "Узел1";
+            treeNode9.Tag = "VisualisationIcosahedron";
+            treeNode9.Text = "Икосаэдр";
+            treeNode10.Name = "Узел0";
+            treeNode10.Text = "Визуализации";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
             treeNode5,
-            treeNode7});
-            this.treeView1.Size = new System.Drawing.Size(152, 529);
+            treeNode10});
+            this.treeView1.Size = new System.Drawing.Size(152, 501);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
             // 
             // htmlView
             // 
             this.htmlView.Dock = System.Windows.Forms.DockStyle.Right;
-            this.htmlView.Location = new System.Drawing.Point(158, 0);
+            this.htmlView.Location = new System.Drawing.Point(158, 28);
             this.htmlView.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlView.Name = "htmlView";
-            this.htmlView.Size = new System.Drawing.Size(698, 529);
+            this.htmlView.Size = new System.Drawing.Size(698, 501);
             this.htmlView.TabIndex = 0;
             // 
             // timer1
@@ -128,6 +136,33 @@
             this.cayleyTableGridView.Size = new System.Drawing.Size(240, 150);
             this.cayleyTableGridView.TabIndex = 2;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(856, 28);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkTestToolStripMenuItem});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
+            this.testToolStripMenuItem.Text = "Тест";
+            // 
+            // checkTestToolStripMenuItem
+            // 
+            this.checkTestToolStripMenuItem.Name = "checkTestToolStripMenuItem";
+            this.checkTestToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.checkTestToolStripMenuItem.Text = "Проверить";
+            this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -135,25 +170,32 @@
             this.ClientSize = new System.Drawing.Size(856, 529);
             this.Controls.Add(this.cayleyTableGridView);
             this.Controls.Add(this.htmlView);
-            this.Controls.Add(this.checkTestButton);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.glControl1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(500, 400);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.WebBrowser htmlView;
-        private System.Windows.Forms.Button checkTestButton;
         private System.Windows.Forms.Timer timer1;
         private OpenTK.GLControl glControl1;
         private System.Windows.Forms.DataGridView cayleyTableGridView;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkTestToolStripMenuItem;
     }
 }
 

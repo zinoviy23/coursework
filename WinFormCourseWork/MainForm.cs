@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using LessonLibrary;
 using System.IO;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
+using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
+using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
+using GL = OpenTK.Graphics.OpenGL.GL;
+using LightName = OpenTK.Graphics.OpenGL.LightName;
+using LightParameter = OpenTK.Graphics.OpenGL.LightParameter;
+using MatrixMode = OpenTK.Graphics.OpenGL.MatrixMode;
+using ShadingModel = OpenTK.Graphics.OpenGL.ShadingModel;
 
 namespace WinFormCourseWork
 {
@@ -45,6 +49,14 @@ namespace WinFormCourseWork
         private readonly Random _rand;
 
         /// <summary>
+        /// Словарь с визуализациями
+        /// </summary>
+        private Dictionary<string, VisualisationLesson> _visualisationLessons =
+            new Dictionary<string, VisualisationLesson>();
+
+        private VisualisationLesson _currentVisualisation;
+
+        /// <summary>
         /// Конструктор формы
         /// </summary>
         /// <inheritdoc cref="Form"/>
@@ -65,6 +77,8 @@ namespace WinFormCourseWork
                 {"2", "2", "3", "6"},
                 {"3", "3", "6", "*"},
             });
+
+            InitVisualisationsDictionary();
 
             Closed += (sender, args) => _debugWriter?.Close();
             glControl1.Load += glControl1_Load;
@@ -92,15 +106,15 @@ namespace WinFormCourseWork
             _currentTest = null;
             _currentTable = null;
 
-            if ((string) node.Tag == "Cube")
+            if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 htmlView.Hide();
                 glControl1.Visible = true;
                 _currentTest = null;
-                checkTestButton.Enabled = false;
-                checkTestButton.Visible = false;
-
+                checkTestToolStripMenuItem.Enabled = false;
                 cayleyTableGridView.Visible = false;
+
+                _currentVisualisation = _visualisationLessons[((string) node.Tag).Substring("Visualisation".Length)];
             }
             else if ((string) node.Tag == "Cayley Table")
             {
@@ -108,8 +122,7 @@ namespace WinFormCourseWork
                 htmlView.Visible = false;
                 cayleyTableGridView.Visible = true;
                 glControl1.Visible = false;
-                checkTestButton.Enabled = true;
-                checkTestButton.Visible = true;
+                checkTestToolStripMenuItem.Enabled = true;
             }
             else
             {
@@ -133,14 +146,12 @@ namespace WinFormCourseWork
                 if (fileName.StartsWith("test"))
                 {
                     _currentTest = tmp as TestLesson;
-                    checkTestButton.Enabled = true;
-                    checkTestButton.Visible = true;
+                    checkTestToolStripMenuItem.Enabled = true;
                 }
                 else
                 {
                     _currentTest = null;
-                    checkTestButton.Enabled = false;
-                    checkTestButton.Visible = false;
+                    checkTestToolStripMenuItem.Enabled = false;
                 }
 
                 htmlView.DocumentCompleted += (sender, args) =>
@@ -311,16 +322,20 @@ namespace WinFormCourseWork
             }
         }
 
+        private void InitVisualisationsDictionary()
+        {
+            _visualisationLessons["Tetrahedron"] = new TetrahedronVisualisation();
+            _visualisationLessons["Cube"] = new CubeVisualisation();
+            _visualisationLessons["Octahedron"] = new OctahedronVisualisation();
+            _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
+        }
+
         /// <summary>
         /// Задаёт размеры и положения всем элементам
         /// </summary>
         private void SetElementsSizesAndPositions()
         {
             treeView1.Size = new Size(Math.Min(200, Size.Width / 7) ,treeView1.Height);
-
-            checkTestButton.Size = new Size(treeView1.Width / 4 * 3, checkTestButton.Height);
-            checkTestButton.Location = new Point(treeView1.Left + treeView1.Width / 2 - checkTestButton.Width / 2,
-                treeView1.Bottom - checkTestButton.Height * 3 / 2);
 
             //MessageBox.Show(checkTestButton.Location.ToString());
 
@@ -337,19 +352,21 @@ namespace WinFormCourseWork
 
             SetGridViewCellsSize();
 
-            if (loaded)
-            {
-                GL.Viewport(glControl1.Location, glControl1.Size);
+            if (!loaded) return;
 
-                GL.LoadIdentity();
-                Matrix4 p = Matrix4.CreatePerspectiveFieldOfView((float)(80 * Math.PI / 180), glControl1.AspectRatio, 20, 500);
-                GL.MatrixMode(MatrixMode.Projection);
-                GL.LoadMatrix(ref p);
+            GL.Viewport(new Point(glControl1.Location.X - treeView1.Width, glControl1.Location.Y),
+                glControl1.Size);
+            glControl1.Update();
 
-                Matrix4 modelview = Matrix4.LookAt(70, 70, 70, 0, 0, 0, 0, 1, 0);
-                GL.MatrixMode(MatrixMode.Modelview);
-                GL.LoadMatrix(ref modelview);
-            }
+            GL.LoadIdentity();
+            Matrix4 p = Matrix4.CreatePerspectiveFieldOfView((float)(80 * Math.PI / 180), glControl1.AspectRatio, 0.1f, 500);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref p);
+
+            Matrix4 modelview = Matrix4.LookAt(0, 0, 2, 0, 0, 0, 0, 1, 0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref modelview);
+            //glControl1.Refresh();
         }
 
         /// <summary>
@@ -376,15 +393,32 @@ namespace WinFormCourseWork
         private void glControl1_Load(object sender, EventArgs e)
         {
             loaded = true;
-            GL.ClearColor(Color.SkyBlue);
+            GL.Viewport(new Point(glControl1.Location.X - treeView1.Width, glControl1.Location.Y), glControl1.Size);
+
+            _currentVisualisation = new OctahedronVisualisation();
+            
+
+            GL.ClearColor(Color.DarkGray);
             GL.Enable(EnableCap.DepthTest);
             GL.ShadeModel(ShadingModel.Smooth);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.LineSmooth);
 
-            Matrix4 p = Matrix4.CreatePerspectiveFieldOfView((float)(80 * Math.PI / 180), glControl1.AspectRatio, 20, 500);
+            GL.Light(LightName.Light1, LightParameter.Ambient, new []{0.3f, 0.3f, 0.3f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Diffuse, new []{1.0f, 1.0f, 1.0f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Position, new []{0.0f, 2.0f, 0.0f, 1.0f});
+            GL.Enable(EnableCap.Light1);
+            
+
+            var p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
+                500);
+
+            //GL.Rotate(40, 1, 0, 0);
+
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref p);
 
-            Matrix4 modelview = Matrix4.LookAt(70, 70, 70, 0, 0, 0, 0, 1, 0);
+            Matrix4 modelview = Matrix4.LookAt(0, 0, 2, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
         }
@@ -394,99 +428,17 @@ namespace WinFormCourseWork
             if (!loaded)
                 return;
 
+            GL.Rotate(10, 0, 1, 0);
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            float width = 20;
-            if (_ticked)
-            {
-                GL.Rotate(_angle, 0, 1, 0);
-                _ticked = false;
-            }
+            _currentVisualisation.Render();
 
-            //MessageBox.Show(_angle.ToString());
-            /*задняя*/
-            GL.Color3(Color.Red);
-            GL.Begin(PrimitiveType.Polygon);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(width, 0, 0);
-            GL.Vertex3(width, width, 0);
-            GL.Vertex3(0, width, 0);
-            GL.End();
-
-            /*левая*/
-            GL.Begin(PrimitiveType.Polygon);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, width);
-            GL.Vertex3(0, width, width);
-            GL.Vertex3(0, width, 0);
-            GL.End();
-
-            /*нижняя*/
-            GL.Begin(PrimitiveType.Polygon);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, width);
-            GL.Vertex3(width, 0, width);
-            GL.Vertex3(width, 0, 0);
-            GL.End();
-
-            /*верхняя*/
-            GL.Begin(PrimitiveType.Polygon);
-            GL.Vertex3(0, width, 0);
-            GL.Vertex3(0, width, width);
-            GL.Vertex3(width, width, width);
-            GL.Vertex3(width, width, 0);
-            GL.End();
-
-            /*передняя*/
-            GL.Begin(PrimitiveType.Polygon);
-            GL.Vertex3(0, 0, width);
-            GL.Vertex3(width, 0, width);
-            GL.Vertex3(width, width, width);
-            GL.Vertex3(0, width, width);
-            GL.End();
-
-            /*правая*/
-            GL.Begin(PrimitiveType.Polygon);
-            GL.Vertex3(width, 0, 0);
-            GL.Vertex3(width, 0, width);
-            GL.Vertex3(width, width, width);
-            GL.Vertex3(width, width, 0);
-            GL.End();
-
-            /*ребра*/
-            GL.Color3(Color.Black);
-            GL.Begin(PrimitiveType.LineLoop);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, width, 0);
-            GL.Vertex3(width, width, 0);
-            GL.Vertex3(width, 0, 0);
-            GL.End();
-
-            GL.Begin(PrimitiveType.LineLoop);
-            GL.Vertex3(width, 0, 0);
-            GL.Vertex3(width, 0, width);
-            GL.Vertex3(width, width, width);
-            GL.Vertex3(width, width, 0);
-            GL.End();
-
-            GL.Begin(PrimitiveType.LineLoop);
-            GL.Vertex3(0, 0, width);
-            GL.Vertex3(width, 0, width);
-            GL.Vertex3(width, width, width);
-            GL.Vertex3(0, width, width);
-            GL.End();
-
-            GL.Begin(PrimitiveType.LineLoop);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, width);
-            GL.Vertex3(0, width, width);
-            GL.Vertex3(0, width, 0);
-            GL.End();
 
             glControl1.SwapBuffers();
         }
 
-        private float _angle = 10;
+        private float _angle = 1;
         private bool _ticked = false;
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -498,6 +450,10 @@ namespace WinFormCourseWork
         private void MainForm_Resize(object sender, EventArgs e)
         {
             SetElementsSizesAndPositions();
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
         }
     }
 }

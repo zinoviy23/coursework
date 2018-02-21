@@ -30,6 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -42,13 +54,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CayleyTableTestLesson.cs" />
+    <Compile Include="CubeVisualisation.cs" />
     <Compile Include="HtmlViewLesson.cs" />
+    <Compile Include="IcosahedronVisualisation.cs" />
     <Compile Include="LessonReader.cs" />
+    <Compile Include="OctahedronVisualisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionInfo.cs" />
     <Compile Include="SimpleLesson.cs" />
     <Compile Include="TestAnswers.cs" />
     <Compile Include="TestLesson.cs" />
+    <Compile Include="TetrahedronVisualisation.cs" />
+    <Compile Include="VisualisationLesson.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

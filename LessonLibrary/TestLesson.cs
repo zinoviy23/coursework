@@ -67,6 +67,8 @@ namespace LessonLibrary
         private void OnAnswerClicked(object sender, HtmlElementEventArgs args)
         {
             var element = (HtmlElement) sender;
+            
+
             var usersAnswer = element.GetAttribute("value");
             var questionNumber = int.Parse(element.GetAttribute("name")) - 1;
             switch (Questions[questionNumber].Type)
