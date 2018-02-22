@@ -363,7 +363,7 @@ namespace WinFormCourseWork
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref p);
 
-            Matrix4 modelview = Matrix4.LookAt(0, 0, 2, 0, 0, 0, 0, 1, 0);
+            Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
             //glControl1.Refresh();
@@ -404,9 +404,9 @@ namespace WinFormCourseWork
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.LineSmooth);
 
-            GL.Light(LightName.Light1, LightParameter.Ambient, new []{0.3f, 0.3f, 0.3f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Ambient, new []{0.2f, 0.2f, 0.2f, 1.0f});
             GL.Light(LightName.Light1, LightParameter.Diffuse, new []{1.0f, 1.0f, 1.0f, 1.0f});
-            GL.Light(LightName.Light1, LightParameter.Position, new []{0.0f, 2.0f, 0.0f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Position, new []{0.0f, 3.0f, 0.0f, 1.0f});
             GL.Enable(EnableCap.Light1);
             
 
@@ -418,7 +418,7 @@ namespace WinFormCourseWork
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref p);
 
-            Matrix4 modelview = Matrix4.LookAt(0, 0, 2, 0, 0, 0, 0, 1, 0);
+            Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
         }
@@ -428,7 +428,7 @@ namespace WinFormCourseWork
             if (!loaded)
                 return;
 
-            GL.Rotate(10, 0, 1, 0);
+            //GL.Rotate(10, 0, 1, 0);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -452,8 +452,17 @@ namespace WinFormCourseWork
             SetElementsSizesAndPositions();
         }
 
+        private float tmp = 0;
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
+        }
+
+        private void glControl1_MouseDown(object sender, MouseEventArgs e)
+        {
+            tmp -= 0.5f;
+            var modelview = Matrix4.LookAt(tmp, 0, 4, 0, 0, 0, 0, 1, 0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref modelview);
         }
     }
 }
