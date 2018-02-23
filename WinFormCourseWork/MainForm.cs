@@ -353,7 +353,7 @@ namespace WinFormCourseWork
 
             SetGridViewCellsSize();
 
-            if (!loaded) return;
+            if (!_loaded) return;
 
             GL.Viewport(new Point(glControl1.Location.X - treeView1.Width, glControl1.Location.Y),
                 glControl1.Size);
@@ -395,16 +395,12 @@ namespace WinFormCourseWork
 
         #region Для 3D. Нужно куда-нибудь убрать
 
-        private bool loaded;
+        private bool _loaded;
 
         private void glControl1_Load(object sender, EventArgs e)
         {
-            loaded = true;
+            _loaded = true;
             GL.Viewport(new Point(glControl1.Location.X - treeView1.Width, glControl1.Location.Y), glControl1.Size);
-
-            _currentVisualisation = new OctahedronVisualisation();
-            
-
 
             GL.ClearColor(Color.DarkGray);
             GL.Enable(EnableCap.DepthTest);
@@ -416,7 +412,6 @@ namespace WinFormCourseWork
             GL.Light(LightName.Light1, LightParameter.Diffuse, new[] {1.0f, 1.0f, 1.0f, 1.0f});
             GL.Light(LightName.Light1, LightParameter.Position, new[] {0.0f, 3.0f, 0.0f, 1.0f});
             GL.Enable(EnableCap.Light1);
-
 
             var p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
                 500);
@@ -433,10 +428,8 @@ namespace WinFormCourseWork
 
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
-            if (!loaded)
+            if (!_loaded)
                 return;
-
-            //GL.Rotate(10, 0, 1, 0);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -454,14 +447,11 @@ namespace WinFormCourseWork
             glControl1.SwapBuffers();
         }
 
-        private float _angle = 1;
-        private bool _ticked = false;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            _ticked = true;
 
-            if (loaded && glControl1.Visible)
+            if (_loaded && glControl1.Visible)
                 UpdateGl();
 
 
@@ -503,13 +493,12 @@ namespace WinFormCourseWork
             SetElementsSizesAndPositions();
         }
 
-        private bool _isRotatingY = false;
-        private bool _isRotatingX = false;
+        private bool _isRotatingY;
+        private bool _isRotatingX;
         private Point _clickPoint;
         private Point _delta;
         private Vector3 _userPosition = new Vector3(0, 0, 4);
         private Vector3 _userUp = new Vector3(0, 1, 0);
-        private float _speed = 0.5f;
 
         private void GlControl1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -551,7 +540,7 @@ namespace WinFormCourseWork
 
         private void GlControl1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode != Keys.Space || !loaded) return;
+            if (e.KeyCode != Keys.Space || !_loaded) return;
             _userPosition = new Vector3(0, 0, 4);
             _userUp = new Vector3(0, 1, 0);
             var modelview = Matrix4.LookAt(_userPosition.X, _userPosition.Y, _userPosition.Z, 0, 0, 0, _userUp.X,
