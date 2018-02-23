@@ -66,6 +66,7 @@
     <Compile Include="TestLesson.cs" />
     <Compile Include="TetrahedronVisualisation.cs" />
     <Compile Include="VisualisationLesson.cs" />
+    <Compile Include="VisualisationTransform.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

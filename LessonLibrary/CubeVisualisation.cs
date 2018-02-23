@@ -50,6 +50,8 @@ namespace LessonLibrary
         /// <inheritdoc cref="VisualisationLesson"/>
         public override void Render()
         {
+            Transform.SetTransform();
+
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Red);
 
             GL.Begin(PrimitiveType.Triangles);
@@ -157,6 +159,8 @@ namespace LessonLibrary
             GL.Vertex3(_vertices[7]);
 
             GL.End();
+
+            Transform.UnsetTransform();
         }
     }
 }

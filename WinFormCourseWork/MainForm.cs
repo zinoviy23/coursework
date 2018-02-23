@@ -51,7 +51,7 @@ namespace WinFormCourseWork
         /// <summary>
         /// Словарь с визуализациями
         /// </summary>
-        private Dictionary<string, VisualisationLesson> _visualisationLessons =
+        private readonly Dictionary<string, VisualisationLesson> _visualisationLessons =
             new Dictionary<string, VisualisationLesson>();
 
         private VisualisationLesson _currentVisualisation;
@@ -82,15 +82,13 @@ namespace WinFormCourseWork
 
             Closed += (sender, args) => _debugWriter?.Close();
             glControl1.Load += glControl1_Load;
-            glControl1.Paint +=  glControl1_Paint;
+            glControl1.Paint += glControl1_Paint;
 
             glControl1.Visible = false;
             cayleyTableGridView.Visible = false;
 
             SetElementsSizesAndPositions();
         }
-
-        private Tmp _tmp;
 
         /// <summary>
         /// Обработчик нажатия на элемент уроков
@@ -101,8 +99,6 @@ namespace WinFormCourseWork
         {
             var node = e.Node;
             if (node.Tag == null) return;
-            _tmp?.Close();
-            _tmp = null;
             _currentTest = null;
             _currentTable = null;
 
@@ -115,6 +111,7 @@ namespace WinFormCourseWork
                 cayleyTableGridView.Visible = false;
 
                 _currentVisualisation = _visualisationLessons[((string) node.Tag).Substring("Visualisation".Length)];
+                //_currentVisualisation.Transform.Position = new Vector3(1, 1, 1);
             }
             else if ((string) node.Tag == "Cayley Table")
             {
@@ -225,6 +222,7 @@ namespace WinFormCourseWork
 
                     cell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
+
                 SetGridViewCellsSize();
             }
         }
@@ -256,7 +254,7 @@ namespace WinFormCourseWork
             }
 
             return res;
-        } 
+        }
 
         /// <summary>
         /// Обработчик события нажатия на кнопку проверки ответов
@@ -322,6 +320,9 @@ namespace WinFormCourseWork
             }
         }
 
+        /// <summary>
+        /// Задаёт значения для словоря с объектами визуализаций
+        /// </summary>
         private void InitVisualisationsDictionary()
         {
             _visualisationLessons["Tetrahedron"] = new TetrahedronVisualisation();
@@ -335,7 +336,7 @@ namespace WinFormCourseWork
         /// </summary>
         private void SetElementsSizesAndPositions()
         {
-            treeView1.Size = new Size(Math.Min(200, Size.Width / 7) ,treeView1.Height);
+            treeView1.Size = new Size(Math.Min(200, Size.Width / 7), treeView1.Height);
 
             //MessageBox.Show(checkTestButton.Location.ToString());
 
@@ -358,15 +359,18 @@ namespace WinFormCourseWork
                 glControl1.Size);
             glControl1.Update();
 
-            GL.LoadIdentity();
-            Matrix4 p = Matrix4.CreatePerspectiveFieldOfView((float)(80 * Math.PI / 180), glControl1.AspectRatio, 0.1f, 500);
+            //GL.LoadIdentity();
+            Matrix4 p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
+                500);
+
             GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
             GL.LoadMatrix(ref p);
 
-            Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadMatrix(ref modelview);
-            //glControl1.Refresh();
+            //Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
+            //GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadMatrix(ref modelview);
+            glControl1.Refresh();
         }
 
         /// <summary>
@@ -385,11 +389,14 @@ namespace WinFormCourseWork
                 row.Height = (cayleyTableGridView.Height - cayleyTableGridView.ColumnHeadersHeight - 10)
                              / cayleyTableGridView.RowCount;
             }
-        } 
+        }
 
         //TODO: убрать это
+
         #region Для 3D. Нужно куда-нибудь убрать
+
         private bool loaded;
+
         private void glControl1_Load(object sender, EventArgs e)
         {
             loaded = true;
@@ -398,17 +405,18 @@ namespace WinFormCourseWork
             _currentVisualisation = new OctahedronVisualisation();
             
 
+
             GL.ClearColor(Color.DarkGray);
             GL.Enable(EnableCap.DepthTest);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.LineSmooth);
 
-            GL.Light(LightName.Light1, LightParameter.Ambient, new []{0.2f, 0.2f, 0.2f, 1.0f});
-            GL.Light(LightName.Light1, LightParameter.Diffuse, new []{1.0f, 1.0f, 1.0f, 1.0f});
-            GL.Light(LightName.Light1, LightParameter.Position, new []{0.0f, 3.0f, 0.0f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Ambient, new[] {0.2f, 0.2f, 0.2f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Diffuse, new[] {1.0f, 1.0f, 1.0f, 1.0f});
+            GL.Light(LightName.Light1, LightParameter.Position, new[] {0.0f, 3.0f, 0.0f, 1.0f});
             GL.Enable(EnableCap.Light1);
-            
+
 
             var p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
                 500);
@@ -432,35 +440,122 @@ namespace WinFormCourseWork
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+
+            GL.Translate(-1, -1, 1);
+
+            _currentVisualisation.InitGrid();
+
+            GL.Translate(1, 1, -1);
+
             _currentVisualisation.Render();
 
+            
 
             glControl1.SwapBuffers();
         }
 
         private float _angle = 1;
         private bool _ticked = false;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             _ticked = true;
+
+            if (loaded && glControl1.Visible)
+                UpdateGl();
+
+
             glControl1.Refresh();
         }
+
         #endregion
 
+        private void UpdateGl()
+        {
+            if (_isRotatingY)
+            {
+                var rotationY = Matrix4.CreateRotationY(-(float) _delta.X / 2000);
+                _userPosition = Vector3.Transform(_userPosition, rotationY);
+                _userUp = Vector3.Transform(_userUp, rotationY);
+
+                var modelview = Matrix4.LookAt(_userPosition.X, _userPosition.Y, _userPosition.Z, 0, 0, 0, _userUp.X,
+                    _userUp.Y, _userUp.Z);
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.LoadMatrix(ref modelview);
+            }
+            else if (_isRotatingX)
+            {
+                var rotationX = Matrix4.CreateRotationX(-(float)_delta.Y / 2000);
+                _userPosition = Vector3.Transform(_userPosition, rotationX);
+                _userUp = Vector3.Transform(_userUp, rotationX);
+
+                var modelview = Matrix4.LookAt(_userPosition.X, _userPosition.Y, _userPosition.Z, 0, 0, 0, _userUp.X,
+                    _userUp.Y, _userUp.Z);
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.LoadMatrix(ref modelview);
+            }
+
+            _currentVisualisation.Transform.Rotate(new Vector3(10f, 10f, 10f));
+        }
+ 
         private void MainForm_Resize(object sender, EventArgs e)
         {
             SetElementsSizesAndPositions();
         }
 
-        private float tmp = 0;
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        private bool _isRotatingY = false;
+        private bool _isRotatingX = false;
+        private Point _clickPoint;
+        private Point _delta;
+        private Vector3 _userPosition = new Vector3(0, 0, 4);
+        private Vector3 _userUp = new Vector3(0, 1, 0);
+        private float _speed = 0.5f;
+
+        private void GlControl1_MouseDown(object sender, MouseEventArgs e)
         {
+            if (_isRotatingX || _isRotatingY)
+                return;
+
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                    _isRotatingY = true;
+                    break;
+                case MouseButtons.Middle:
+                    _isRotatingX = true;
+                    break;
+                default:
+                    return;
+            }
+
+            _clickPoint = new Point(e.X, e.Y);
         }
 
-        private void glControl1_MouseDown(object sender, MouseEventArgs e)
+        private void GlControl1_MouseUp(object sender, MouseEventArgs e)
         {
-            tmp -= 0.5f;
-            var modelview = Matrix4.LookAt(tmp, 0, 4, 0, 0, 0, 0, 1, 0);
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                    _isRotatingY = false;
+                    break;
+                case MouseButtons.Middle:
+                    _isRotatingX = false;
+                    break;
+            }
+        }
+
+        private void GlControl1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isRotatingY || _isRotatingX) _delta = new Point(e.X - _clickPoint.X, e.Y - _clickPoint.Y);
+        }
+
+        private void GlControl1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Space || !loaded) return;
+            _userPosition = new Vector3(0, 0, 4);
+            _userUp = new Vector3(0, 1, 0);
+            var modelview = Matrix4.LookAt(_userPosition.X, _userPosition.Y, _userPosition.Z, 0, 0, 0, _userUp.X,
+                _userUp.Y, _userUp.Z);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
         }
