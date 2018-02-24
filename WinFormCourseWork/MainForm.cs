@@ -360,7 +360,7 @@ namespace WinFormCourseWork
             glControl1.Update();
 
             //GL.LoadIdentity();
-            Matrix4 p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
+            var p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
                 500);
 
             GL.MatrixMode(MatrixMode.Projection);
@@ -460,11 +460,15 @@ namespace WinFormCourseWork
 
         #endregion
 
+        /// <summary>
+        /// Обновление сцены, происходит раз в тик
+        /// </summary>
         private void UpdateGl()
         {
             if (_isRotatingY)
             {
-                var rotationY = Matrix4.CreateRotationY(-(float) _delta.X / 2000);
+                var rotationY =  Matrix4.CreateFromAxisAngle(_userUp, -(float) _delta.X / 2000);
+
                 _userPosition = Vector3.Transform(_userPosition, rotationY);
                 _userUp = Vector3.Transform(_userUp, rotationY);
 
@@ -475,7 +479,10 @@ namespace WinFormCourseWork
             }
             else if (_isRotatingX)
             {
-                var rotationX = Matrix4.CreateRotationX(-(float)_delta.Y / 2000);
+                var axis = -Vector3.Cross(_userPosition, _userUp);
+                var rotationX = Matrix4.CreateFromAxisAngle(axis, -(float) _delta.Y / 2000);
+
+
                 _userPosition = Vector3.Transform(_userPosition, rotationX);
                 _userUp = Vector3.Transform(_userUp, rotationX);
 
@@ -485,7 +492,7 @@ namespace WinFormCourseWork
                 GL.LoadMatrix(ref modelview);
             }
 
-            _currentVisualisation.Transform.Rotate(new Vector3(10f, 10f, 10f));
+            _currentVisualisation.Transform.Rotate(new Vector3(2f, 2f, 2f));
         }
  
         private void MainForm_Resize(object sender, EventArgs e)
@@ -499,6 +506,7 @@ namespace WinFormCourseWork
         private Point _delta;
         private Vector3 _userPosition = new Vector3(0, 0, 4);
         private Vector3 _userUp = new Vector3(0, 1, 0);
+        private bool _cntrlDown;
 
         private void GlControl1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -510,7 +518,7 @@ namespace WinFormCourseWork
                 case MouseButtons.Right:
                     _isRotatingY = true;
                     break;
-                case MouseButtons.Middle:
+                case MouseButtons.Left:
                     _isRotatingX = true;
                     break;
                 default:
@@ -518,6 +526,7 @@ namespace WinFormCourseWork
             }
 
             _clickPoint = new Point(e.X, e.Y);
+            _delta = new Point();
         }
 
         private void GlControl1_MouseUp(object sender, MouseEventArgs e)
@@ -527,7 +536,7 @@ namespace WinFormCourseWork
                 case MouseButtons.Right:
                     _isRotatingY = false;
                     break;
-                case MouseButtons.Middle:
+                case MouseButtons.Left:
                     _isRotatingX = false;
                     break;
             }
@@ -547,6 +556,12 @@ namespace WinFormCourseWork
                 _userUp.Y, _userUp.Z);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
+        }
+
+        private void GlControl1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Control)
+                _cntrlDown = false;
         }
     }
 }
