@@ -63,7 +63,7 @@ namespace WinFormCourseWork
         public MainForm()
         {
             InitializeComponent();
-            _debugWriter = new StreamWriter("DebugHelper");
+            _debugWriter = new StreamWriter("DebugHelper.debug");
             LoadLesson("title_page.xml");
 
             _tablesFolder = new DirectoryInfo(TablesFolderPath);
