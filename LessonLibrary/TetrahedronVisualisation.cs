@@ -14,15 +14,13 @@ namespace LessonLibrary
     /// </summary>
     public class TetrahedronVisualisation : VisualisationLesson
     {
-        private readonly Vector3[] _vertices;
-        private readonly Vector3[] _normals;
-
         /// <summary>
         /// Иницилизирует тэтраэдр
         /// </summary>
+        /// <inheritdoc cref="VisualisationLesson"/>
         public TetrahedronVisualisation()
         {
-            _vertices = new[]
+            Vertices = new[]
             {
                 new Vector3(-0.5f, (float)-(Math.Sqrt(8.0 / 12) / 4), (float)-Math.Sqrt(3) / 6),
                 new Vector3(0.5f, (float)-(Math.Sqrt(8.0 / 12) / 4), (float)-Math.Sqrt(3) / 6),
@@ -30,12 +28,12 @@ namespace LessonLibrary
                 new Vector3(0, (float)Math.Sqrt(8.0f / 12) * 3.0f / 4, 0)
             };
 
-            _normals = new[]
+            Normals = new[]
             {
-                -Vector3.Cross(_vertices[2] - _vertices[0], _vertices[1] - _vertices[0]),
-                -Vector3.Cross(_vertices[0] - _vertices[3], _vertices[1] - _vertices[3]),
-                -Vector3.Cross(_vertices[2] - _vertices[3], _vertices[0] - _vertices[3]),
-                -Vector3.Cross(_vertices[1] - _vertices[3], _vertices[2] - _vertices[3])
+                -Vector3.Cross(Vertices[2] - Vertices[0], Vertices[1] - Vertices[0]),
+                -Vector3.Cross(Vertices[0] - Vertices[3], Vertices[1] - Vertices[3]),
+                -Vector3.Cross(Vertices[2] - Vertices[3], Vertices[0] - Vertices[3]),
+                -Vector3.Cross(Vertices[1] - Vertices[3], Vertices[2] - Vertices[3])
             };
 
         }
@@ -48,29 +46,29 @@ namespace LessonLibrary
         {
             Transform.SetTransform();
 
-            GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Red);
+            GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.OrangeRed);
 
             GL.Begin(PrimitiveType.Triangles);
 
-            GL.Normal3(_normals[0]);
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[2]);
+            GL.Normal3(Normals[0]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[2]);
 
-            GL.Normal3(_normals[1]);
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[1]);
+            GL.Normal3(Normals[1]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[1]);
 
-            GL.Normal3(_normals[2]);
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[2]);
+            GL.Normal3(Normals[2]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[2]);
 
-            GL.Normal3(_normals[3]);
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[2]);
-            GL.Vertex3(_vertices[1]);
+            GL.Normal3(Normals[3]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[2]);
+            GL.Vertex3(Vertices[1]);
 
             GL.End();
 
@@ -78,35 +76,39 @@ namespace LessonLibrary
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[2]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[2]);
 
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[2]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[2]);
 
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[0]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[0]);
 
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[2]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[2]);
 
             GL.End();
+
+            DrawVertex(Vertices[0]);
+
+            DrawVertices();
 
             Transform.UnsetTransform();
         }

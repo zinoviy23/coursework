@@ -57,12 +57,18 @@ namespace WinFormCourseWork
         private VisualisationLesson _currentVisualisation;
 
         /// <summary>
+        /// Массив вершин на экране
+        /// </summary>
+        private Label[] _vertexLabels;
+
+        /// <summary>
         /// Конструктор формы
         /// </summary>
         /// <inheritdoc cref="Form"/>
         public MainForm()
         {
             InitializeComponent();
+
             _debugWriter = new StreamWriter("DebugHelper.debug");
             LoadLesson("title_page.xml");
 
@@ -79,6 +85,7 @@ namespace WinFormCourseWork
             });
 
             InitVisualisationsDictionary();
+            InitVertexLabels(20);
 
             Closed += (sender, args) => _debugWriter?.Close();
             glControl1.Load += glControl1_Load;
@@ -111,6 +118,7 @@ namespace WinFormCourseWork
                 cayleyTableGridView.Visible = false;
 
                 _currentVisualisation = _visualisationLessons[((string) node.Tag).Substring("Visualisation".Length)];
+                ShowVertexLabels(_currentVisualisation.VerticesClone.Length);
                 //_currentVisualisation.Transform.Position = new Vector3(1, 1, 1);
             }
             else if ((string) node.Tag == "Cayley Table")
@@ -329,6 +337,7 @@ namespace WinFormCourseWork
             _visualisationLessons["Cube"] = new CubeVisualisation();
             _visualisationLessons["Octahedron"] = new OctahedronVisualisation();
             _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
+            _visualisationLessons["Dodecahedron"] = new DodecahedronVisualisation();
         }
 
         /// <summary>
@@ -366,6 +375,7 @@ namespace WinFormCourseWork
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.LoadMatrix(ref p);
+            WorldInfo.ProjectionMatrix = p;
 
             //Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
             //GL.MatrixMode(MatrixMode.Modelview);
@@ -420,10 +430,12 @@ namespace WinFormCourseWork
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref p);
+            WorldInfo.ProjectionMatrix = p;
 
             Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
+            WorldInfo.ViewMatrix = modelview;
         }
 
         private void glControl1_Paint(object sender, PaintEventArgs e)
@@ -434,17 +446,85 @@ namespace WinFormCourseWork
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 
-            GL.Translate(-1, -1, 1);
+            GL.Translate(-1.2, -1.2, 1.2);
 
             _currentVisualisation.InitGrid();
 
-            GL.Translate(1, 1, -1);
+            GL.Translate(1.2, 1.2, -1.2);
 
             _currentVisualisation.Render();
 
             
 
             glControl1.SwapBuffers();
+
+            var points = _currentVisualisation.ScreenPoints;
+            _debugWriter.WriteLine(points[0]);
+            for (var i = 0; i < points.Length; i++)
+            {
+                if (points[i].Z > 4)
+                {
+                    _vertexLabels[i].Visible = false;
+                    continue;
+                }
+
+                if (!_vertexLabels[i].Visible)
+                {
+                    _vertexLabels[i].Visible = true;
+                }
+
+
+                points[i] = points[i] / points[i].Z;
+
+                var x = glControl1.Width / 2 + (int)(points[i].X * glControl1.Width / 2);
+                var y = glControl1.Height - (int)((points[i].Y + 1) / 2 * glControl1.Height);
+                _vertexLabels[i].Location = new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
+            }
+            
+            //vertexLabel0.Location = new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
+        }
+
+        /// <summary>
+        /// Создаёт нужное кол-во вершин
+        /// </summary>
+        private void InitVertexLabels(int size)
+        {
+            _vertexLabels = new Label[size];
+            for (var i = 0; i < _vertexLabels.Length; i++)
+            {
+                _vertexLabels[i] = new Label {Text = (i + 1).ToString(),
+                    AutoSize = true, BackColor = Color.Transparent,
+                    Visible = false, Size = new Size(20, 17), Enabled = true,
+                    Location = new Point(Width / 2, Height / 2),
+                };
+                Controls.Add(_vertexLabels[i]);
+                _vertexLabels[i].BringToFront();
+            }
+
+        }
+
+        /// <summary>
+        /// Показывает нужное кол-во лэйблов
+        /// </summary>
+        /// <param name="cnt"></param>
+        private void ShowVertexLabels(int cnt)
+        {
+            HideVertexLabels();
+            for (var i = 0; i < cnt; i++)
+            {
+                _vertexLabels[i].Show();
+            }
+        }
+
+        /// <summary>
+        /// Убирает не нужные
+        /// </summary>
+        private void HideVertexLabels()
+        {
+            foreach (var vertexLabel in _vertexLabels)
+            {
+                vertexLabel.Hide();
+            }
         }
 
 
@@ -476,6 +556,7 @@ namespace WinFormCourseWork
                     _userUp.Y, _userUp.Z);
                 GL.MatrixMode(MatrixMode.Modelview);
                 GL.LoadMatrix(ref modelview);
+                WorldInfo.ViewMatrix = modelview;
             }
             else if (_isRotatingX)
             {
@@ -490,9 +571,10 @@ namespace WinFormCourseWork
                     _userUp.Y, _userUp.Z);
                 GL.MatrixMode(MatrixMode.Modelview);
                 GL.LoadMatrix(ref modelview);
+                WorldInfo.ViewMatrix = modelview;
             }
 
-            _currentVisualisation.Transform.Rotate(new Vector3(2f, 2f, 2f));
+            //_currentVisualisation.Transform.Rotate(new Vector3(1f, 1f, 1f));
         }
  
         private void MainForm_Resize(object sender, EventArgs e)
@@ -556,6 +638,7 @@ namespace WinFormCourseWork
                 _userUp.Y, _userUp.Z);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
+            WorldInfo.ViewMatrix = modelview;
         }
 
         private void GlControl1_KeyUp(object sender, KeyEventArgs e)

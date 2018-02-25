@@ -67,6 +67,22 @@ namespace LessonLibrary
         }
 
         /// <summary>
+        /// Матрица преобразования
+        /// </summary>
+        public Matrix4 Matrix
+        {
+            get
+            {
+                var xRot = Matrix4.CreateRotationX(Rotation.X / 180 * MathHelper.Pi);
+                var yRot = Matrix4.CreateRotationY(Rotation.Y / 180 * MathHelper.Pi);
+                var zRot = Matrix4.CreateRotationZ(Rotation.Z / 180 * MathHelper.Pi);
+                var translate = Matrix4.CreateTranslation(Position);
+
+                return zRot * yRot * xRot * translate;
+            }
+        }
+
+        /// <summary>
         /// Поворачивает объект
         /// </summary>
         /// <param name="rotation"></param>

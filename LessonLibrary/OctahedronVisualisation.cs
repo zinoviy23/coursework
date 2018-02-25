@@ -14,15 +14,13 @@ namespace LessonLibrary
     /// <inheritdoc cref="VisualisationLesson"/>
     public class OctahedronVisualisation : VisualisationLesson
     {
-        private readonly Vector3[] _vertices;
-        private readonly Vector3[] _normals;
-
         /// <summary>
         /// Иницилизирует октаэдр
         /// </summary>
+        /// <inheritdoc cref="VisualisationLesson"/>
         public OctahedronVisualisation()
         {
-            _vertices = new[]
+            Vertices = new[]
             {
                 new Vector3(-0.5f, 0.0f, 0.5f),
                 new Vector3(0.5f, 0.0f, 0.5f),
@@ -32,16 +30,16 @@ namespace LessonLibrary
                 new Vector3(0.0f, -(float)Math.Sqrt(2) / 2.0f, 0.0f)
             };
 
-            _normals = new[]
+            Normals = new[]
             {
-                Vector3.Cross(_vertices[0] - _vertices[4], _vertices[1] - _vertices[4]),
-                Vector3.Cross(_vertices[1] - _vertices[4], _vertices[2] - _vertices[4]),
-                Vector3.Cross(_vertices[2] - _vertices[4], _vertices[3] - _vertices[4]), 
-                Vector3.Cross(_vertices[3] - _vertices[4], _vertices[0] - _vertices[4]),
-                Vector3.Cross(_vertices[1] - _vertices[5], _vertices[0] - _vertices[5]),
-                Vector3.Cross(_vertices[2] - _vertices[5], _vertices[1] - _vertices[5]), 
-                Vector3.Cross(_vertices[3] - _vertices[5], _vertices[2] - _vertices[5]),
-                Vector3.Cross(_vertices[0] - _vertices[5], _vertices[3] - _vertices[5]), 
+                Vector3.Cross(Vertices[0] - Vertices[4], Vertices[1] - Vertices[4]),
+                Vector3.Cross(Vertices[1] - Vertices[4], Vertices[2] - Vertices[4]),
+                Vector3.Cross(Vertices[2] - Vertices[4], Vertices[3] - Vertices[4]), 
+                Vector3.Cross(Vertices[3] - Vertices[4], Vertices[0] - Vertices[4]),
+                Vector3.Cross(Vertices[1] - Vertices[5], Vertices[0] - Vertices[5]),
+                Vector3.Cross(Vertices[2] - Vertices[5], Vertices[1] - Vertices[5]), 
+                Vector3.Cross(Vertices[3] - Vertices[5], Vertices[2] - Vertices[5]),
+                Vector3.Cross(Vertices[0] - Vertices[5], Vertices[3] - Vertices[5]), 
             };
         }
 
@@ -53,57 +51,57 @@ namespace LessonLibrary
         {
             Transform.SetTransform();
 
-            GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Red);
+            GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.LawnGreen);
 
             GL.Begin(PrimitiveType.Triangles);
 
-            GL.Normal3(_normals[0]);
+            GL.Normal3(Normals[0]);
 
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[4]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[4]);
 
-            GL.Normal3(_normals[1]);
+            GL.Normal3(Normals[1]);
 
-            GL.Vertex3(_vertices[4]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[2]);
+            GL.Vertex3(Vertices[4]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[2]);
 
-            GL.Normal3(_normals[2]);
+            GL.Normal3(Normals[2]);
 
-            GL.Vertex3(_vertices[4]);
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[2]);
+            GL.Vertex3(Vertices[4]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[2]);
 
-            GL.Normal3(_normals[3]);
+            GL.Normal3(Normals[3]);
 
-            GL.Vertex3(_vertices[4]);
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[0]);
+            GL.Vertex3(Vertices[4]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[0]);
 
-            GL.Normal3(_normals[4]);
+            GL.Normal3(Normals[4]);
 
-            GL.Vertex3(_vertices[5]);
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[1]);
+            GL.Vertex3(Vertices[5]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[1]);
 
-            GL.Normal3(_normals[5]);
+            GL.Normal3(Normals[5]);
             
-            GL.Vertex3(_vertices[5]);
-            GL.Vertex3(_vertices[2]);
-            GL.Vertex3(_vertices[1]);
+            GL.Vertex3(Vertices[5]);
+            GL.Vertex3(Vertices[2]);
+            GL.Vertex3(Vertices[1]);
 
-            GL.Normal3(_normals[6]);
+            GL.Normal3(Normals[6]);
 
-            GL.Vertex3(_vertices[5]);
-            GL.Vertex3(_vertices[2]);
-            GL.Vertex3(_vertices[3]);
+            GL.Vertex3(Vertices[5]);
+            GL.Vertex3(Vertices[2]);
+            GL.Vertex3(Vertices[3]);
 
-            GL.Normal3(_normals[7]);
+            GL.Normal3(Normals[7]);
 
-            GL.Vertex3(_vertices[5]);
-            GL.Vertex3(_vertices[3]);
-            GL.Vertex3(_vertices[0]);
+            GL.Vertex3(Vertices[5]);
+            GL.Vertex3(Vertices[3]);
+            GL.Vertex3(Vertices[0]);
 
             GL.End();
 
@@ -111,30 +109,32 @@ namespace LessonLibrary
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[4]);
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[5]);
-            GL.Vertex3(_vertices[2]);
+            GL.Vertex3(Vertices[4]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[5]);
+            GL.Vertex3(Vertices[2]);
 
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[4]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[5]);
-            GL.Vertex3(_vertices[3]);
+            GL.Vertex3(Vertices[4]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[5]);
+            GL.Vertex3(Vertices[3]);
 
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
 
-            GL.Vertex3(_vertices[0]);
-            GL.Vertex3(_vertices[1]);
-            GL.Vertex3(_vertices[2]);
-            GL.Vertex3(_vertices[3]);
+            GL.Vertex3(Vertices[0]);
+            GL.Vertex3(Vertices[1]);
+            GL.Vertex3(Vertices[2]);
+            GL.Vertex3(Vertices[3]);
 
             GL.End();
+
+            DrawVertices();
 
             Transform.UnsetTransform();
         }
