@@ -9,3 +9,6 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\b
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.GLControl.dll
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.xml
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\OpenTK.GLControl.xml
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\obj\Debug\LessonLibrary.csproj.CopyComplete
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\JetBrains.Annotations.dll
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\LessonLibrary\bin\Debug\JetBrains.Annotations.xml

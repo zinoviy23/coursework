@@ -15,3 +15,4 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWo
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\OpenTK.GLControl.dll
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\OpenTK.xml
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\OpenTK.GLControl.xml
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csproj.CopyComplete

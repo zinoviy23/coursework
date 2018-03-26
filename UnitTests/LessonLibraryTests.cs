@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
+using LessonLibrary.Permulation;
 
 namespace UnitTests
 {
@@ -122,6 +124,32 @@ namespace UnitTests
             for (var i = 0; i < expectedTable.GetLength(0); i++)
                 for (var j = 0; j < expectedTable.GetLength(1); j++)
                     Assert.AreEqual(expectedTable[i, j], cayleyTable.StartTable[i, j]);
+        }
+
+        /// <summary>
+        /// Проверяет проверку списка на перестановку
+        /// </summary>
+        [TestMethod]
+        public void CheckListOnPermulationTest()
+        {
+            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int> {-1, 2, 3, 5}));
+            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int> { 1, 2, 3, 5 }));
+            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int>()));
+            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int> { 1, 1, 2, 4 }));
+
+            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1, 2, 3, 4 }));
+            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1, 3, 2, 4 }));
+            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1, 2, 3 }));
+            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1 }));
+        }
+
+        /// <summary>
+        /// Проверяет конструктор и индексаторы
+        /// </summary>
+        [TestMethod]
+        public void PermulationConstructorAndIndexatorTest()
+        {
+
         }
     }
 }

@@ -480,8 +480,6 @@ namespace WinFormCourseWork
                 var y = glControl1.Height - (int)((points[i].Y + 1) / 2 * glControl1.Height);
                 _vertexLabels[i].Location = new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
             }
-            
-            //vertexLabel0.Location = new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
         }
 
         /// <summary>
