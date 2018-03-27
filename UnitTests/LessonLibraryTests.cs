@@ -144,12 +144,22 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Проверяет конструктор и индексаторы
+        /// Проверяет конструктор и индексаторы Permulation
         /// </summary>
         [TestMethod]
         public void PermulationConstructorAndIndexatorTest()
         {
+            var id = new Permulation(4);
+            var idFromList = new Permulation(new List<int>{1, 2, 3, 4});
 
+            for (var i = 1; i <= id.Size; i++)
+                Assert.AreEqual(id[i], idFromList[i]);
+
+            Assert.AreEqual(id, idFromList);
+
+            var perm1 = new Permulation(new List<int>{1, 3, 2, 4});
+            
+            Assert.AreNotEqual(id, perm1);
         }
     }
 }
