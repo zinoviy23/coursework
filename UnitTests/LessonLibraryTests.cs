@@ -161,5 +161,17 @@ namespace UnitTests
             
             Assert.AreNotEqual(id, perm1);
         }
+
+        [TestMethod]
+        public void PermulationCompositionTest()
+        {
+            var id = new Permulation(3);
+            var perm = new Permulation(new List<int>{3, 2, 1});
+            Assert.AreEqual(perm, id * perm);
+
+            var perm2 = new Permulation(new List<int> {1, 3, 2});
+            var res = new Permulation(new List<int> {3, 1, 2});
+            Assert.AreEqual(res, perm * perm2);
+        }
     }
 }

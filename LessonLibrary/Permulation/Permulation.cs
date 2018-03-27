@@ -123,6 +123,11 @@ namespace LessonLibrary.Permulation
             return false;
         }
 
+        /// <summary>
+        /// Получает хэш подстановки взависимости от ее элементов
+        /// </summary>
+        /// <returns>Хэш код</returns>
+        /// <seealso cref="List{T}.GetHashCode"/>
         public override int GetHashCode()
         {
             return Elements != null ? Elements.GetHashCode() : 0;
@@ -142,6 +147,27 @@ namespace LessonLibrary.Permulation
 
             sb[sb.Length - 1] = ')';
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Берет композицию подстановок. Применяет сначала вторую, потом первую.
+        /// </summary>
+        /// <param name="a">Первая подстановка</param>
+        /// <param name="b">Вторая подстановка</param>
+        /// <returns>Результат композиции двух подстановок</returns>
+        public static Permulation operator *([NotNull] Permulation a, [NotNull] Permulation b)
+        {
+            if (a.Size != b.Size)
+                throw new ArgumentException(
+                    $"Размеры подстановок должны быть равны! Переданные размеры: {a.Size} {b.Size}");
+
+            var resList = new List<int>(a.Size);
+            for (var i = 1; i <= a.Size; i++)
+            {
+                resList.Add(a[b[i]]);
+            }
+            
+            return new Permulation(resList);
         }
     }
 }
