@@ -195,6 +195,26 @@ namespace UnitTests
             perm = new PermulationCycles(new List<int> {2, 1, 3});
             Assert.AreEqual(permCyclesString, perm.ToString());
 
+            perm = new PermulationCycles(
+                new List<List<int>>
+                {
+                    new List<int> {1, 2},
+                    new List<int> {3}
+                });
+            Assert.AreEqual(permCyclesString, perm.ToString());
+        }
+
+        /// <summary>
+        /// Проверяет преобразоавние между циклами и подстановками
+        /// </summary>
+        [TestMethod]
+        public void PermulationCyclesToPermulationAndBackConvertionTest()
+        {
+            var cycles = new PermulationCycles(new List<List<int>> {new List<int> {1, 2}, new List<int> {3}});
+            var perm = new Permulation(new List<int> {2, 1, 3});
+            Assert.AreEqual(perm, cycles.Permulation);
+
+            Assert.AreEqual(cycles, perm.Cycles);
         }
     }
 }

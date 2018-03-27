@@ -23,6 +23,7 @@ namespace LessonLibrary.Permulation
         /// <exception cref="ArgumentException"></exception>
         public Permulation([NotNull] List<int> elements)
         {
+            if (elements == null) throw new ArgumentNullException(nameof(elements));
             if (!CheckListOnPermulation(elements))
                 throw new ArgumentException(
                     "Список должен быть перестановкой натуральных чисел от 1 до n без повторений", nameof(elements));
@@ -33,6 +34,7 @@ namespace LessonLibrary.Permulation
         /// Конструктор для тривиальной подстановки
         /// </summary>
         /// <param name="n">длина подстановки</param>
+        /// <exception cref="ArgumentException"></exception>
         public Permulation(int n)
         {
             if (n <= 0)
@@ -47,6 +49,7 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="el">Элемент, к которому применить</param>
         /// <returns>результат применения перестановки</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int this[int el]
         {
             get
@@ -67,9 +70,11 @@ namespace LessonLibrary.Permulation
         /// Проверяет переданный список на перестановку чисел от 1 до n
         /// </summary>
         /// <param name="perm">список, который нужно проверить</param>
+        /// <exception cref="ArgumentNullException"></exception>
         /// <returns>true если список перестановка, false иначе</returns>
         public static bool CheckListOnPermulation([NotNull] List<int> perm)
         {
+            if (perm == null) throw new ArgumentNullException(nameof(perm));
             if (perm.Count == 0)
                 return false;
 
@@ -115,12 +120,10 @@ namespace LessonLibrary.Permulation
         /// <seealso cref="Equals(Permulation)"/>
         public override bool Equals(object obj)
         {
-            if (obj is Permulation p)
-            {
-                return Equals(p);
-            }
-
-            return false;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Permulation)obj);
         }
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace LessonLibrary.Permulation
         /// <summary>
         /// Переопределённый ToString. Возвращает нижнюю строку подстановки.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Нижняя строка подстановки</returns>
         public override string ToString()
         {
             var sb = new StringBuilder("(");
@@ -154,6 +157,7 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="a">Первая подстановка</param>
         /// <param name="b">Вторая подстановка</param>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns>Результат композиции двух подстановок</returns>
         public static Permulation operator *([NotNull] Permulation a, [NotNull] Permulation b)
         {
@@ -169,5 +173,10 @@ namespace LessonLibrary.Permulation
             
             return new Permulation(resList);
         }
+        
+        /// <summary>
+        /// Возвращает представление подстановки в виде циклов
+        /// </summary>
+        public PermulationCycles Cycles => new PermulationCycles(this);
     }
 }
