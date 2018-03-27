@@ -26,12 +26,22 @@ namespace LessonLibrary.Permulation
                 do
                 {
                     cycle.Add(next);
-                    used[next] = true;
+                    used[next - 1] = true;
                     next = permulation[next];
                 } while (next != i);
+                cycle.Sort();
                 _cycles.Add(cycle);
             }
-            _cycles.Sort((cycle, cycle1) => cycle.Count.CompareTo(cycle1.Count));
+            _cycles.Sort((cycle, cycle1) => cycle[0].CompareTo(cycle1[0]));
+        }
+
+        /// <inheritdoc  />
+        /// <summary>
+        /// Конструктор, который принимает лист элементов и по нему строит подстановку, а затем по ней циклы
+        /// </summary>
+        /// <param name="permulationElements">Лист с элементами подстановки</param>
+        public PermulationCycles(List<int> permulationElements) : this(new Permulation(permulationElements))
+        {
         }
 
         /// <summary>

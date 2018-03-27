@@ -162,6 +162,9 @@ namespace UnitTests
             Assert.AreNotEqual(id, perm1);
         }
 
+        /// <summary>
+        /// Проверяет умножение подстановок
+        /// </summary>
         [TestMethod]
         public void PermulationCompositionTest()
         {
@@ -172,6 +175,26 @@ namespace UnitTests
             var perm2 = new Permulation(new List<int> {1, 3, 2});
             var res = new Permulation(new List<int> {3, 1, 2});
             Assert.AreEqual(res, perm * perm2);
+        }
+
+        /// <summary>
+        /// Проверяет конструкторы и ToString PermulationCycles
+        /// </summary>
+        [TestMethod]
+        public void PermulationCyclesToStringAndConstructorsTest()
+        {
+            var idCyclesString = "(1) (2) (3)";
+            var cycles = new PermulationCycles(new Permulation(3));
+            Assert.AreEqual(idCyclesString, cycles.ToString());
+
+            var permCyclesString = "(1 3) (2)";
+            var perm = new PermulationCycles(new Permulation(new List<int>{3, 2, 1}));
+            Assert.AreEqual(permCyclesString, perm.ToString());
+
+            permCyclesString = "(1 2) (3)";
+            perm = new PermulationCycles(new List<int> {2, 1, 3});
+            Assert.AreEqual(permCyclesString, perm.ToString());
+
         }
     }
 }
