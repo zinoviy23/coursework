@@ -1,0 +1,19 @@
+<lessonstree>
+    <comment>
+        тэг table, visualisation лучше не трогать и оставлять как есть.
+    </comment>
+    <root name="Теория">
+        <leaf tag="lesson1.xml" type="text">Глава 1. Введение </leaf>
+    </root>
+    <root name="Тесты">
+        <leaf tag="test_lesson1.xml" type="test">Глава 1. Тест </leaf>
+        <table tag="Cayley Table">Таблица Кэли</table>
+    </root>
+    <root name="Визуализации">
+        <visualisation tag="VisualisationTetrahedron">Тэтраэдр</visualisation>
+        <visualisation tag="VisualisationCube">Куб</visualisation>
+        <visualisation tag="VisualisationOctahedron">Октаэдр</visualisation>
+        <visualisation tag="VisualisationIcosahedron">Икосаэдр</visualisation>
+        <visualisation tag="VisualisationDodecahedron">Додэкаэдр</visualisation>
+    </root>
+</lessonstree>

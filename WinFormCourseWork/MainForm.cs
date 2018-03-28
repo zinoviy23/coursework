@@ -54,6 +54,8 @@ namespace WinFormCourseWork
         private readonly Dictionary<string, VisualisationLesson> _visualisationLessons =
             new Dictionary<string, VisualisationLesson>();
 
+        private readonly string lessonsTreeInfoPath = @"lessons\lessonstree.xml";
+
         private VisualisationLesson _currentVisualisation;
 
         /// <summary>
@@ -95,6 +97,8 @@ namespace WinFormCourseWork
             cayleyTableGridView.Visible = false;
 
             SetElementsSizesAndPositions();
+
+            LessonReader.ReadLessonsTreeInfo(lessonsTreeView, lessonsTreeInfoPath);
         }
 
         /// <summary>
@@ -345,26 +349,26 @@ namespace WinFormCourseWork
         /// </summary>
         private void SetElementsSizesAndPositions()
         {
-            treeView1.Size = new Size(Math.Min(200, Size.Width / 7), treeView1.Height);
+            lessonsTreeView.Size = new Size(Math.Min(200, Size.Width / 5), lessonsTreeView.Height);
 
             //MessageBox.Show(checkTestButton.Location.ToString());
 
-            htmlView.Size = new Size(Width - htmlView.Margin.Left - treeView1.Margin.Right - treeView1.Size.Width - 15,
+            htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
                 htmlView.Height);
 
-            glControl1.Location = new Point(treeView1.Location.X + treeView1.Width + 1, 1);
+            glControl1.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
             glControl1.Size =
-                new Size(Width - htmlView.Margin.Left - treeView1.Margin.Right - treeView1.Size.Width - 15, Height);
+                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15, Height);
 
-            cayleyTableGridView.Location = new Point(treeView1.Location.X + treeView1.Width + 1, 1);
+            cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
             cayleyTableGridView.Size =
-                new Size(Width - htmlView.Margin.Left - treeView1.Margin.Right - treeView1.Size.Width - 15, Height / 2);
+                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15, Height / 2);
 
             SetGridViewCellsSize();
 
             if (!_loaded) return;
 
-            GL.Viewport(new Point(glControl1.Location.X - treeView1.Width, glControl1.Location.Y),
+            GL.Viewport(new Point(glControl1.Location.X - lessonsTreeView.Width, glControl1.Location.Y),
                 glControl1.Size);
             glControl1.Update();
 
@@ -410,7 +414,7 @@ namespace WinFormCourseWork
         private void glControl1_Load(object sender, EventArgs e)
         {
             _loaded = true;
-            GL.Viewport(new Point(glControl1.Location.X - treeView1.Width, glControl1.Location.Y), glControl1.Size);
+            GL.Viewport(new Point(glControl1.Location.X - lessonsTreeView.Width, glControl1.Location.Y), glControl1.Size);
 
             GL.ClearColor(Color.DarkGray);
             GL.Enable(EnableCap.DepthTest);

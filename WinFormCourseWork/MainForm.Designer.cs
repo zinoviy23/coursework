@@ -29,26 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Глава 1 Введение");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Теория", new System.Windows.Forms.TreeNode[] {
-            treeNode12});
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Тест 1 Введение");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Таблица Кэли");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Тесты", new System.Windows.Forms.TreeNode[] {
-            treeNode14,
-            treeNode15});
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Тетраэдр");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Куб");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Октаэдр");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Икосаэдр");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Додэкаэдр");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Визуализации", new System.Windows.Forms.TreeNode[] {
-            treeNode17,
-            treeNode18,
-            treeNode19,
-            treeNode20,
-            treeNode21});
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
+            this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.glControl1 = new OpenTK.GLControl();
@@ -60,48 +42,19 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // treeView1
+            // lessonsTreeView
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeView1.Location = new System.Drawing.Point(0, 28);
-            this.treeView1.Name = "treeView1";
-            treeNode12.Name = "Узел1";
-            treeNode12.Tag = "lesson1.xml";
-            treeNode12.Text = "Глава 1 Введение";
-            treeNode13.Name = "Узел0";
-            treeNode13.Text = "Теория";
-            treeNode14.Name = "Узел3";
-            treeNode14.Tag = "test_lesson1.xml";
-            treeNode14.Text = "Тест 1 Введение";
-            treeNode15.Name = "Узел0";
-            treeNode15.Tag = "Cayley Table";
-            treeNode15.Text = "Таблица Кэли";
-            treeNode16.Name = "Узел2";
-            treeNode16.Text = "Тесты";
-            treeNode17.Name = "Узел0";
-            treeNode17.Tag = "VisualisationTetrahedron";
-            treeNode17.Text = "Тетраэдр";
-            treeNode18.Name = "Узел3";
-            treeNode18.Tag = "VisualisationCube";
-            treeNode18.Text = "Куб";
-            treeNode19.Name = "Узел1";
-            treeNode19.Tag = "VisualisationOctahedron";
-            treeNode19.Text = "Октаэдр";
-            treeNode20.Name = "Узел1";
-            treeNode20.Tag = "VisualisationIcosahedron";
-            treeNode20.Text = "Икосаэдр";
-            treeNode21.Name = "Узел0";
-            treeNode21.Tag = "VisualisationDodecahedron";
-            treeNode21.Text = "Додэкаэдр";
-            treeNode22.Name = "Узел0";
-            treeNode22.Text = "Визуализации";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode16,
-            treeNode22});
-            this.treeView1.Size = new System.Drawing.Size(152, 501);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
+            this.lessonsTreeView.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lessonsTreeView.Indent = 7;
+            this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
+            this.lessonsTreeView.Name = "lessonsTreeView";
+            treeNode1.Name = "Узел0";
+            treeNode1.Text = "Материалы";
+            this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            this.lessonsTreeView.Size = new System.Drawing.Size(152, 501);
+            this.lessonsTreeView.TabIndex = 0;
+            this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
             // 
             // htmlView
             // 
@@ -181,7 +134,7 @@
             this.ClientSize = new System.Drawing.Size(856, 529);
             this.Controls.Add(this.cayleyTableGridView);
             this.Controls.Add(this.htmlView);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.lessonsTreeView);
             this.Controls.Add(this.glControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -198,7 +151,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView lessonsTreeView;
         private System.Windows.Forms.WebBrowser htmlView;
         private System.Windows.Forms.Timer timer1;
         private OpenTK.GLControl glControl1;
