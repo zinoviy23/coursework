@@ -27,13 +27,13 @@ namespace LessonLibrary
         public static CheckResult CheckTableOnGroup(string[,] cayleyTable)
         {
             if (cayleyTable.GetLength(0) != cayleyTable.GetLength(1))
-                throw new Exception("Таблица должна быть квадратной!");
+                throw new ArgumentException("Таблица должна быть квадратной!");
 
             var columnIndexies = new Dictionary<string, int>();
             for (var i = 1; i < cayleyTable.GetLength(1); i++)
             {
                 if (columnIndexies.ContainsKey(cayleyTable[0, i]))
-                    throw new Exception("Элементы в таблице не должны повторяться");
+                    throw new ArgumentException("Элементы в таблице не должны повторяться");
 
                 columnIndexies[cayleyTable[0, i]] = i;
             }
@@ -42,7 +42,7 @@ namespace LessonLibrary
             for (var i = 1; i < cayleyTable.GetLength(0); i++)
             {
                 if (rowIndexies.ContainsKey(cayleyTable[i, 0]))
-                    throw new Exception("Элементы в таблице не должны повторяться");
+                    throw new ArgumentException("Элементы в таблице не должны повторяться");
 
                 rowIndexies[cayleyTable[i, 0]] = i;
             }
@@ -50,13 +50,13 @@ namespace LessonLibrary
             foreach (var element in rowIndexies.Keys)
             {
                 if (!columnIndexies.ContainsKey(element))
-                    throw new Exception("В столбцах и строках дожны быть одинаковые элементы");
+                    throw new ArgumentException("В столбцах и строках дожны быть одинаковые элементы");
             }
 
             foreach (var element in columnIndexies.Keys)
             {
                 if (!rowIndexies.ContainsKey(element))
-                    throw new Exception("В столбцах и строках дожны быть одинаковые элементы");
+                    throw new ArgumentException("В столбцах и строках дожны быть одинаковые элементы");
             }
 
             for (var rowIndex = 1; rowIndex < cayleyTable.GetLength(0); rowIndex++)
@@ -64,7 +64,7 @@ namespace LessonLibrary
                 for (var columnIndex = 1; columnIndex < cayleyTable.GetLength(1); columnIndex++)
                 {
                     if (!rowIndexies.ContainsKey(cayleyTable[rowIndex, columnIndex]))
-                        throw new Exception("Элементы в таблице должны принадлежать группе");
+                        throw new ArgumentException("Элементы в таблице должны принадлежать группе");
                 }
             }
 

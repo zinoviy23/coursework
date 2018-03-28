@@ -56,11 +56,11 @@ namespace LessonLibrary
             }
             catch (XmlException exception)
             {
-                throw new XmlException(exception.Message);
+                throw new ArgumentException($"Ошибка в формате урока! {exception.Message}");
             }
             catch (DirectoryNotFoundException exception)
             {
-                throw new DirectoryNotFoundException(exception.Message);
+                throw new ArgumentException($"Ошибка доступа к уроку! {exception.Message}");
             }
         }
 
@@ -100,11 +100,11 @@ namespace LessonLibrary
             }
             catch (XmlException exception)
             {
-                throw new XmlException(exception.Message);
+                throw new ArgumentException($"Ошибка в формате таблицы! {exception.Message}");
             }
             catch (DirectoryNotFoundException exception)
             {
-                throw new DirectoryNotFoundException(exception.Message);
+                throw new ArgumentException($"Ошибка доступа к таблице! {exception.Message}");
             }
         }
 
@@ -155,11 +155,11 @@ namespace LessonLibrary
                         var rootNode = new TreeNode();
                         treeViewNode.Nodes.Add(rootNode);
 
-                        if (nodeChild.Attributes != null)
+                        if (nodeChild.Attributes?["name"]?.Value != null)
                             rootNode.Text = nodeChild.Attributes["name"].Value;
-                        else 
+                        else
                             throw new ArgumentException("У тега root должен быть аттрибут name!");
-
+                        
 
                         InitXmlElement(nodeChild, rootNode);
                         break;
@@ -169,8 +169,10 @@ namespace LessonLibrary
                     case "leaf":
                     {
                         var leafNode = new TreeNode(nodeChild.InnerText);
-                        if (nodeChild.Attributes != null)
+                        if (nodeChild.Attributes?["tag"]?.Value != null)
                             leafNode.Tag = nodeChild.Attributes["tag"].Value;
+                        else
+                            throw new ArgumentException("У листовых элементов должен быть аттрибут tag");
 
                         treeViewNode.Nodes.Add(leafNode);
                         break;

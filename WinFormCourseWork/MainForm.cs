@@ -54,7 +54,9 @@ namespace WinFormCourseWork
         private readonly Dictionary<string, VisualisationLesson> _visualisationLessons =
             new Dictionary<string, VisualisationLesson>();
 
-        private readonly string lessonsTreeInfoPath = @"lessons\lessonstree.xml";
+        private const string LessonsTreeInfoPath = @"lessons\lessonstree.xml";
+
+        private const string PermulationVisualisationFilePath = @"lessons\default\permulation_visualisation.xml";
 
         private VisualisationLesson _currentVisualisation;
 
@@ -98,7 +100,7 @@ namespace WinFormCourseWork
 
             SetElementsSizesAndPositions();
 
-            LessonReader.ReadLessonsTreeInfo(lessonsTreeView, lessonsTreeInfoPath);
+            LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
         }
 
         /// <summary>
@@ -113,6 +115,7 @@ namespace WinFormCourseWork
             _currentTest = null;
             _currentTable = null;
 
+
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 htmlView.Hide();
@@ -125,21 +128,41 @@ namespace WinFormCourseWork
                 ShowVertexLabels(_currentVisualisation.VerticesClone.Length);
                 //_currentVisualisation.Transform.Position = new Vector3(1, 1, 1);
             }
-            else if ((string) node.Tag == "Cayley Table")
+            else switch ((string) node.Tag)
             {
-                LoadTable();
-                htmlView.Visible = false;
-                cayleyTableGridView.Visible = true;
-                glControl1.Visible = false;
-                checkTestToolStripMenuItem.Enabled = true;
+                case "Cayley Table":
+                    LoadTable();
+                    htmlView.Visible = false;
+                    cayleyTableGridView.Visible = true;
+                    glControl1.Visible = false;
+                    checkTestToolStripMenuItem.Enabled = true;
+                    HideVertexLabels();
+                    break;
+                case "Permulation Visualisation":
+                    htmlView.Visible = true;
+                    cayleyTableGridView.Visible = false;
+                    glControl1.Visible = false;
+                    checkTestToolStripMenuItem.Enabled = false;
+                    HideVertexLabels();
+                    TmpLoad();
+                    break;
+                default:
+                    cayleyTableGridView.Visible = false;
+                    LoadLesson((string) node.Tag);
+                    htmlView.Show();
+                    glControl1.Visible = false;
+                    HideVertexLabels();
+                    break;
             }
-            else
-            {
-                cayleyTableGridView.Visible = false;
-                LoadLesson((string) node.Tag);
-                htmlView.Show();
-                glControl1.Visible = false;
-            }
+        }
+
+        //TODO: удалить это
+        [Obsolete("Это для дебага")]
+        private void TmpLoad()
+        {
+            var streamReader = new StreamReader(PermulationVisualisationFilePath);
+            htmlView.DocumentText = streamReader.ReadToEnd();
+            streamReader.Close();
         }
 
         /// <summary>
@@ -325,7 +348,7 @@ namespace WinFormCourseWork
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-                catch (Exception ex)
+                catch (ArgumentException ex)
                 {
                     MessageBox.Show(ex.Message, @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -590,7 +613,6 @@ namespace WinFormCourseWork
         private Point _delta;
         private Vector3 _userPosition = new Vector3(0, 0, 4);
         private Vector3 _userUp = new Vector3(0, 1, 0);
-        private bool _cntrlDown;
 
         private void GlControl1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -645,8 +667,6 @@ namespace WinFormCourseWork
 
         private void GlControl1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Control)
-                _cntrlDown = false;
         }
     }
 }
