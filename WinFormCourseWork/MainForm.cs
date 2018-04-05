@@ -145,6 +145,7 @@ namespace WinFormCourseWork
                     checkTestToolStripMenuItem.Enabled = false;
                     HideVertexLabels();
                     TmpLoad();
+                    PermulationVisualisation.CreateInstance(htmlView);
                     break;
                 default:
                     cayleyTableGridView.Visible = false;
@@ -161,6 +162,7 @@ namespace WinFormCourseWork
         private void TmpLoad()
         {
             var streamReader = new StreamReader(PermulationVisualisationFilePath);
+            htmlView.DocumentText = "";
             htmlView.DocumentText = streamReader.ReadToEnd();
             streamReader.Close();
         }

@@ -4,5 +4,7 @@
         Визуализация подстановок и циклов!
         </h1>
         <input type="button" value="Ввести" id="input_button"> </input>
+        <div id="permulation">
+        <div>
     </body>
 </html>
