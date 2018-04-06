@@ -14,7 +14,7 @@ namespace WinFormCourseWork
         /// <summary>
         /// WebBrowser для отображения уроков
         /// </summary>
-        private WebBrowser _htmlView;
+        private readonly WebBrowser _htmlView;
 
         /// <summary>
         /// Конструктор визуализации
@@ -24,28 +24,23 @@ namespace WinFormCourseWork
         {
             _htmlView = htmlView;
 
-            while (_htmlView.IsBusy)
-            {
-            }
-
-            //MessageBox.Show(_htmlView.DocumentText);
-            _htmlView.DocumentCompleted += (sender, args) =>
-            {
-
-                var inputButton = _htmlView.Document?.GetElementById("input_button");
-
-                if (inputButton == null)
-                    throw new ArgumentException("У урока должна быть кнопка для ввода с id input_button");
-
-                inputButton.Click += InputButtonOnClick;
-            };
+            _htmlView.DocumentCompleted += HtmlViewOnDocumentLoaded;
         }
 
+        private void HtmlViewOnDocumentLoaded(object sender, WebBrowserDocumentCompletedEventArgs args)
+        {
+            var inputButton = _htmlView.Document?.GetElementById("input_button");
 
+            if (inputButton == null)
+                throw new ArgumentException("У урока должна быть кнопка для ввода с id input_button");
+
+            inputButton.Click += InputButtonOnClick;
+        }
 
         private void InputButtonOnClick(object sender, HtmlElementEventArgs htmlElementEventArgs)
         {
-            MessageBox.Show("Keeek");
+            var permulationInput = new PermulationInput();
+            permulationInput.ShowDialog();
             var permulationDiv = _htmlView.Document.GetElementById("permulation");
 
             permulationDiv.InnerHtml = @"<table>
@@ -68,6 +63,18 @@ namespace WinFormCourseWork
         {
             if (_instance == null)
                 _instance = new PermulationVisualisation(htmlView);
+        }
+
+        /// <summary>
+        /// Удаляет объект, если он есть.
+        /// </summary>
+        public static void Release()
+        {
+            if (_instance != null)
+            {
+                _instance._htmlView.DocumentCompleted -= _instance.HtmlViewOnDocumentLoaded;
+            }
+            _instance = null;
         }
     }
 }

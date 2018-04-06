@@ -131,6 +131,7 @@ namespace WinFormCourseWork
             else switch ((string) node.Tag)
             {
                 case "Cayley Table":
+                    PermulationVisualisation.Release();
                     LoadTable();
                     htmlView.Visible = false;
                     cayleyTableGridView.Visible = true;
@@ -148,6 +149,7 @@ namespace WinFormCourseWork
                     PermulationVisualisation.CreateInstance(htmlView);
                     break;
                 default:
+                    PermulationVisualisation.Release();
                     cayleyTableGridView.Visible = false;
                     LoadLesson((string) node.Tag);
                     htmlView.Show();
@@ -188,11 +190,15 @@ namespace WinFormCourseWork
                     checkTestToolStripMenuItem.Enabled = false;
                 }
 
-                htmlView.DocumentCompleted += (sender, args) =>
+                // си шарп 7!!!!
+                void Handler(object sender, WebBrowserDocumentCompletedEventArgs args)
                 {
                     tmp.HtmlView = htmlView;
                     _debugWriter.WriteLine(htmlView.DocumentText);
-                };
+                    htmlView.DocumentCompleted -= Handler;
+                }
+
+                htmlView.DocumentCompleted += Handler;
             }
             catch (Exception exception)
             {
