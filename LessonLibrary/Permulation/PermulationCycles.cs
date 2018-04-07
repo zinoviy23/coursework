@@ -189,15 +189,15 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="p">Подстановка</param>
         /// <returns>Лист пар, где первый элемент число, а второй это результат применения подстановки</returns>
-        public static List<Tuple<int, int>> GroupPermulationElementsByCycles(Permulation p)
+        public static List<Tuple<int, int, int>> GroupPermulationElementsByCycles(Permulation p)
         {
-            var result = new List<Tuple<int, int>>();
+            var result = new List<Tuple<int, int, int>>();
 
-            foreach (var cycle in p.Cycles._cycles)
+            for (var i = 0; i < p.Cycles._cycles.Count; i++)
             {
-                foreach (var element in cycle)
+                foreach (var element in p.Cycles._cycles[i])
                 {
-                    result.Add(new Tuple<int, int>(element, p[element]));
+                    result.Add(new Tuple<int, int, int>(element, p[element], i + 1));
                 }
             }
 

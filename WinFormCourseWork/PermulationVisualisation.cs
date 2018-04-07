@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
@@ -13,6 +14,13 @@ namespace WinFormCourseWork
     public class PermulationVisualisation
     {
         private static PermulationVisualisation _instance;
+
+        public static readonly Color[] Colors =
+        {
+            Color.Black, Color.Blue, Color.Red, Color.Green, Color.Cyan, Color.BlueViolet, Color.Sienna,
+            Color.Chartreuse, Color.Yellow, Color.DeepPink, Color.Gray, Color.Indigo, Color.MidnightBlue,
+            Color.SpringGreen, Color.Tomato, Color.Olive
+        };
 
         /// <summary>
         /// WebBrowser для отображения уроков
@@ -46,7 +54,7 @@ namespace WinFormCourseWork
             permulationInput.ShowDialog();
             var permulationDiv = _htmlView.Document?.GetElementById("permulation");
             var permulationCyclesDiv = _htmlView.Document?.GetElementById("permulation_cycles");
-            var permulationGroupedByCyclesDiv = _htmlView.Document?.GetElementById("permulatio_grouped_by_cycles");
+            var permulationGroupedByCyclesDiv = _htmlView.Document?.GetElementById("permulation_grouped_by_cycles");
 
             if (permulationDiv == null)
             {
@@ -64,7 +72,7 @@ namespace WinFormCourseWork
 
             if (permulationGroupedByCyclesDiv == null)
             {
-                MessageBox.Show(@"У файла отсутсвует div с id permulatio_grouped_by_cycles!", @"Ошибка!",
+                MessageBox.Show(@"У файла отсутсвует div с id permulation_grouped_by_cycles!", @"Ошибка!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -104,10 +112,10 @@ namespace WinFormCourseWork
         /// <summary>
         /// Возвращает HTML представление листа пар, со скобками по бокам
         /// </summary>
-        /// <param name="pairs"></param>
+        /// <param name="pairs">Лист пар с дополнительным параметром</param>
         /// <returns>HTML разметка для подстановки</returns>
         [NotNull]
-        private static string ListOfTuplesToHtml([NotNull] IReadOnlyList<Tuple<int, int>> pairs)
+        private static string ListOfTuplesToHtml([NotNull] IReadOnlyList<Tuple<int, int, int>> pairs)
         {
             var sb = new StringBuilder(@"<table>
                         <tr><td>
@@ -117,19 +125,24 @@ namespace WinFormCourseWork
 
             foreach (var pair in pairs)
             {
-                sb.Append("<td align=\"center\">").Append(pair.Item1).Append("</td>");
+                sb.AppendFormat("<td align=\"center\" style=\"color: {0} \">", ColorTranslator.ToHtml(Colors[pair.Item3]))
+                    .Append(pair.Item1)
+                    .Append("</span>").Append("</td>");
             }
 
             sb.Append("</tr ><tr >");
 
             foreach (var pair in pairs)
             {
-                sb.Append("<td align=\"center\">").Append(pair.Item2).Append("</td>");
+                sb.AppendFormat("<td align=\"center\" style=\"color: {0} \">", ColorTranslator.ToHtml(Colors[pair.Item3]))
+                    .Append(pair.Item2)
+                    .Append("</span>").Append("</td>");
             }
 
             sb.Append(@"</tr ></table >
                        </td ><td >
                 <span style = ""font-size:2.5em;"" >) </span > </td> </tr> </table> ");
+            MessageBox.Show(sb.ToString());
             return sb.ToString();
         }
     }

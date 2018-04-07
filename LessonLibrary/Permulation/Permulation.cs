@@ -182,14 +182,14 @@ namespace LessonLibrary.Permulation
         /// <summary>
         /// Возвращает представление подстановки в виде листа пар
         /// </summary>
-        public List<Tuple<int, int>> TupleList
+        public List<Tuple<int, int, int>> TupleList
         {
             get
             {
-                var result = new List<Tuple<int, int>>();
+                var result = new List<Tuple<int, int, int>>();
 
                 for (var i = 1; i <= Size; i++)
-                    result.Add(new Tuple<int, int>(i, this[i]));
+                    result.Add(new Tuple<int, int, int>(i, this[i], 0));
 
                 return result;
             }
