@@ -178,5 +178,21 @@ namespace LessonLibrary.Permulation
         /// Возвращает представление подстановки в виде циклов
         /// </summary>
         public PermulationCycles Cycles => new PermulationCycles(this);
+
+        /// <summary>
+        /// Возвращает представление подстановки в виде листа пар
+        /// </summary>
+        public List<Tuple<int, int>> TupleList
+        {
+            get
+            {
+                var result = new List<Tuple<int, int>>();
+
+                for (var i = 1; i <= Size; i++)
+                    result.Add(new Tuple<int, int>(i, this[i]));
+
+                return result;
+            }
+        }
     }
 }

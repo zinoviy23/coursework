@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
@@ -45,6 +46,7 @@ namespace WinFormCourseWork
             permulationInput.ShowDialog();
             var permulationDiv = _htmlView.Document?.GetElementById("permulation");
             var permulationCyclesDiv = _htmlView.Document?.GetElementById("permulation_cycles");
+            var permulationGroupedByCyclesDiv = _htmlView.Document?.GetElementById("permulatio_grouped_by_cycles");
 
             if (permulationDiv == null)
             {
@@ -60,12 +62,21 @@ namespace WinFormCourseWork
                 return;
             }
 
+            if (permulationGroupedByCyclesDiv == null)
+            {
+                MessageBox.Show(@"У файла отсутсвует div с id permulatio_grouped_by_cycles!", @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             var p = permulationInput.ResulPermulation;
 
             if (p == null) return;
-            permulationDiv.InnerHtml = PermulationToHtml(p);
+            permulationDiv.InnerHtml = ListOfTuplesToHtml(p.TupleList);
             permulationCyclesDiv.InnerHtml = p.Cycles.ToString();
-
+            permulationGroupedByCyclesDiv.InnerHtml =
+                ListOfTuplesToHtml(PermulationCycles.GroupPermulationElementsByCycles(p));
         }
 
         /// <summary>
@@ -91,12 +102,12 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Возвращает HTML представление подстановки
+        /// Возвращает HTML представление листа пар, со скобками по бокам
         /// </summary>
-        /// <param name="p">Подстановки</param>
+        /// <param name="pairs"></param>
         /// <returns>HTML разметка для подстановки</returns>
         [NotNull]
-        private static string PermulationToHtml([NotNull] Permulation p)
+        private static string ListOfTuplesToHtml([NotNull] IReadOnlyList<Tuple<int, int>> pairs)
         {
             var sb = new StringBuilder(@"<table>
                         <tr><td>
@@ -104,22 +115,21 @@ namespace WinFormCourseWork
                         </td ><td >
                         <table ><tr >");
 
-            for (var i = 1; i <= p.Size; i++)
+            foreach (var pair in pairs)
             {
-                sb.Append("<td align=\"center\">").Append(i).Append("</td>");
+                sb.Append("<td align=\"center\">").Append(pair.Item1).Append("</td>");
             }
 
             sb.Append("</tr ><tr >");
 
-            for (var i = 1; i <= p.Size; i++)
+            foreach (var pair in pairs)
             {
-                sb.Append("<td align=\"center\">").Append(p[i]).Append("</td>");
+                sb.Append("<td align=\"center\">").Append(pair.Item2).Append("</td>");
             }
 
             sb.Append(@"</tr ></table >
                        </td ><td >
                 <span style = ""font-size:2.5em;"" >) </span > </td> </tr> </table> ");
-            MessageBox.Show(sb.ToString());
             return sb.ToString();
         }
     }

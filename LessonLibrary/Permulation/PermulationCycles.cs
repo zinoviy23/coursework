@@ -34,7 +34,7 @@ namespace LessonLibrary.Permulation
                     used[next - 1] = true;
                     next = permulation[next];
                 } while (next != i);
-                cycle.Sort();
+
                 _cycles.Add(cycle);
             }
             _cycles.Sort((cycle, cycle1) => cycle[0].CompareTo(cycle1[0]));
@@ -150,11 +150,11 @@ namespace LessonLibrary.Permulation
             if (_cycles.Count != other?._cycles.Count)
                 return false;
 
-            for (int i = 0; i < _cycles.Count; i++)
+            for (var i = 0; i < _cycles.Count; i++)
             {
                 if (_cycles[i].Count != other._cycles[i].Count)
                     return false;
-                for (int j = 0; j < _cycles[i].Count; j++)
+                for (var j = 0; j < _cycles[i].Count; j++)
                     if (_cycles[i][j] != other._cycles[i][j])
                         return false;
             }
@@ -181,7 +181,27 @@ namespace LessonLibrary.Permulation
         /// <returns>Хэшкод</returns>
         public override int GetHashCode()
         {
-            return (_cycles != null ? _cycles.GetHashCode() : 0);
+            return _cycles != null ? _cycles.GetHashCode() : 0;
+        }
+
+        /// <summary>
+        /// Группирует элементы подстановки по циклам
+        /// </summary>
+        /// <param name="p">Подстановка</param>
+        /// <returns>Лист пар, где первый элемент число, а второй это результат применения подстановки</returns>
+        public static List<Tuple<int, int>> GroupPermulationElementsByCycles(Permulation p)
+        {
+            var result = new List<Tuple<int, int>>();
+
+            foreach (var cycle in p.Cycles._cycles)
+            {
+                foreach (var element in cycle)
+                {
+                    result.Add(new Tuple<int, int>(element, p[element]));
+                }
+            }
+
+            return result;
         }
     }
 }
