@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
+using LessonLibrary.Permulation;
 
 namespace WinFormCourseWork
 {
@@ -41,18 +43,29 @@ namespace WinFormCourseWork
         {
             var permulationInput = new PermulationInput();
             permulationInput.ShowDialog();
-            var permulationDiv = _htmlView.Document.GetElementById("permulation");
+            var permulationDiv = _htmlView.Document?.GetElementById("permulation");
+            var permulationCyclesDiv = _htmlView.Document?.GetElementById("permulation_cycles");
 
-            permulationDiv.InnerHtml = @"<table>
-                <tr><td>
-                    <span style=""font - size:2.5em; "">( </span>
-                </td ><td >
-   
-                <table ><tr ><td > 1 2 3 </td ></tr ><tr ><td > 1 2 3 </td ></tr ></table >
-                    
-                </td ><td >
-                    
-                <span style = ""font-size:2.5em;"" >) </span > </td> </tr> </table> ";
+            if (permulationDiv == null)
+            {
+                MessageBox.Show(@"У файла отсутсвует div с id permulation!", @"Ошибка!", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            if (permulationCyclesDiv == null)
+            {
+                MessageBox.Show(@"У файла отсутсвует div с id permulation_cycles!", @"Ошибка!", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            var p = permulationInput.ResulPermulation;
+
+            if (p == null) return;
+            permulationDiv.InnerHtml = PermulationToHtml(p);
+            permulationCyclesDiv.InnerHtml = p.Cycles.ToString();
+
         }
 
         /// <summary>
@@ -75,6 +88,39 @@ namespace WinFormCourseWork
                 _instance._htmlView.DocumentCompleted -= _instance.HtmlViewOnDocumentLoaded;
             }
             _instance = null;
+        }
+
+        /// <summary>
+        /// Возвращает HTML представление подстановки
+        /// </summary>
+        /// <param name="p">Подстановки</param>
+        /// <returns>HTML разметка для подстановки</returns>
+        [NotNull]
+        private static string PermulationToHtml([NotNull] Permulation p)
+        {
+            var sb = new StringBuilder(@"<table>
+                        <tr><td>
+                            <span style=""font-size:2.5em; "">(</span>
+                        </td ><td >
+                        <table ><tr >");
+
+            for (var i = 1; i <= p.Size; i++)
+            {
+                sb.Append("<td align=\"center\">").Append(i).Append("</td>");
+            }
+
+            sb.Append("</tr ><tr >");
+
+            for (var i = 1; i <= p.Size; i++)
+            {
+                sb.Append("<td align=\"center\">").Append(p[i]).Append("</td>");
+            }
+
+            sb.Append(@"</tr ></table >
+                       </td ><td >
+                <span style = ""font-size:2.5em;"" >) </span > </td> </tr> </table> ");
+            MessageBox.Show(sb.ToString());
+            return sb.ToString();
         }
     }
 }

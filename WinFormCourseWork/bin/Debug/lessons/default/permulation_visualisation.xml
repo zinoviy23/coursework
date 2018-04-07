@@ -5,6 +5,8 @@
         </h1>
         <input type="button" value="Ввести" id="input_button"> </input>
         <div id="permulation">
-        <div>
+        </div>
+        <div id="permulation_cycles">
+        </div>
     </body>
 </html>

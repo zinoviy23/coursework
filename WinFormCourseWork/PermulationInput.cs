@@ -1,20 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using LessonLibrary.Permulation;
 
 namespace WinFormCourseWork
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Форма для ввода подстановки
+    /// </summary>
     public partial class PermulationInput : Form
     {
+        private int _permulationLength;
+
+        /// <summary>
+        /// Подстановка, которую ввёл пользователь
+        /// </summary>
+        public Permulation ResulPermulation { get; private set; }
+
         public PermulationInput()
         {
             InitializeComponent();
+        }
+
+        private void PermulationInput_Load(object sender, EventArgs e)
+        {
+            permulationLengthComboBox.SelectedItem = "3";
+        }
+
+        private void PermulationLengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _permulationLength = int.Parse(permulationLengthComboBox.SelectedItem.ToString());
+            InitPermulationHeaderLabelByLength(_permulationLength);
+            permulationTextBox.Width = permulationHead.Width;
+            rightParenthesisLabel.Left = permulationTextBox.Right + 3;
+        }
+
+        private void InitPermulationHeaderLabelByLength(int length)
+        {
+            var sb = new StringBuilder("");
+            for (var i = 0; i < length; i++)
+            {
+                sb.Append(i + 1).Append(" ");
+            }
+
+            sb.Remove(sb.Length - 1, 1);
+            permulationHead.Text = sb.ToString();
+        }
+
+        private void ButtonOk_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var permulation = new Permulation(new List<string>(permulationTextBox.Text.Split(' '))
+                    .ConvertAll(int.Parse));
+                ResulPermulation = permulation;
+                Close();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show(@"Введите натуральные числа через пробел!", @"Ошибка!", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show($@"Числа должны быть от 1 до {_permulationLength}!", @"Ошибка!", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
     }
 }
