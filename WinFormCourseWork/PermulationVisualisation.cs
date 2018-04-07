@@ -142,7 +142,7 @@ namespace WinFormCourseWork
             sb.Append(@"</tr ></table >
                        </td ><td >
                 <span style = ""font-size:2.5em;"" >) </span > </td> </tr> </table> ");
-            MessageBox.Show(sb.ToString());
+            //MessageBox.Show(sb.ToString());
             return sb.ToString();
         }
     }
