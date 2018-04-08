@@ -17,7 +17,7 @@ namespace WinFormCourseWork
 
         public static readonly Color[] Colors =
         {
-            Color.Black, Color.Blue, Color.Red, Color.Green, Color.Cyan, Color.BlueViolet, Color.Sienna,
+            Color.Black, Color.Blue, Color.Red, Color.Green, Color.DarkCyan, Color.BlueViolet, Color.Sienna,
             Color.Chartreuse, Color.Yellow, Color.DeepPink, Color.Gray, Color.Indigo, Color.MidnightBlue,
             Color.SpringGreen, Color.Tomato, Color.Olive
         };
@@ -81,9 +81,9 @@ namespace WinFormCourseWork
             var p = permulationInput.ResulPermulation;
 
             if (p == null) return;
-            permulationDiv.InnerHtml = ListOfTuplesToHtml(p.TupleList);
-            permulationCyclesDiv.InnerHtml = p.Cycles.ToString();
-            permulationGroupedByCyclesDiv.InnerHtml =
+            permulationDiv.InnerHtml = "Подстановка:" + ListOfTuplesToHtml(p.TupleList);
+            permulationCyclesDiv.InnerHtml = "Подстановка в виде циклов:" + CyclesListToHtml(p.Cycles.CyclesList);
+            permulationGroupedByCyclesDiv.InnerHtml = "Подстановка, где элементы сгруппированы по циклам:" +
                 ListOfTuplesToHtml(PermulationCycles.GroupPermulationElementsByCycles(p));
         }
 
@@ -125,7 +125,8 @@ namespace WinFormCourseWork
 
             foreach (var pair in pairs)
             {
-                sb.AppendFormat("<td align=\"center\" style=\"color: {0} \">", ColorTranslator.ToHtml(Colors[pair.Item3]))
+                sb.AppendFormat("<td align=\"center\" style=\"color: {0} \">",
+                        ColorTranslator.ToHtml(Colors[pair.Item3]))
                     .Append(pair.Item1)
                     .Append("</span>").Append("</td>");
             }
@@ -134,7 +135,8 @@ namespace WinFormCourseWork
 
             foreach (var pair in pairs)
             {
-                sb.AppendFormat("<td align=\"center\" style=\"color: {0} \">", ColorTranslator.ToHtml(Colors[pair.Item3]))
+                sb.AppendFormat("<td align=\"center\" style=\"color: {0} \">",
+                        ColorTranslator.ToHtml(Colors[pair.Item3]))
                     .Append(pair.Item2)
                     .Append("</span>").Append("</td>");
             }
@@ -142,7 +144,32 @@ namespace WinFormCourseWork
             sb.Append(@"</tr ></table >
                        </td ><td >
                 <span style = ""font-size:2.5em;"" >) </span > </td> </tr> </table> ");
-            //MessageBox.Show(sb.ToString());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Представляет циклы подстановки в виде HTML
+        /// </summary>
+        /// <param name="cycles">список списков, представляющий циклы</param>
+        /// <returns>HTML представление</returns>
+        [NotNull]
+        private static string CyclesListToHtml([NotNull] IReadOnlyList<IReadOnlyList<int>> cycles)
+        {
+            var sb = new StringBuilder("<table><tr>");
+
+            for (var i = 0; i < cycles.Count; i++)
+            {
+                sb.AppendFormat("<td style=\"color: {0}\"> (", ColorTranslator.ToHtml(Colors[i + 1]));
+                foreach (var element in cycles[i])
+                {
+                    sb.Append(element).Append(" ");
+                }
+
+                sb.Remove(sb.Length - 1, 1);
+                sb.Append(")</td>");
+            }
+
+            sb.Append("</tr></table>");
             return sb.ToString();
         }
     }

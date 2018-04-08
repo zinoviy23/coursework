@@ -37,6 +37,10 @@ namespace WinFormCourseWork
             rightParenthesisLabel.Left = permulationTextBox.Right + 3;
         }
 
+        /// <summary>
+        /// Используя длину, выводит на экран верхнюю часть подстановки
+        /// </summary>
+        /// <param name="length"></param>
         private void InitPermulationHeaderLabelByLength(int length)
         {
             var sb = new StringBuilder("");
@@ -49,11 +53,19 @@ namespace WinFormCourseWork
             permulationHead.Text = sb.ToString();
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку ОК
+        /// </summary>
+        /// <param name="sender">Кнопка</param>
+        /// <param name="e">Параметры события</param>
+        /// <remarks>Достаёт текст из TextBox и преобразует его в подстановку,
+        ///  или выводит сообщение об ошибке</remarks>
         private void ButtonOk_Click(object sender, EventArgs e)
         {
             try
             {
                 var permulation = new Permulation(new List<string>(permulationTextBox.Text.Split(' '))
+                    .FindAll(s => s.Trim() != "")
                     .ConvertAll(int.Parse));
                 ResulPermulation = permulation;
                 Close();

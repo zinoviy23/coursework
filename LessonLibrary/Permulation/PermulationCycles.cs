@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 
 namespace LessonLibrary.Permulation
 {
+    /// <inheritdoc />
     /// <summary>
     /// Класс для представления подстановок ввиде циклов
     /// </summary>
@@ -203,5 +204,10 @@ namespace LessonLibrary.Permulation
 
             return result;
         }
+
+        /// <summary>
+        /// Возвращает циклы подстановки ввиде списка списков
+        /// </summary>
+        public IReadOnlyList<IReadOnlyList<int>> CyclesList => _cycles;
     }
 }
