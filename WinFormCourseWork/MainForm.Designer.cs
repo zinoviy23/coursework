@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Материалы");
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -48,10 +48,10 @@
             this.lessonsTreeView.Indent = 7;
             this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
             this.lessonsTreeView.Name = "lessonsTreeView";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Материалы";
+            treeNode4.Name = "Узел0";
+            treeNode4.Text = "Материалы";
             this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode4});
             this.lessonsTreeView.Size = new System.Drawing.Size(152, 501);
             this.lessonsTreeView.TabIndex = 0;
             this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
@@ -64,6 +64,7 @@
             this.htmlView.Name = "htmlView";
             this.htmlView.Size = new System.Drawing.Size(192, 501);
             this.htmlView.TabIndex = 0;
+            this.htmlView.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HtmlView_PreviewKeyDown);
             // 
             // timer1
             // 
@@ -122,8 +123,8 @@
             // 
             this.checkTestToolStripMenuItem.Name = "checkTestToolStripMenuItem";
             this.checkTestToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.checkTestToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(185, 26);
+            this.checkTestToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
+            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.checkTestToolStripMenuItem.Text = "Проверить";
             this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
             // 

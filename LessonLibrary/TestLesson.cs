@@ -53,7 +53,9 @@ namespace LessonLibrary
             foreach (HtmlElement input in inputs)
             {
                 if (input.GetAttribute("type") != "text")
+                {
                     input.Click += OnAnswerClicked;
+                }
                 else
                     input.KeyUp += OnAnswerClicked;
             }

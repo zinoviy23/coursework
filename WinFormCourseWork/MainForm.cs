@@ -676,5 +676,16 @@ namespace WinFormCourseWork
         private void GlControl1_KeyUp(object sender, KeyEventArgs e)
         {
         }
+
+        /// <summary>
+        /// Запрещает нажимать на F5 в браузере.
+        /// </summary>
+        /// <param name="sender">Объект</param>
+        /// <param name="e">Информация об клавише</param>
+        private void HtmlView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+                e.IsInputKey = true;
+        }
     }
 }
