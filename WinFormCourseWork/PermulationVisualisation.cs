@@ -78,7 +78,7 @@ namespace WinFormCourseWork
             }
 
 
-            var p = permulationInput.ResulPermulation;
+            var p = permulationInput.ResultPermulation;
 
             if (p == null) return;
             permulationDiv.InnerHtml = "Подстановка:" + ListOfTuplesToHtml(p.TupleList);

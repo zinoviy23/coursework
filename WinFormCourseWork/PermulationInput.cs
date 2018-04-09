@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using LessonLibrary.Permulation;
@@ -12,16 +13,51 @@ namespace WinFormCourseWork
     /// </summary>
     public partial class PermulationInput : Form
     {
+        /// <summary>
+        /// Максимальная длина подстановки
+        /// </summary>
+        private const int MaxPermulationLength = 15;
+
+        /// <summary>
+        /// Ширина элемента
+        /// </summary>
+        private const int ElementWidth = 20;
+
+        /// <summary>
+        /// Текущая длина подстаноки
+        /// </summary>
         private int _permulationLength;
 
         /// <summary>
         /// Подстановка, которую ввёл пользователь
         /// </summary>
-        public Permulation ResulPermulation { get; private set; }
+        public Permulation ResultPermulation { get; private set; }
+
+        /// <summary>
+        /// Labelы для верхней части подстановки
+        /// </summary>
+        private readonly Label[] _headerLabels;
+
+        /// <summary>
+        /// TextBoxы для нижней части подстановки
+        /// </summary>
+        private readonly TextBox[] _bottomTextBoxs;
 
         public PermulationInput()
         {
             InitializeComponent();
+            
+            _headerLabels = new Label[MaxPermulationLength];
+            for (var i = 0; i < _headerLabels.Length; i++)
+            {
+                _headerLabels[i] = new Label();
+            }
+
+            _bottomTextBoxs = new TextBox[MaxPermulationLength];
+            for (var i = 0; i < _bottomTextBoxs.Length; i++)
+            {
+                _bottomTextBoxs[i] = new TextBox {TextAlign = HorizontalAlignment.Center};
+            }
         }
 
         private void PermulationInput_Load(object sender, EventArgs e)
@@ -31,10 +67,20 @@ namespace WinFormCourseWork
 
         private void PermulationLengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ReleaseHeadersAndBottoms(_permulationLength);
             _permulationLength = int.Parse(permulationLengthComboBox.SelectedItem.ToString());
             InitPermulationHeaderLabelByLength(_permulationLength);
-            permulationTextBox.Width = permulationHead.Width;
-            rightParenthesisLabel.Left = permulationTextBox.Right + 3;
+            InitPermulationBottomByLength(_permulationLength);
+
+            rightParenthesisLabel.Left = permulationPanel.Right;
+            permulationLengthComboBox.Left = rightParenthesisLabel.Right + 10;
+            ClientSize = new Size(permulationLengthComboBox.Right + 10, ClientSize.Height);
+            buttonOk.Left = ClientSize.Width / 2 - buttonOk.Width / 2;
+
+            buttonOk.TabIndex = _permulationLength;
+            permulationLengthComboBox.TabIndex = _permulationLength + 1;
+
+            _bottomTextBoxs[0].Select();
         }
 
         /// <summary>
@@ -43,14 +89,73 @@ namespace WinFormCourseWork
         /// <param name="length"></param>
         private void InitPermulationHeaderLabelByLength(int length)
         {
-            var sb = new StringBuilder("");
+            var x = 2;
             for (var i = 0; i < length; i++)
             {
-                sb.Append(i + 1).Append(" ");
+                _headerLabels[i].Visible = true;
+                _headerLabels[i].Text = (i + 1).ToString();
+                _headerLabels[i].Top = 5;
+                _headerLabels[i].Left = x;
+                _headerLabels[i].Parent = permulationPanel;
+                x += ElementWidth;
+                _headerLabels[i].BringToFront();
             }
 
-            sb.Remove(sb.Length - 1, 1);
-            permulationHead.Text = sb.ToString();
+            permulationPanel.Width = x;
+        }
+
+        /// <summary>
+        /// Используя длину, задаёт TextBoxы для ввода нижней части подстановки
+        /// </summary>
+        /// <param name="length">Длина подстановки</param>
+        private void InitPermulationBottomByLength(int length)
+        {
+            for (var i = 0; i < length; i++)
+            {
+                _bottomTextBoxs[i].Visible = true;
+                _bottomTextBoxs[i].Parent = permulationPanel;
+                _bottomTextBoxs[i].Top = 20;
+                _bottomTextBoxs[i].Width = ElementWidth - 1;
+                _bottomTextBoxs[i].Left = _headerLabels[i].Left + 1;
+                _bottomTextBoxs[i].TabIndex = i;
+                _bottomTextBoxs[i].MaxLength = length.ToString().Length;
+                _bottomTextBoxs[i].BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Убирает элементы старой подстановки
+        /// </summary>
+        /// <param name="prevPermulationLength">Длина старой подстановки</param>
+        private void ReleaseHeadersAndBottoms(int prevPermulationLength)
+        {
+            for (var i = 0; i < prevPermulationLength; i++)
+            {
+                _headerLabels[i].Visible = false;
+                _bottomTextBoxs[i].Visible = false;
+                _bottomTextBoxs[i].TabIndex = short.MaxValue;
+            }
+        }
+
+        /// <summary>
+        /// Получает список целых чисел, ввёденных в поля ввода
+        /// </summary>
+        /// <exception cref="OverflowException"></exception>
+        /// <exception cref="FormatException"></exception>
+        /// <returns>Нижняя строка подстановки, введённая пользователем</returns>
+        private List<int> GetPermulationBottom()
+        {
+            var result = new List<int>();
+            for (var i = 0; i < _permulationLength; i++)
+            {
+                var tmp = int.Parse(_bottomTextBoxs[i].Text);
+                if (tmp < 1 || tmp > _permulationLength)
+                    throw new OverflowException();
+
+                result.Add(tmp);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -64,15 +169,12 @@ namespace WinFormCourseWork
         {
             try
             {
-                var permulation = new Permulation(new List<string>(permulationTextBox.Text.Split(' '))
-                    .FindAll(s => s.Trim() != "")
-                    .ConvertAll(int.Parse));
-                ResulPermulation = permulation;
+                ResultPermulation = new Permulation(GetPermulationBottom());
                 Close();
             }
             catch (FormatException)
             {
-                MessageBox.Show(@"Введите натуральные числа через пробел!", @"Ошибка!", MessageBoxButtons.OK,
+                MessageBox.Show(@"В каждом поле должно стоять натуральное число!", @"Ошибка!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (OverflowException)
@@ -84,7 +186,6 @@ namespace WinFormCourseWork
             {
                 MessageBox.Show(ex.Message, @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
     }
 }

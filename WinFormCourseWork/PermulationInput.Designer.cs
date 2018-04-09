@@ -28,29 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.permulationHead = new System.Windows.Forms.Label();
-            this.permulationTextBox = new System.Windows.Forms.TextBox();
             this.permulationLengthComboBox = new System.Windows.Forms.ComboBox();
             this.leftParenthesisLabel = new System.Windows.Forms.Label();
             this.rightParenthesisLabel = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.permulationPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // permulationHead
-            // 
-            this.permulationHead.AutoSize = true;
-            this.permulationHead.Location = new System.Drawing.Point(40, 26);
-            this.permulationHead.Name = "permulationHead";
-            this.permulationHead.Size = new System.Drawing.Size(16, 17);
-            this.permulationHead.TabIndex = 0;
-            this.permulationHead.Text = "_";
-            // 
-            // permulationTextBox
-            // 
-            this.permulationTextBox.Location = new System.Drawing.Point(43, 46);
-            this.permulationTextBox.Name = "permulationTextBox";
-            this.permulationTextBox.Size = new System.Drawing.Size(272, 22);
-            this.permulationTextBox.TabIndex = 1;
             // 
             // permulationLengthComboBox
             // 
@@ -70,7 +53,7 @@
             "13",
             "14",
             "15"});
-            this.permulationLengthComboBox.Location = new System.Drawing.Point(371, 44);
+            this.permulationLengthComboBox.Location = new System.Drawing.Point(417, 44);
             this.permulationLengthComboBox.Name = "permulationLengthComboBox";
             this.permulationLengthComboBox.Size = new System.Drawing.Size(46, 24);
             this.permulationLengthComboBox.TabIndex = 2;
@@ -106,17 +89,23 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
+            // permulationPanel
+            // 
+            this.permulationPanel.Location = new System.Drawing.Point(33, 31);
+            this.permulationPanel.Name = "permulationPanel";
+            this.permulationPanel.Size = new System.Drawing.Size(282, 56);
+            this.permulationPanel.TabIndex = 6;
+            // 
             // PermulationInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(475, 128);
+            this.Controls.Add(this.permulationPanel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.rightParenthesisLabel);
             this.Controls.Add(this.leftParenthesisLabel);
             this.Controls.Add(this.permulationLengthComboBox);
-            this.Controls.Add(this.permulationTextBox);
-            this.Controls.Add(this.permulationHead);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PermulationInput";
             this.Text = "Введите подстановку";
@@ -127,12 +116,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label permulationHead;
-        private System.Windows.Forms.TextBox permulationTextBox;
         private System.Windows.Forms.ComboBox permulationLengthComboBox;
         private System.Windows.Forms.Label leftParenthesisLabel;
         private System.Windows.Forms.Label rightParenthesisLabel;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Panel permulationPanel;
     }
 }
