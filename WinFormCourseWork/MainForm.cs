@@ -62,6 +62,11 @@ namespace WinFormCourseWork
         private VisualisationLesson _currentVisualisation;
 
         /// <summary>
+        /// Объект для управления визуализациями
+        /// </summary>
+        private Visualisation3DController _visualisationController;
+
+        /// <summary>
         /// Массив вершин на экране
         /// </summary>
         private Label[] _vertexLabels;
@@ -103,6 +108,8 @@ namespace WinFormCourseWork
 
             LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
+
+            _visualisationController = new Visualisation3DController(glControl1, this, lessonsTreeView);
         }
 
         /// <summary>
