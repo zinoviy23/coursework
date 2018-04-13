@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
 
 
-namespace LessonLibrary
+namespace LessonLibrary.Visualisation3D
 {
     /// <summary>
     /// Информация об объекте

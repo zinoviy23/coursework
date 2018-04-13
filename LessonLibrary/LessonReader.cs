@@ -180,5 +180,30 @@ namespace LessonLibrary
                 }
             }
         }
+
+        /// <summary>
+        /// Считывает шаблон для визуализации подстановок
+        /// </summary>
+        /// <param name="htmlView">WebBrowser для отображения уроков</param>
+        /// <param name="permulationVisualisationFilePath">Путь до шаблона</param>
+        /// <exception cref="ArgumentException"></exception>
+        public static void ReadPermulationVisualisationTemplate([NotNull] WebBrowser htmlView,
+            string permulationVisualisationFilePath)
+        {
+            try
+            {
+                var streamReader = new StreamReader(permulationVisualisationFilePath);
+                htmlView.DocumentText = streamReader.ReadToEnd();
+                streamReader.Close();
+            }
+            catch (FileNotFoundException)
+            {
+                throw new ArgumentException($@"По нет файла по переданному пути {permulationVisualisationFilePath}");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                throw new ArgumentException($@"По нет файла по переданному пути {permulationVisualisationFilePath}");
+            }
+        }
     }
 }

@@ -57,12 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CayleyTableTestLesson.cs" />
-    <Compile Include="CubeVisualisation.cs" />
-    <Compile Include="DodecahedronVisualisation.cs" />
+    <Compile Include="Visualisation3D\CubeVisualisation.cs" />
+    <Compile Include="Visualisation3D\DodecahedronVisualisation.cs" />
     <Compile Include="HtmlViewLesson.cs" />
-    <Compile Include="IcosahedronVisualisation.cs" />
+    <Compile Include="Visualisation3D\IcosahedronVisualisation.cs" />
     <Compile Include="LessonReader.cs" />
-    <Compile Include="OctahedronVisualisation.cs" />
+    <Compile Include="Visualisation3D\OctahedronVisualisation.cs" />
     <Compile Include="Permulation\Permulation.cs" />
     <Compile Include="Permulation\PermulationCycles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,10 +70,10 @@
     <Compile Include="SimpleLesson.cs" />
     <Compile Include="TestAnswers.cs" />
     <Compile Include="TestLesson.cs" />
-    <Compile Include="TetrahedronVisualisation.cs" />
-    <Compile Include="VisualisationLesson.cs" />
-    <Compile Include="VisualisationTransform.cs" />
-    <Compile Include="WorldInfo.cs" />
+    <Compile Include="Visualisation3D\TetrahedronVisualisation.cs" />
+    <Compile Include="Visualisation3D\VisualisationLesson.cs" />
+    <Compile Include="Visualisation3D\VisualisationTransform.cs" />
+    <Compile Include="Visualisation3D\WorldInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

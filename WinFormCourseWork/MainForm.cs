@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using LessonLibrary;
 using System.IO;
+using LessonLibrary.Visualisation3D;
 using OpenTK;
 using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
@@ -101,6 +102,7 @@ namespace WinFormCourseWork
             SetElementsSizesAndPositions();
 
             LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
+            lessonsTreeView.Nodes[0].Expand();
         }
 
         /// <summary>
@@ -126,7 +128,6 @@ namespace WinFormCourseWork
 
                 _currentVisualisation = _visualisationLessons[((string) node.Tag).Substring("Visualisation".Length)];
                 ShowVertexLabels(_currentVisualisation.VerticesClone.Length);
-                //_currentVisualisation.Transform.Position = new Vector3(1, 1, 1);
             }
             else switch ((string) node.Tag)
             {
@@ -145,8 +146,16 @@ namespace WinFormCourseWork
                     glControl1.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
                     HideVertexLabels();
-                    TmpLoad();
-                    PermulationVisualisation.CreateInstance(htmlView);
+                    try
+                    {
+                        LessonReader.ReadPermulationVisualisationTemplate(htmlView, PermulationVisualisationFilePath);
+                        PermulationVisualisation.CreateInstance(htmlView);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        MessageBox.Show(ex.Message, @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
                     break;
                 default:
                     PermulationVisualisation.Release();
@@ -159,15 +168,10 @@ namespace WinFormCourseWork
             }
         }
 
-        //TODO: удалить это
-        [Obsolete("Это для дебага")]
-        private void TmpLoad()
-        {
-            var streamReader = new StreamReader(PermulationVisualisationFilePath);
-            htmlView.DocumentText = "";
-            htmlView.DocumentText = streamReader.ReadToEnd();
-            streamReader.Close();
-        }
+        /// <summary>
+        /// Урок, который сейчас загружается
+        /// </summary>
+        private HtmlViewLesson _currentLoadingLesson;
 
         /// <summary>
         /// Отображает урок
@@ -177,11 +181,11 @@ namespace WinFormCourseWork
         {
             try
             {
-                var tmp = LessonReader.ReadHtmlViewLesson(@"lessons\" + fileName);
-                htmlView.DocumentText = tmp.HtmlString;
+                _currentLoadingLesson = LessonReader.ReadHtmlViewLesson(@"lessons\" + fileName);
+                htmlView.DocumentText = _currentLoadingLesson.HtmlString;
                 if (fileName.StartsWith("test"))
                 {
-                    _currentTest = tmp as TestLesson;
+                    _currentTest = _currentLoadingLesson as TestLesson;
                     checkTestToolStripMenuItem.Enabled = true;
                 }
                 else
@@ -190,15 +194,7 @@ namespace WinFormCourseWork
                     checkTestToolStripMenuItem.Enabled = false;
                 }
 
-                // си шарп 7!!!!
-                void Handler(object sender, WebBrowserDocumentCompletedEventArgs args)
-                {
-                    tmp.HtmlView = htmlView;
-                    _debugWriter.WriteLine(htmlView.DocumentText);
-                    htmlView.DocumentCompleted -= Handler;
-                }
-
-                htmlView.DocumentCompleted += Handler;
+                htmlView.DocumentCompleted += HtmlViewOnLoadHandlerBySimpleHtmlLesson;
             }
             catch (Exception exception)
             {
@@ -206,6 +202,18 @@ namespace WinFormCourseWork
                     MessageBoxIcon.Error);
                 htmlView.DocumentText = "";
             }
+        }
+
+        /// <summary>
+        /// Обрабатывает страницу html через объект урока и удалаят этот обработчик из события DocumentCompleted
+        /// </summary>
+        /// <param name="sender">объект</param>
+        /// <param name="args">Параметры события</param>
+        private void HtmlViewOnLoadHandlerBySimpleHtmlLesson(object sender, WebBrowserDocumentCompletedEventArgs args)
+        {
+            _currentLoadingLesson.HtmlView = htmlView;
+            _debugWriter.WriteLine(htmlView.DocumentText);
+            htmlView.DocumentCompleted -= HtmlViewOnLoadHandlerBySimpleHtmlLesson;
         }
 
         /// <summary>

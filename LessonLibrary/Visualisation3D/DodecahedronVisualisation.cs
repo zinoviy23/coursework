@@ -5,7 +5,7 @@ using GL = OpenTK.Graphics.OpenGL.GL;
 using MaterialFace = OpenTK.Graphics.OpenGL.MaterialFace;
 using MaterialParameter = OpenTK.Graphics.OpenGL.MaterialParameter;
 
-namespace LessonLibrary
+namespace LessonLibrary.Visualisation3D
 {
     /// <summary>
     /// Класс для визуализации додэкаэдра

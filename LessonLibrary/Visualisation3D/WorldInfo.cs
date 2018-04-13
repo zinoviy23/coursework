@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace LessonLibrary
+namespace LessonLibrary.Visualisation3D
 {
     /// <summary>
     /// Информация о мире
