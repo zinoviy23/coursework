@@ -36,6 +36,10 @@ namespace LessonLibrary.Visualisation3D
                 -Vector3.Cross(Vertices[2] - Vertices[3], Vertices[0] - Vertices[3]),
                 -Vector3.Cross(Vertices[1] - Vertices[3], Vertices[2] - Vertices[3])
             };
+
+            InitVertices = VerticesClone;
+            //CurrentAnimation = new RotationAnimation(MathHelper.Pi / 3 * 2, Vector3.UnitY, MathHelper.Pi / 4);
+            //CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitX, Vertices[2]), 3f);
         }
 
         /// <inheritdoc cref="VisualisationLesson"/>
@@ -45,6 +49,10 @@ namespace LessonLibrary.Visualisation3D
         public override void Render()
         {
             Transform.SetTransform();
+
+            UpdateCurrentAnimationInRender();
+
+            //CurrentAnimation?.NextStep(0.01f);
 
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.OrangeRed);
 

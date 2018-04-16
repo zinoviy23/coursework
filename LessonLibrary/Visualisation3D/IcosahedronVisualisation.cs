@@ -69,6 +69,8 @@ namespace LessonLibrary.Visualisation3D
                 Vector3.Cross(Vertices[9] - Vertices[11], Vertices[10] - Vertices[11]),
                 Vector3.Cross(Vertices[10] - Vertices[11], Vertices[6] - Vertices[11]),
             };
+
+            InitVertices = VerticesClone;
         }
 
         /// <summary>
@@ -78,6 +80,8 @@ namespace LessonLibrary.Visualisation3D
         public override void Render()
         {
             Transform.SetTransform();
+
+            UpdateCurrentAnimationInRender();
 
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Orange);
 

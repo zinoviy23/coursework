@@ -40,6 +40,8 @@ namespace LessonLibrary.Visualisation3D
                 Vector3.Cross(Vertices[1] - Vertices[0], Vertices[4] - Vertices[0]), // перед
                 Vector3.Cross(Vertices[2] - Vertices[6], Vertices[7] - Vertices[6]), // зад 
             };
+
+            InitVertices = VerticesClone;
         }
 
         /// <summary>
@@ -49,6 +51,8 @@ namespace LessonLibrary.Visualisation3D
         public override void Render()
         {
             Transform.SetTransform();
+
+            UpdateCurrentAnimationInRender();
 
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Aqua);
 

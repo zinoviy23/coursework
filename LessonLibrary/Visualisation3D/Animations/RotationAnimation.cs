@@ -18,6 +18,7 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// </summary>
         public Vector3 Axis { get; }
 
+        /// <inheritdoc />
         /// <summary>
         /// Возвращает скорость, с которой надо вращать
         /// </summary>
@@ -55,6 +56,11 @@ namespace LessonLibrary.Visualisation3D.Animations
             var rotationMatrix = Matrix4.CreateFromAxisAngle(Axis, _currentAngle);
 
             return Vector3.Transform(vertex, rotationMatrix);
+        }
+
+        public void Reset()
+        {
+            _currentAngle = 0;
         }
     }
 }

@@ -41,6 +41,8 @@ namespace LessonLibrary.Visualisation3D
                 Vector3.Cross(Vertices[3] - Vertices[5], Vertices[2] - Vertices[5]),
                 Vector3.Cross(Vertices[0] - Vertices[5], Vertices[3] - Vertices[5]), 
             };
+
+            InitVertices = VerticesClone;
         }
 
         /// <summary>
@@ -50,6 +52,8 @@ namespace LessonLibrary.Visualisation3D
         public override void Render()
         {
             Transform.SetTransform();
+
+            UpdateCurrentAnimationInRender();
 
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.LawnGreen);
 

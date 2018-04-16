@@ -1,4 +1,5 @@
 ﻿using System;
+using LessonLibrary.Visualisation3D.Animations;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -14,6 +15,7 @@ namespace LessonLibrary.Visualisation3D
     public abstract class VisualisationLesson
     {
         protected Vector3[] Vertices;
+        protected Vector3[] InitVertices;
         protected Vector3[] Normals;
 
         /// <summary>
@@ -25,6 +27,8 @@ namespace LessonLibrary.Visualisation3D
         /// Положение в пространствее данной визуализации
         /// </summary>
         public VisualisationTransform Transform { get; set; }
+
+        public IAnimation CurrentAnimation { get; set; }
 
         /// <summary>
         /// Конструтор, общий для всех визуализаций
@@ -165,6 +169,14 @@ namespace LessonLibrary.Visualisation3D
 
                 return result;
             }
+        }
+
+        protected void UpdateCurrentAnimationInRender()
+        {
+            if (CurrentAnimation == null) return;
+
+            for (var i = 0; i < Vertices.Length; i++)
+                Vertices[i] = CurrentAnimation.Apply(InitVertices[i]);
         }
     }
 }

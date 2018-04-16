@@ -73,6 +73,7 @@
     <Compile Include="SimpleLesson.cs" />
     <Compile Include="TestAnswers.cs" />
     <Compile Include="TestLesson.cs" />
+    <Compile Include="Visualisation3D\Plane.cs" />
     <Compile Include="Visualisation3D\TetrahedronVisualisation.cs" />
     <Compile Include="Visualisation3D\VisualisationLesson.cs" />
     <Compile Include="Visualisation3D\VisualisationTransform.cs" />
