@@ -64,12 +64,7 @@ namespace WinFormCourseWork
         /// <summary>
         /// Объект для управления визуализациями
         /// </summary>
-        private Visualisation3DController _visualisationController;
-
-        /// <summary>
-        /// Массив вершин на экране
-        /// </summary>
-        private Label[] _vertexLabels;
+        private readonly Visualisation3DController _visualisationController;
 
         /// <summary>
         /// Конструктор формы
@@ -95,7 +90,6 @@ namespace WinFormCourseWork
             });
 
             InitVisualisationsDictionary();
-            InitVertexLabels(20);
 
             Closed += (sender, args) => _debugWriter?.Close();
             glControl1.Load += glControl1_Load;
@@ -134,7 +128,7 @@ namespace WinFormCourseWork
                 cayleyTableGridView.Visible = false;
 
                 _currentVisualisation = _visualisationLessons[((string) node.Tag).Substring("Visualisation".Length)];
-                ShowVertexLabels(_currentVisualisation.VerticesClone.Length);
+                _visualisationController.ShowVertexLabels(_currentVisualisation.VerticesClone.Length);
             }
             else switch ((string) node.Tag)
             {
@@ -145,14 +139,14 @@ namespace WinFormCourseWork
                     cayleyTableGridView.Visible = true;
                     glControl1.Visible = false;
                     checkTestToolStripMenuItem.Enabled = true;
-                    HideVertexLabels();
+                    _visualisationController.HideVertexLabels();
                     break;
                 case "Permulation Visualisation":
                     htmlView.Visible = true;
                     cayleyTableGridView.Visible = false;
                     glControl1.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
-                    HideVertexLabels();
+                    _visualisationController.HideVertexLabels();
                     try
                     {
                         LessonReader.ReadPermulationVisualisationTemplate(htmlView, PermulationVisualisationFilePath);
@@ -170,7 +164,7 @@ namespace WinFormCourseWork
                     LoadLesson((string) node.Tag);
                     htmlView.Show();
                     glControl1.Visible = false;
-                    HideVertexLabels();
+                    _visualisationController.HideVertexLabels();
                     break;
             }
         }
@@ -505,7 +499,6 @@ namespace WinFormCourseWork
             _currentVisualisation.Render();
 
             
-
             glControl1.SwapBuffers();
 
             var points = _currentVisualisation.ScreenPoints;
@@ -514,13 +507,13 @@ namespace WinFormCourseWork
             {
                 if (points[i].Z > 4)
                 {
-                    _vertexLabels[i].Visible = false;
+                    _visualisationController.GetVertexLabel(i).Visible = false;
                     continue;
                 }
 
-                if (!_vertexLabels[i].Visible)
+                if (!_visualisationController.GetVertexLabel(i).Visible)
                 {
-                    _vertexLabels[i].Visible = true;
+                    _visualisationController.GetVertexLabel(i).Visible = true;
                 }
 
 
@@ -528,53 +521,10 @@ namespace WinFormCourseWork
 
                 var x = glControl1.Width / 2 + (int)(points[i].X * glControl1.Width / 2);
                 var y = glControl1.Height - (int)((points[i].Y + 1) / 2 * glControl1.Height);
-                _vertexLabels[i].Location = new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
+                _visualisationController.GetVertexLabel(i).Location =
+                    new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
             }
         }
-
-        /// <summary>
-        /// Создаёт нужное кол-во вершин
-        /// </summary>
-        private void InitVertexLabels(int size)
-        {
-            _vertexLabels = new Label[size];
-            for (var i = 0; i < _vertexLabels.Length; i++)
-            {
-                _vertexLabels[i] = new Label {Text = (i + 1).ToString(),
-                    AutoSize = true, BackColor = Color.Transparent,
-                    Visible = false, Size = new Size(20, 17), Enabled = true,
-                    Location = new Point(Width / 2, Height / 2),
-                };
-                Controls.Add(_vertexLabels[i]);
-                _vertexLabels[i].BringToFront();
-            }
-
-        }
-
-        /// <summary>
-        /// Показывает нужное кол-во лэйблов
-        /// </summary>
-        /// <param name="cnt"></param>
-        private void ShowVertexLabels(int cnt)
-        {
-            HideVertexLabels();
-            for (var i = 0; i < cnt; i++)
-            {
-                _vertexLabels[i].Show();
-            }
-        }
-
-        /// <summary>
-        /// Убирает не нужные
-        /// </summary>
-        private void HideVertexLabels()
-        {
-            foreach (var vertexLabel in _vertexLabels)
-            {
-                vertexLabel.Hide();
-            }
-        }
-
 
         private void timer1_Tick(object sender, EventArgs e)
         {

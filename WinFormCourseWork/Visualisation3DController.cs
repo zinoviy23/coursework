@@ -21,11 +21,16 @@ namespace WinFormCourseWork
         /// <summary>
         /// Главное окно
         /// </summary>
-        private MainForm _mainForm;
+        private readonly MainForm _mainForm;
+
+        /// <summary>
+        /// Массив вершин на экране
+        /// </summary>
+        private Label[] _vertexLabels;
 
         private bool _glControlLoaded;
 
-        private TreeView _lessonTreeView;
+        private readonly TreeView _lessonTreeView;
 
         /// <summary>
         /// Конструктор
@@ -39,6 +44,7 @@ namespace WinFormCourseWork
             _glControl = glControl;
             _mainForm = mainForm;
             _lessonTreeView = lessonTreeView;
+            InitVertexLabels(20);
         }
 
         private void GlControlOnLoad(object sender, EventArgs args)
@@ -71,5 +77,64 @@ namespace WinFormCourseWork
             GL.LoadMatrix(ref modelview);
             WorldInfo.ViewMatrix = modelview;
         }
+
+        /// <summary>
+        /// Создаёт нужное кол-во вершин
+        /// </summary>
+        public void InitVertexLabels(int size)
+        {
+            _vertexLabels = new Label[size];
+            for (var i = 0; i < _vertexLabels.Length; i++)
+            {
+                _vertexLabels[i] = new Label
+                {
+                    Text = (i + 1).ToString(),
+                    AutoSize = true,
+                    BackColor = Color.Transparent,
+                    Visible = false,
+                    Size = new Size(20, 17),
+                    Enabled = true,
+                    Location = new Point(_mainForm.Width / 2, _mainForm.Height / 2),
+                };
+                _mainForm.Controls.Add(_vertexLabels[i]);
+                _vertexLabels[i].BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Показывает нужное кол-во лэйблов
+        /// </summary>
+        /// <param name="cnt"></param>
+        public void ShowVertexLabels(int cnt)
+        {
+            HideVertexLabels();
+            for (var i = 0; i < cnt; i++)
+            {
+                _vertexLabels[i].Show();
+            }
+        }
+
+        /// <summary>
+        /// Убирает не нужные
+        /// </summary>
+        public void HideVertexLabels()
+        {
+            foreach (var vertexLabel in _vertexLabels)
+            {
+                vertexLabel.Hide();
+            }
+        }
+
+        /// <summary>
+        /// Получает Label с номером вершины по номеру вершины
+        /// </summary>
+        /// <param name="index">номер Label</param>
+        /// <returns>Label с индексом вершины</returns>
+        public Label GetVertexLabel(int index)
+        {
+            if (index < 0 || index >= _vertexLabels.Length) throw new ArgumentOutOfRangeException();
+
+            return _vertexLabels[index];
+        } 
     }
 }
