@@ -29,11 +29,6 @@ namespace WinFormCourseWork
         private Label[] _vertexLabels;
 
         /// <summary>
-        /// Указывает, загрузился ли элемент gl
-        /// </summary>
-        private bool _glControlLoaded;
-
-        /// <summary>
         /// Ссылка на объект элемента TreeView
         /// </summary>
         private readonly TreeView _lessonTreeView;
@@ -42,6 +37,11 @@ namespace WinFormCourseWork
         /// Текущая 3D визуализация
         /// </summary>
         public VisualisationLesson CurrentVisualisation { get; set; }
+
+        /// <summary>
+        /// Возвращает, загружен ли GlControl
+        /// </summary>
+        public bool GlContolLoaded { get; private set; }
 
         /// <summary>
         /// Конструктор
@@ -56,6 +56,8 @@ namespace WinFormCourseWork
             _mainForm = mainForm;
             _lessonTreeView = lessonTreeView;
             InitVertexLabels(20);
+            _glControl.Load += GlControlOnLoad;
+            _glControl.Paint += GlControlOnPaint;
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace WinFormCourseWork
         /// <remarks>Задаёт различные настройки для OpenGL</remarks>
         private void GlControlOnLoad(object sender, EventArgs args)
         {
-            _glControlLoaded = true;
+            GlContolLoaded = true;
             GL.Viewport(new Point(_glControl.Location.X - _lessonTreeView.Width, _glControl.Location.Y), _glControl.Size);
 
             GL.ClearColor(Color.DarkGray);
@@ -95,9 +97,9 @@ namespace WinFormCourseWork
             WorldInfo.ViewMatrix = modelview;
         }
 
-        private void glControl1_Paint(object sender, PaintEventArgs e)
+        private void GlControlOnPaint(object sender, PaintEventArgs e)
         {
-            if (!_glControlLoaded)
+            if (!GlContolLoaded)
                 return;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -202,7 +204,7 @@ namespace WinFormCourseWork
         /// </summary>
         public void UpdateGlSettings()
         {
-            if (!_glControlLoaded) return;
+            if (!GlContolLoaded) return;
 
             GL.Viewport(new Point(_glControl.Location.X - _lessonTreeView.Width, _glControl.Location.Y),
                 _glControl.Size);

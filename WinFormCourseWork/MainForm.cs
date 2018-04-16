@@ -7,13 +7,8 @@ using LessonLibrary;
 using System.IO;
 using LessonLibrary.Visualisation3D;
 using OpenTK;
-using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
-using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using GL = OpenTK.Graphics.OpenGL.GL;
-using LightName = OpenTK.Graphics.OpenGL.LightName;
-using LightParameter = OpenTK.Graphics.OpenGL.LightParameter;
 using MatrixMode = OpenTK.Graphics.OpenGL.MatrixMode;
-using ShadingModel = OpenTK.Graphics.OpenGL.ShadingModel;
 
 namespace WinFormCourseWork
 {
@@ -100,18 +95,16 @@ namespace WinFormCourseWork
             InitVisualisationsDictionary();
 
             Closed += (sender, args) => _debugWriter?.Close();
-            glControl1.Load += glControl1_Load;
-            glControl1.Paint += glControl1_Paint;
 
             glControl1.Visible = false;
             cayleyTableGridView.Visible = false;
 
-            SetElementsSizesAndPositions();
+            _visualisationController = new Visualisation3DController(glControl1, this, lessonsTreeView);
 
             LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
 
-            _visualisationController = new Visualisation3DController(glControl1, this, lessonsTreeView);
+            SetElementsSizesAndPositions();  
         }
 
         /// <summary>
@@ -401,8 +394,6 @@ namespace WinFormCourseWork
         {
             lessonsTreeView.Size = new Size(Math.Min(200, Size.Width / 5), lessonsTreeView.Height);
 
-            //MessageBox.Show(checkTestButton.Location.ToString());
-
             htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
                 htmlView.Height);
 
@@ -416,25 +407,7 @@ namespace WinFormCourseWork
 
             SetGridViewCellsSize();
 
-            if (!_loaded) return;
-
-            GL.Viewport(new Point(glControl1.Location.X - lessonsTreeView.Width, glControl1.Location.Y),
-                glControl1.Size);
-            glControl1.Update();
-
-            //GL.LoadIdentity();
-            var p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
-                500);
-
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            GL.LoadMatrix(ref p);
-            WorldInfo.ProjectionMatrix = p;
-
-            //Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
-            //GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadMatrix(ref modelview);
-            glControl1.Refresh();
+            _visualisationController?.UpdateGlSettings();
         }
 
         /// <summary>
@@ -459,89 +432,13 @@ namespace WinFormCourseWork
 
         #region Для 3D. Нужно куда-нибудь убрать
 
-        private bool _loaded;
-
-        private void glControl1_Load(object sender, EventArgs e)
-        {
-            _loaded = true;
-            GL.Viewport(new Point(glControl1.Location.X - lessonsTreeView.Width, glControl1.Location.Y), glControl1.Size);
-
-            GL.ClearColor(Color.DarkGray);
-            GL.Enable(EnableCap.DepthTest);
-            GL.ShadeModel(ShadingModel.Smooth);
-            GL.Enable(EnableCap.Lighting);
-            GL.Enable(EnableCap.LineSmooth);
-
-            GL.Light(LightName.Light1, LightParameter.Ambient, new[] {0.2f, 0.2f, 0.2f, 1.0f});
-            GL.Light(LightName.Light1, LightParameter.Diffuse, new[] {1.0f, 1.0f, 1.0f, 1.0f});
-            GL.Light(LightName.Light1, LightParameter.Position, new[] {0.0f, 3.0f, 0.0f, 1.0f});
-            GL.Enable(EnableCap.Light1);
-
-            var p = Matrix4.CreatePerspectiveFieldOfView((float) (80 * Math.PI / 180), glControl1.AspectRatio, 0.1f,
-                500);
-
-            //GL.Rotate(40, 1, 0, 0);
-
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadMatrix(ref p);
-            WorldInfo.ProjectionMatrix = p;
-
-            Matrix4 modelview = Matrix4.LookAt(0, 0, 4, 0, 0, 0, 0, 1, 0);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadMatrix(ref modelview);
-            WorldInfo.ViewMatrix = modelview;
-        }
-
-        private void glControl1_Paint(object sender, PaintEventArgs e)
-        {
-            if (!_loaded)
-                return;
-
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-
-            GL.Translate(-1.2, -1.2, 1.2);
-
-            _visualisationController.CurrentVisualisation.InitGrid();
-
-            GL.Translate(1.2, 1.2, -1.2);
-
-            _visualisationController.CurrentVisualisation.Render();
-
-            
-            glControl1.SwapBuffers();
-
-            var points = _visualisationController.CurrentVisualisation.ScreenPoints;
-            _debugWriter.WriteLine(points[0]);
-            for (var i = 0; i < points.Length; i++)
-            {
-                if (points[i].Z > 4)
-                {
-                    _visualisationController.GetVertexLabel(i).Visible = false;
-                    continue;
-                }
-
-                if (!_visualisationController.GetVertexLabel(i).Visible)
-                {
-                    _visualisationController.GetVertexLabel(i).Visible = true;
-                }
-
-
-                points[i] = points[i] / points[i].Z;
-
-                var x = glControl1.Width / 2 + (int)(points[i].X * glControl1.Width / 2);
-                var y = glControl1.Height - (int)((points[i].Y + 1) / 2 * glControl1.Height);
-                _visualisationController.GetVertexLabel(i).Location =
-                    new Point(glControl1.Location.X + x, glControl1.Location.Y + y);
-            }
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (_visualisationController == null)
+                return;
 
-            if (_loaded && glControl1.Visible)
+            if (_visualisationController.GlContolLoaded && glControl1.Visible)
                 UpdateGl();
-
 
             glControl1.Refresh();
         }
@@ -638,7 +535,7 @@ namespace WinFormCourseWork
 
         private void GlControl1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode != Keys.Space || !_loaded) return;
+            if (e.KeyCode != Keys.Space || !_visualisationController.GlContolLoaded) return;
             _userPosition = new Vector3(0, 0, 4);
             _userUp = new Vector3(0, 1, 0);
             var modelview = Matrix4.LookAt(_userPosition.X, _userPosition.Y, _userPosition.Z, 0, 0, 0, _userUp.X,
