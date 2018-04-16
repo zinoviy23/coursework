@@ -97,6 +97,12 @@ namespace WinFormCourseWork
             WorldInfo.ViewMatrix = modelview;
         }
 
+        /// <summary>
+        /// Обработчик события Paint
+        /// </summary>
+        /// <param name="sender">объект</param>
+        /// <param name="e">аргументы</param>
+        /// <remarks>Отрисовывает фигуру, сетку, Label для выршин</remarks>
         private void GlControlOnPaint(object sender, PaintEventArgs e)
         {
             if (!GlContolLoaded)

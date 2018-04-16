@@ -1,4 +1,5 @@
 ﻿using System;
+using LessonLibrary.Visualisation3D.Animations;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -35,7 +36,6 @@ namespace LessonLibrary.Visualisation3D
                 -Vector3.Cross(Vertices[2] - Vertices[3], Vertices[0] - Vertices[3]),
                 -Vector3.Cross(Vertices[1] - Vertices[3], Vertices[2] - Vertices[3])
             };
-
         }
 
         /// <inheritdoc cref="VisualisationLesson"/>
@@ -105,8 +105,6 @@ namespace LessonLibrary.Visualisation3D
             GL.Vertex3(Vertices[2]);
 
             GL.End();
-
-            DrawVertex(Vertices[0]);
 
             DrawVertices();
 

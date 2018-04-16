@@ -57,9 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CayleyTableTestLesson.cs" />
+    <Compile Include="Visualisation3D\Animations\RotationAnimation.cs" />
+    <Compile Include="Visualisation3D\Animations\SymmetryAnimation.cs" />
     <Compile Include="Visualisation3D\CubeVisualisation.cs" />
     <Compile Include="Visualisation3D\DodecahedronVisualisation.cs" />
     <Compile Include="HtmlViewLesson.cs" />
+    <Compile Include="Visualisation3D\Animations\IAnimation.cs" />
     <Compile Include="Visualisation3D\IcosahedronVisualisation.cs" />
     <Compile Include="LessonReader.cs" />
     <Compile Include="Visualisation3D\OctahedronVisualisation.cs" />
