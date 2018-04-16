@@ -28,9 +28,20 @@ namespace WinFormCourseWork
         /// </summary>
         private Label[] _vertexLabels;
 
+        /// <summary>
+        /// Указывает, загрузился ли элемент gl
+        /// </summary>
         private bool _glControlLoaded;
 
+        /// <summary>
+        /// Ссылка на объект элемента TreeView
+        /// </summary>
         private readonly TreeView _lessonTreeView;
+
+        /// <summary>
+        /// Текущая 3D визуализация
+        /// </summary>
+        public VisualisationLesson CurrentVisualisation { get; set; }
 
         /// <summary>
         /// Конструктор
@@ -47,6 +58,12 @@ namespace WinFormCourseWork
             InitVertexLabels(20);
         }
 
+        /// <summary>
+        /// Обработчик события загрузки окна
+        /// </summary>
+        /// <param name="sender">объект</param>
+        /// <param name="args">обработчик события</param>
+        /// <remarks>Задаёт различные настройки для OpenGL</remarks>
         private void GlControlOnLoad(object sender, EventArgs args)
         {
             _glControlLoaded = true;
@@ -76,6 +93,49 @@ namespace WinFormCourseWork
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref modelview);
             WorldInfo.ViewMatrix = modelview;
+        }
+
+        private void glControl1_Paint(object sender, PaintEventArgs e)
+        {
+            if (!_glControlLoaded)
+                return;
+
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+
+            GL.Translate(-1.2, -1.2, 1.2);
+
+            CurrentVisualisation.InitGrid();
+
+            GL.Translate(1.2, 1.2, -1.2);
+
+            CurrentVisualisation.Render();
+
+
+            _glControl.SwapBuffers();
+
+            var points = CurrentVisualisation.ScreenPoints;
+            for (var i = 0; i < points.Length; i++)
+            {
+                if (points[i].Z > 4)
+                {
+                    GetVertexLabel(i).Visible = false;
+                    continue;
+                }
+
+                if (!GetVertexLabel(i).Visible)
+                {
+                    GetVertexLabel(i).Visible = true;
+                }
+
+
+                points[i] = points[i] / points[i].Z;
+
+                var x = _glControl.Width / 2 + (int)(points[i].X * _glControl.Width / 2);
+                var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height);
+                GetVertexLabel(i).Location =
+                    new Point(_glControl.Location.X + x, _glControl.Location.Y + y);
+            }
         }
 
         /// <summary>
@@ -135,6 +195,28 @@ namespace WinFormCourseWork
             if (index < 0 || index >= _vertexLabels.Length) throw new ArgumentOutOfRangeException();
 
             return _vertexLabels[index];
-        } 
+        }
+
+        /// <summary>
+        /// Обновляет размеры gl элемента
+        /// </summary>
+        public void UpdateGlSettings()
+        {
+            if (!_glControlLoaded) return;
+
+            GL.Viewport(new Point(_glControl.Location.X - _lessonTreeView.Width, _glControl.Location.Y),
+                _glControl.Size);
+            _glControl.Update();
+
+            var p = Matrix4.CreatePerspectiveFieldOfView((float)(80 * Math.PI / 180), _glControl.AspectRatio, 0.1f,
+                500);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.LoadMatrix(ref p);
+            WorldInfo.ProjectionMatrix = p;
+
+            _glControl.Refresh();
+        }
     }
 }

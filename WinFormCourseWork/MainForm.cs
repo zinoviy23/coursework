@@ -17,6 +17,10 @@ using ShadingModel = OpenTK.Graphics.OpenGL.ShadingModel;
 
 namespace WinFormCourseWork
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Главное окно приложения
+    /// </summary>
     public partial class MainForm : Form
     {
         /// <summary>
@@ -55,11 +59,15 @@ namespace WinFormCourseWork
         private readonly Dictionary<string, VisualisationLesson> _visualisationLessons =
             new Dictionary<string, VisualisationLesson>();
 
+        /// <summary>
+        /// Путь до файла с деревом уроков
+        /// </summary>
         private const string LessonsTreeInfoPath = @"lessons\lessonstree.xml";
 
+        /// <summary>
+        /// путь до папки со стандартными файлами
+        /// </summary>
         private const string PermulationVisualisationFilePath = @"lessons\default\permulation_visualisation.xml";
-
-        private VisualisationLesson _currentVisualisation;
 
         /// <summary>
         /// Объект для управления визуализациями
@@ -127,8 +135,10 @@ namespace WinFormCourseWork
                 checkTestToolStripMenuItem.Enabled = false;
                 cayleyTableGridView.Visible = false;
 
-                _currentVisualisation = _visualisationLessons[((string) node.Tag).Substring("Visualisation".Length)];
-                _visualisationController.ShowVertexLabels(_currentVisualisation.VerticesClone.Length);
+                _visualisationController.CurrentVisualisation =
+                    _visualisationLessons[((string)node.Tag).Substring("Visualisation".Length)];
+                _visualisationController.ShowVertexLabels(
+                    _visualisationController.CurrentVisualisation.VerticesClone.Length);
             }
             else switch ((string) node.Tag)
             {
@@ -492,16 +502,16 @@ namespace WinFormCourseWork
 
             GL.Translate(-1.2, -1.2, 1.2);
 
-            _currentVisualisation.InitGrid();
+            _visualisationController.CurrentVisualisation.InitGrid();
 
             GL.Translate(1.2, 1.2, -1.2);
 
-            _currentVisualisation.Render();
+            _visualisationController.CurrentVisualisation.Render();
 
             
             glControl1.SwapBuffers();
 
-            var points = _currentVisualisation.ScreenPoints;
+            var points = _visualisationController.CurrentVisualisation.ScreenPoints;
             _debugWriter.WriteLine(points[0]);
             for (var i = 0; i < points.Length; i++)
             {
