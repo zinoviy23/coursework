@@ -72,6 +72,7 @@ namespace LessonLibrary.Visualisation3D
                 Vector3.Cross(Vertices[14] - Vertices[19], Vertices[15] - Vertices[19]),
             };
             InitVertices = VerticesClone;
+            InitNormals = (Vector3[])Normals.Clone();
 
             CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.Cross(Vertices[8] - Vertices[3], Vertices[10] - Vertices[3]), Vertices[3]), 1f);
         }

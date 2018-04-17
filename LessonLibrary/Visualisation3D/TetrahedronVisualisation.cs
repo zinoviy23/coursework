@@ -38,6 +38,8 @@ namespace LessonLibrary.Visualisation3D
             };
 
             InitVertices = VerticesClone;
+            InitNormals = (Vector3[])Normals.Clone();
+
             CurrentAnimation = new RotationAnimation(MathHelper.Pi / 3 * 2, Vector3.UnitY, MathHelper.Pi / 4);
             //CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitX, Vertices[2]), 1f);
         }

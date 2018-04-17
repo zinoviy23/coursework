@@ -15,9 +15,25 @@ namespace LessonLibrary.Visualisation3D
     /// </summary>
     public abstract class VisualisationLesson
     {
+        /// <summary>
+        /// Вершины, которые отрисовываются сейчас
+        /// </summary>
         protected Vector3[] Vertices;
+
+        /// <summary>
+        /// Вершины без всяких преобразований
+        /// </summary>
         protected Vector3[] InitVertices;
+
+        /// <summary>
+        /// Нормали, которые используются сейчас
+        /// </summary>
         protected Vector3[] Normals;
+
+        /// <summary>
+        /// Нормали без всяких преобразований
+        /// </summary>
+        protected Vector3[] InitNormals;
 
         /// <summary>
         /// Отрисовывает фигуру
@@ -177,10 +193,11 @@ namespace LessonLibrary.Visualisation3D
         {
             CurrentAnimation?.Reset();
             Vertices = (Vector3[]) InitVertices.Clone();
+            Normals = (Vector3[]) InitNormals.Clone();
         }
 
         /// <summary>
-        /// Применяет анимацию к каждой вершине
+        /// Применяет анимацию к каждой вершине и нормали
         /// </summary>
         protected void ApplyCurrentAnimationInRender()
         {
@@ -188,6 +205,11 @@ namespace LessonLibrary.Visualisation3D
 
             for (var i = 0; i < Vertices.Length; i++)
                 Vertices[i] = CurrentAnimation.Apply(InitVertices[i]);
+
+            for (var i = 0; i < Normals.Length; i++)
+            {
+                Normals[i] = CurrentAnimation.Apply(InitNormals[i]);
+            }
         }
     }
 }
