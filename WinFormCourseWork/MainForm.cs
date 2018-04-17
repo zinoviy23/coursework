@@ -126,7 +126,7 @@ namespace WinFormCourseWork
 
                 _visualisationController.CurrentVisualisation =
                     _visualisationLessons[((string)node.Tag).Substring("Visualisation".Length)];
-                _visualisationController.IsAnimatingStarted = false;
+                _visualisationController.IsAnimatingSessionStarted = false;
             }
             else switch ((string) node.Tag)
             {
@@ -589,7 +589,7 @@ namespace WinFormCourseWork
         private void PlayToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _isPlayAnimation = true;
-            _visualisationController.IsAnimatingStarted = true;
+            _visualisationController.IsAnimatingSessionStarted = true;
         }
     }
 }

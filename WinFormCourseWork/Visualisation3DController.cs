@@ -238,6 +238,16 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
+        /// Прошел ли один шаг с начала сессии
+        /// </summary>
+        private bool _isOneStepWaited;
+
+        /// <summary>
+        /// Началась ли сессия анимаци
+        /// </summary>
+        private bool _isAnimatingSessionStarted;
+
+        /// <summary>
         /// Обновляет отображение вершин
         /// </summary>
         public void UpdateVerticesIndexies()
@@ -268,7 +278,13 @@ namespace WinFormCourseWork
                     new Point(_glControl.Location.X + x, _glControl.Location.Y + y);
             }
 
-            if (indexies == null || !IsAnimatingStarted) return;
+            if (IsAnimatingSessionStarted && !_isOneStepWaited)
+            {
+                _isOneStepWaited = true;
+                return;
+            }
+
+            if (indexies == null || !IsAnimatingSessionStarted) return;
 
             for (var i = 0; i < indexies.Length; i++)
             {
@@ -280,6 +296,18 @@ namespace WinFormCourseWork
             }
         }
 
-        public bool IsAnimatingStarted { get; set; }
+        /// <summary>
+        /// Возвращает или задаёт началсь ли сессия анимаци
+        /// </summary>
+        public bool IsAnimatingSessionStarted
+        {
+            get => _isAnimatingSessionStarted;
+            set
+            {
+                _isAnimatingSessionStarted = value;
+                if (value == false)
+                    _isOneStepWaited = false;
+            }
+        }
     }
 }
