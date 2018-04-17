@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D.Animations;
 using OpenTK;
 using OpenTK.Graphics;
@@ -28,15 +29,14 @@ namespace LessonLibrary.Visualisation3D
         /// </summary>
         public VisualisationTransform Transform { get; set; }
 
+        // Анимация, которая сейчас проигрывается
         public IAnimation CurrentAnimation { get; set; }
 
         /// <summary>
         /// Конструтор, общий для всех визуализаций
         /// </summary>
-        protected VisualisationLesson()
-        {
-            Transform = new VisualisationTransform();
-        }
+        [UsedImplicitly]
+        protected VisualisationLesson() => Transform = new VisualisationTransform();
 
         /// <summary>
         /// Задаёт координатную сетку
@@ -164,14 +164,25 @@ namespace LessonLibrary.Visualisation3D
                 for (var i = 0; i < result.Length; i++)
                 {
                     result[i] = VertexScreenPosition(Vertices[i]);
-                    //result[i] = result[i] / result[i].Z;
                 }
 
                 return result;
             }
         }
 
-        protected void UpdateCurrentAnimationInRender()
+        /// <summary>
+        /// Сбрасывает все изменения
+        /// </summary>
+        public void Reset()
+        {
+            CurrentAnimation?.Reset();
+            Vertices = (Vector3[]) InitVertices.Clone();
+        }
+
+        /// <summary>
+        /// Применяет анимацию к каждой вершине
+        /// </summary>
+        protected void ApplyCurrentAnimationInRender()
         {
             if (CurrentAnimation == null) return;
 

@@ -34,9 +34,22 @@ namespace WinFormCourseWork
         private readonly TreeView _lessonTreeView;
 
         /// <summary>
+        /// Ссылка на визуализацию
+        /// </summary>
+        private VisualisationLesson _currentVisualisation;
+
+        /// <summary>
         /// Текущая 3D визуализация
         /// </summary>
-        public VisualisationLesson CurrentVisualisation { get; set; }
+        public VisualisationLesson CurrentVisualisation
+        {
+            get => _currentVisualisation;
+            set
+            {
+                _currentVisualisation = value; 
+                _currentVisualisation.Reset();
+            }
+        }
 
         /// <summary>
         /// Возвращает, загружен ли GlControl

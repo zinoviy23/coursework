@@ -38,8 +38,8 @@ namespace LessonLibrary.Visualisation3D
             };
 
             InitVertices = VerticesClone;
-            //CurrentAnimation = new RotationAnimation(MathHelper.Pi / 3 * 2, Vector3.UnitY, MathHelper.Pi / 4);
-            //CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitX, Vertices[2]), 3f);
+            CurrentAnimation = new RotationAnimation(MathHelper.Pi / 3 * 2, Vector3.UnitY, MathHelper.Pi / 4);
+            //CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitX, Vertices[2]), 1f);
         }
 
         /// <inheritdoc cref="VisualisationLesson"/>
@@ -50,9 +50,7 @@ namespace LessonLibrary.Visualisation3D
         {
             Transform.SetTransform();
 
-            UpdateCurrentAnimationInRender();
-
-            //CurrentAnimation?.NextStep(0.01f);
+            ApplyCurrentAnimationInRender();
 
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.OrangeRed);
 

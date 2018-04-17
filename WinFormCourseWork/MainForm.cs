@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -96,10 +97,10 @@ namespace WinFormCourseWork
 
             Closed += (sender, args) => _debugWriter?.Close();
 
-            glControl1.Visible = false;
+            glControl.Visible = false;
             cayleyTableGridView.Visible = false;
 
-            _visualisationController = new Visualisation3DController(glControl1, this, lessonsTreeView);
+            _visualisationController = new Visualisation3DController(glControl, this, lessonsTreeView);
 
             LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
@@ -123,7 +124,7 @@ namespace WinFormCourseWork
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 htmlView.Hide();
-                glControl1.Visible = true;
+                glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;
                 cayleyTableGridView.Visible = false;
@@ -140,14 +141,14 @@ namespace WinFormCourseWork
                     LoadTable();
                     htmlView.Visible = false;
                     cayleyTableGridView.Visible = true;
-                    glControl1.Visible = false;
+                    glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = true;
                     _visualisationController.HideVertexLabels();
                     break;
                 case "Permulation Visualisation":
                     htmlView.Visible = true;
                     cayleyTableGridView.Visible = false;
-                    glControl1.Visible = false;
+                    glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
                     _visualisationController.HideVertexLabels();
                     try
@@ -166,7 +167,7 @@ namespace WinFormCourseWork
                     cayleyTableGridView.Visible = false;
                     LoadLesson((string) node.Tag);
                     htmlView.Show();
-                    glControl1.Visible = false;
+                    glControl.Visible = false;
                     _visualisationController.HideVertexLabels();
                     break;
             }
@@ -397,8 +398,8 @@ namespace WinFormCourseWork
             htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
                 htmlView.Height);
 
-            glControl1.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
-            glControl1.Size =
+            glControl.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
+            glControl.Size =
                 new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15, Height);
 
             cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
@@ -432,15 +433,54 @@ namespace WinFormCourseWork
 
         #region Для 3D. Нужно куда-нибудь убрать
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private float _deltaTime;
+        private float _prevTime;
+        private bool _timeCountingStarted;
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+
+        private void Timer1_Tick(object sender, EventArgs e)
         {
+            if (!_timeCountingStarted)
+            {
+                _timeCountingStarted = true;
+                _stopwatch.Start();
+                return;
+            }
+            _stopwatch.Stop();
+
+            var currentTime = _stopwatch.ElapsedMilliseconds;
+            _deltaTime =  currentTime - _prevTime;
+            _deltaTime /= 1000;
+            _prevTime = currentTime;
+
+            _stopwatch.Start();
             if (_visualisationController == null)
                 return;
 
-            if (_visualisationController.GlContolLoaded && glControl1.Visible)
-                UpdateGl();
+            //_debugWriter.WriteLine(_deltaTime);
 
-            glControl1.Refresh();
+            if (_visualisationController.GlContolLoaded && glControl.Visible)
+            {
+                _visualisationController.CurrentVisualisation?.CurrentAnimation?.NextStep(_deltaTime);
+                UpdateGl();
+            }
+
+            glControl.Refresh();
+        }
+
+        private long CurrentTime()
+        {
+            DateTime dt = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
+
+            DateTime dt1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+            TimeSpan tsInterval = dt.Subtract(dt1970);
+
+            Int32 iSeconds = Convert.ToInt32(tsInterval.TotalSeconds);
+
+            Int64 iMilliseconds = Convert.ToInt64(tsInterval.TotalMilliseconds);
+
+            return iMilliseconds;
         }
 
         #endregion

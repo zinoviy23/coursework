@@ -81,7 +81,7 @@ namespace LessonLibrary.Visualisation3D
         {
             Transform.SetTransform();
 
-            UpdateCurrentAnimationInRender();
+            ApplyCurrentAnimationInRender();
 
             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.SkyBlue);
 
