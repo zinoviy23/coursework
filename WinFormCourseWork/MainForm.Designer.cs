@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Материалы");
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
@@ -38,6 +38,8 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.анимацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -48,10 +50,10 @@
             this.lessonsTreeView.Indent = 7;
             this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
             this.lessonsTreeView.Name = "lessonsTreeView";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Материалы";
+            treeNode2.Name = "Узел0";
+            treeNode2.Text = "Материалы";
             this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.lessonsTreeView.Size = new System.Drawing.Size(152, 501);
             this.lessonsTreeView.TabIndex = 0;
             this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
@@ -104,7 +106,8 @@
             // 
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.анимацияToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(856, 28);
@@ -124,9 +127,25 @@
             this.checkTestToolStripMenuItem.Name = "checkTestToolStripMenuItem";
             this.checkTestToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.checkTestToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
-            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
+            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.checkTestToolStripMenuItem.Text = "Проверить";
             this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
+            // 
+            // анимацияToolStripMenuItem
+            // 
+            this.анимацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playToolStripMenuItem});
+            this.анимацияToolStripMenuItem.Name = "анимацияToolStripMenuItem";
+            this.анимацияToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
+            this.анимацияToolStripMenuItem.Text = "Анимация";
+            // 
+            // playToolStripMenuItem
+            // 
+            this.playToolStripMenuItem.Name = "playToolStripMenuItem";
+            this.playToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.playToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.playToolStripMenuItem.Text = "Проиграть";
+            this.playToolStripMenuItem.Click += new System.EventHandler(this.PlayToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -160,6 +179,8 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkTestToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem анимацияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem;
     }
 }
 

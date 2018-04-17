@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using LessonLibrary.Visualisation3D.Animations;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
@@ -71,6 +72,8 @@ namespace LessonLibrary.Visualisation3D
                 Vector3.Cross(Vertices[14] - Vertices[19], Vertices[15] - Vertices[19]),
             };
             InitVertices = VerticesClone;
+
+            CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.Cross(Vertices[8] - Vertices[3], Vertices[10] - Vertices[3]), Vertices[3]), 1f);
         }
 
         /// <summary>

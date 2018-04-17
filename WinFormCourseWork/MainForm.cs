@@ -123,6 +123,7 @@ namespace WinFormCourseWork
 
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
+                _isPlayAnimation = false;
                 htmlView.Hide();
                 glControl.Visible = true;
                 _currentTest = null;
@@ -437,6 +438,8 @@ namespace WinFormCourseWork
         private float _prevTime;
         private bool _timeCountingStarted;
         private readonly Stopwatch _stopwatch = new Stopwatch();
+        private bool _isPlayAnimation;
+
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
@@ -449,7 +452,7 @@ namespace WinFormCourseWork
             _stopwatch.Stop();
 
             var currentTime = _stopwatch.ElapsedMilliseconds;
-            _deltaTime =  currentTime - _prevTime;
+            _deltaTime = currentTime - _prevTime;
             _deltaTime /= 1000;
             _prevTime = currentTime;
 
@@ -461,26 +464,12 @@ namespace WinFormCourseWork
 
             if (_visualisationController.GlContolLoaded && glControl.Visible)
             {
-                _visualisationController.CurrentVisualisation?.CurrentAnimation?.NextStep(_deltaTime);
+                if (_isPlayAnimation)
+                    _visualisationController.CurrentVisualisation?.CurrentAnimation?.NextStep(_deltaTime);
                 UpdateGl();
             }
 
             glControl.Refresh();
-        }
-
-        private long CurrentTime()
-        {
-            DateTime dt = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
-
-            DateTime dt1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-
-            TimeSpan tsInterval = dt.Subtract(dt1970);
-
-            Int32 iSeconds = Convert.ToInt32(tsInterval.TotalSeconds);
-
-            Int64 iMilliseconds = Convert.ToInt64(tsInterval.TotalMilliseconds);
-
-            return iMilliseconds;
         }
 
         #endregion
@@ -598,6 +587,11 @@ namespace WinFormCourseWork
         {
             if (e.KeyCode == Keys.F5)
                 e.IsInputKey = true;
+        }
+
+        private void PlayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _isPlayAnimation = true;
         }
     }
 }
