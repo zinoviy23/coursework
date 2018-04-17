@@ -31,7 +31,7 @@ namespace LessonLibrary
 
         protected override void SetHtmlView(WebBrowser htmlView)
         {
-            _htmlView = htmlView;
+            CurrenHtmlView = htmlView;
         }
 
         /// <summary>

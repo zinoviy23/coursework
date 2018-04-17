@@ -11,14 +11,14 @@ namespace LessonLibrary
         /// <summary>
         /// Представление страницы
         /// </summary>
-        protected WebBrowser _htmlView;
+        protected WebBrowser CurrenHtmlView;
 
         /// <summary>
         /// Отображение страницы
         /// </summary>
         public WebBrowser HtmlView
         {
-            get => _htmlView;
+            get => CurrenHtmlView;
             set => SetHtmlView(value);
         }
 

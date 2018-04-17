@@ -29,5 +29,10 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// Скорость анимации
         /// </summary>
         float Speed { get; }
+
+        /// <summary>
+        /// Возвращает, завершилась ли анимация
+        /// </summary>
+        bool IsFinish { get; }
     }
 }

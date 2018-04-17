@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System;
+using LessonLibrary.Visualisation3D.Geometry;
+using OpenTK;
 
 namespace LessonLibrary.Visualisation3D.Animations
 {
@@ -8,12 +10,25 @@ namespace LessonLibrary.Visualisation3D.Animations
     /// </summary>
     public class SymmetryAnimation : IAnimation
     {
+        /// <summary>
+        /// Ось симмертии
+        /// </summary>
         public Plane Plane { get; }
 
         public float Speed { get; }
 
+        public bool IsFinish => Math.Abs(_currentCoef - (-1)) < 0.0001f;
+
+        /// <summary>
+        /// Текущий коэффициент применения анимации
+        /// </summary>
         private float _currentCoef;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="plane">Ось</param>
+        /// <param name="speed">Скорость</param>
         public SymmetryAnimation(Plane plane, float speed)
         {
             Plane = plane;

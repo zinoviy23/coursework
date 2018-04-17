@@ -1,6 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D.Animations;
+using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -155,6 +156,7 @@ namespace LessonLibrary.Visualisation3D
         /// <summary>
         /// Копия вершин (чтобы не портить)
         /// </summary>
+        [NotNull]
         public Vector3[] VerticesClone => (Vector3[])Vertices.Clone();
 
         /// <summary>
@@ -172,6 +174,7 @@ namespace LessonLibrary.Visualisation3D
         /// <summary>
         /// Позиции вершин на экране
         /// </summary>
+        [NotNull]
         public Vector3[] ScreenPoints
         {
             get
@@ -180,6 +183,35 @@ namespace LessonLibrary.Visualisation3D
                 for (var i = 0; i < result.Length; i++)
                 {
                     result[i] = VertexScreenPosition(Vertices[i]);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Возращает массив номеров исходных вершин,в которые перешли вершины после преобразование
+        /// </summary>
+        [CanBeNull]
+        public int[] ImageVerticesIndexies
+        {
+            get
+            {
+                var result = new int[Vertices.Length];
+
+                for (var i = 0; i < Vertices.Length; i++)
+                {
+                    var ind = -1;
+                    for (var j = 0; j < InitVertices.Length; j++)
+                    {
+                        if (VectorUtils.AreVectorsEquals(Vertices[i], InitVertices[j]))
+                            ind = j;
+                    }
+
+                    if (ind == -1)
+                        return null;
+
+                    result[i] = ind;
                 }
 
                 return result;

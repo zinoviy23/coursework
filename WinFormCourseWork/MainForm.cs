@@ -20,11 +20,6 @@ namespace WinFormCourseWork
     public partial class MainForm : Form
     {
         /// <summary>
-        /// Файл для отладки
-        /// </summary>
-        private readonly StreamWriter _debugWriter;
-
-        /// <summary>
         /// Текущий тест
         /// </summary>
         private TestLesson _currentTest;
@@ -78,7 +73,6 @@ namespace WinFormCourseWork
         {
             InitializeComponent();
 
-            _debugWriter = new StreamWriter("DebugHelper.debug");
             LoadLesson("title_page.xml");
 
             _tablesFolder = new DirectoryInfo(TablesFolderPath);
@@ -95,7 +89,7 @@ namespace WinFormCourseWork
 
             InitVisualisationsDictionary();
 
-            Closed += (sender, args) => _debugWriter?.Close();
+            Closed += (sender, args) => Log.Close();
 
             glControl.Visible = false;
             cayleyTableGridView.Visible = false;
@@ -132,8 +126,7 @@ namespace WinFormCourseWork
 
                 _visualisationController.CurrentVisualisation =
                     _visualisationLessons[((string)node.Tag).Substring("Visualisation".Length)];
-                _visualisationController.ShowVertexLabels(
-                    _visualisationController.CurrentVisualisation.VerticesClone.Length);
+                _visualisationController.IsAnimatingStarted = false;
             }
             else switch ((string) node.Tag)
             {
@@ -218,7 +211,7 @@ namespace WinFormCourseWork
         private void HtmlViewOnLoadHandlerBySimpleHtmlLesson(object sender, WebBrowserDocumentCompletedEventArgs args)
         {
             _currentLoadingLesson.HtmlView = htmlView;
-            _debugWriter.WriteLine(htmlView.DocumentText);
+            Log.WriteLine(htmlView.DocumentText);
             htmlView.DocumentCompleted -= HtmlViewOnLoadHandlerBySimpleHtmlLesson;
         }
 
@@ -462,6 +455,7 @@ namespace WinFormCourseWork
 
             //_debugWriter.WriteLine(_deltaTime);
 
+
             if (_visualisationController.GlContolLoaded && glControl.Visible)
             {
                 if (_isPlayAnimation)
@@ -470,6 +464,7 @@ namespace WinFormCourseWork
             }
 
             glControl.Refresh();
+
         }
 
         #endregion
@@ -507,6 +502,8 @@ namespace WinFormCourseWork
                 GL.LoadMatrix(ref modelview);
                 WorldInfo.ViewMatrix = modelview;
             }
+
+            _visualisationController.UpdateVerticesIndexies();
 
             //_currentVisualisation.Transform.Rotate(new Vector3(1f, 1f, 1f));
         }
@@ -592,6 +589,7 @@ namespace WinFormCourseWork
         private void PlayToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _isPlayAnimation = true;
+            _visualisationController.IsAnimatingStarted = true;
         }
     }
 }

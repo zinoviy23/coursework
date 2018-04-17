@@ -46,7 +46,7 @@ namespace LessonLibrary
         /// <inheritdoc cref="HtmlViewLesson"/>
         protected override void SetHtmlView(WebBrowser htmlView)
         {
-            _htmlView = htmlView;
+            CurrenHtmlView = htmlView;
             var inputs = htmlView.Document?.GetElementsByTagName("input");
             if (inputs == null)
                 return;

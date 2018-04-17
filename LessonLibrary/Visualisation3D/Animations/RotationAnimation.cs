@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 
 namespace LessonLibrary.Visualisation3D.Animations
 {
@@ -23,6 +24,8 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// Возвращает скорость, с которой надо вращать
         /// </summary>
         public float Speed { get;  }
+
+        public bool IsFinish => Math.Abs(Angle - _currentAngle) < 0.0001f;
 
         /// <summary>
         /// Текущий угол поворота

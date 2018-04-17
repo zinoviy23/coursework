@@ -1,4 +1,5 @@
 ﻿using LessonLibrary.Visualisation3D.Animations;
+using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

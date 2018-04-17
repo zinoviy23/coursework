@@ -29,6 +29,11 @@ namespace WinFormCourseWork
         private Label[] _vertexLabels;
 
         /// <summary>
+        /// Массив исходных вершин на экране
+        /// </summary>
+        private Label[] _initVertexLabels;
+
+        /// <summary>
         /// Ссылка на объект элемента TreeView
         /// </summary>
         private readonly TreeView _lessonTreeView;
@@ -135,28 +140,7 @@ namespace WinFormCourseWork
 
             _glControl.SwapBuffers();
 
-            var points = CurrentVisualisation.ScreenPoints;
-            for (var i = 0; i < points.Length; i++)
-            {
-                if (points[i].Z > 4)
-                {
-                    GetVertexLabel(i).Visible = false;
-                    continue;
-                }
-
-                if (!GetVertexLabel(i).Visible)
-                {
-                    GetVertexLabel(i).Visible = true;
-                }
-
-
-                points[i] = points[i] / points[i].Z;
-
-                var x = _glControl.Width / 2 + (int)(points[i].X * _glControl.Width / 2);
-                var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height);
-                GetVertexLabel(i).Location =
-                    new Point(_glControl.Location.X + x, _glControl.Location.Y + y);
-            }
+            
         }
 
         /// <summary>
@@ -180,29 +164,42 @@ namespace WinFormCourseWork
                 _mainForm.Controls.Add(_vertexLabels[i]);
                 _vertexLabels[i].BringToFront();
             }
+            InitInitVertexLabels(size);
         }
 
-        /// <summary>
-        /// Показывает нужное кол-во лэйблов
-        /// </summary>
-        /// <param name="cnt"></param>
-        public void ShowVertexLabels(int cnt)
+        private void InitInitVertexLabels(int size)
         {
-            HideVertexLabels();
-            for (var i = 0; i < cnt; i++)
+            _initVertexLabels = new Label[size];
+            for (var i = 0; i < _initVertexLabels.Length; i++)
             {
-                _vertexLabels[i].Show();
+                _initVertexLabels[i] = new Label
+                {
+                    Text = $@"{i + 1}",
+                    AutoSize = true,
+                    BackColor = Color.DarkSeaGreen,
+                    Visible = false,
+                    Size = new Size(20, 17),
+                    Enabled = true,
+                    Location = new Point(_mainForm.Width / 2, _mainForm.Height / 2),
+                };
+                _mainForm.Controls.Add(_initVertexLabels[i]);
+                _initVertexLabels[i].BringToFront();
             }
         }
 
         /// <summary>
-        /// Убирает не нужные
+        /// Убирает ненужные вершины
         /// </summary>
         public void HideVertexLabels()
         {
             foreach (var vertexLabel in _vertexLabels)
             {
                 vertexLabel.Hide();
+            }
+
+            foreach (var initVertexLabel in _initVertexLabels)
+            {
+                initVertexLabel.Hide();
             }
         }
 
@@ -239,5 +236,50 @@ namespace WinFormCourseWork
 
             _glControl.Refresh();
         }
+
+        /// <summary>
+        /// Обновляет отображение вершин
+        /// </summary>
+        public void UpdateVerticesIndexies()
+        {
+            HideVertexLabels();
+
+            var points = CurrentVisualisation.ScreenPoints;
+            var indexies = CurrentVisualisation.ImageVerticesIndexies;
+
+            for (var i = 0; i < points.Length; i++)
+            {
+                if (points[i].Z > 4)
+                {
+                    GetVertexLabel(i).Visible = false;
+                    continue;
+                }
+
+                if (!GetVertexLabel(i).Visible)
+                {
+                    GetVertexLabel(i).Visible = true;
+                }
+
+                points[i] = points[i] / points[i].Z;
+
+                var x = _glControl.Width / 2 + (int)(points[i].X * _glControl.Width / 2);
+                var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height);
+                GetVertexLabel(i).Location =
+                    new Point(_glControl.Location.X + x, _glControl.Location.Y + y);
+            }
+
+            if (indexies == null || !IsAnimatingStarted) return;
+
+            for (var i = 0; i < indexies.Length; i++)
+            {
+                if (!GetVertexLabel(i).Visible) continue;
+
+                _initVertexLabels[indexies[i]].Show();
+                _initVertexLabels[indexies[i]].Top = GetVertexLabel(i).Top;
+                _initVertexLabels[indexies[i]].Left = GetVertexLabel(i).Right;
+            }
+        }
+
+        public bool IsAnimatingStarted { get; set; }
     }
 }
