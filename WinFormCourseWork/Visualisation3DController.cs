@@ -94,11 +94,31 @@ namespace WinFormCourseWork
             GL.ShadeModel(ShadingModel.Smooth);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.LineSmooth);
+            GL.Enable(EnableCap.Multisample);
 
             GL.Light(LightName.Light1, LightParameter.Ambient, new[] { 0.2f, 0.2f, 0.2f, 1.0f });
             GL.Light(LightName.Light1, LightParameter.Diffuse, new[] { 1.0f, 1.0f, 1.0f, 1.0f });
             GL.Light(LightName.Light1, LightParameter.Position, new[] { 0.0f, 3.0f, 0.0f, 1.0f });
             GL.Enable(EnableCap.Light1);
+
+            // anti-aliasing
+            // texture
+            var multisampleTexture = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2DMultisample, multisampleTexture);
+            GL.TexImage2DMultisample(TextureTargetMultisample.Texture2DMultisample,
+                4, PixelInternalFormat.Rgb, _glControl.Width, _glControl.Height, true);
+            GL.BindTexture(TextureTarget.Texture2DMultisample, 0);
+            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0,
+                TextureTarget.Texture2DMultisample, multisampleTexture, 0);
+
+            // buffer
+            var rbo = GL.GenRenderbuffer();
+            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, rbo);
+            GL.RenderbufferStorageMultisample(RenderbufferTarget.Renderbuffer, 4, RenderbufferStorage.Depth24Stencil8,
+                _glControl.Width, _glControl.Height);
+            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
+            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, 
+                RenderbufferTarget.Renderbuffer, rbo);
 
             var p = Matrix4.CreatePerspectiveFieldOfView((float)(80 * Math.PI / 180), _glControl.AspectRatio, 0.1f,
                 500);

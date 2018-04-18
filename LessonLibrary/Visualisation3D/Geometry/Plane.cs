@@ -1,26 +1,32 @@
-﻿using OpenTK;
+﻿using System;
+using System.Runtime.Serialization;
+using OpenTK;
 
 namespace LessonLibrary.Visualisation3D.Geometry
 {
     /// <summary>
     /// Класс для представления плоскости
     /// </summary>
-    public struct Plane
+    [DataContract]
+    public struct Plane : IEquatable<Plane>
     {
         /// <summary>
         /// Нормаль
         /// </summary>
+        [DataMember]
         public Vector3 Normal;
 
         /// <summary>
         /// Точка, которая лежит
         /// </summary>
+        [DataMember]
         public Vector3 Point;
 
         /// <summary>
         /// Свободный коэффициент в уравнении плоскости
         /// </summary>
-        private readonly float _emptyCoef;
+        [DataMember]
+        private float _emptyCoef;
 
         /// <summary>
         /// Конструктор с параметрами
@@ -42,6 +48,31 @@ namespace LessonLibrary.Visualisation3D.Geometry
         public float Value(Vector3 point)
         {
             return Vector3.Dot(point, Normal) + _emptyCoef;
+        }
+
+        [OnDeserialized]
+        public void Normalize()
+        {
+            Normal = Normal.Normalized();
+            _emptyCoef = -Vector3.Dot(Normal, Point);
+        }
+
+        public bool Equals(Plane other)
+        {
+            const float tolerance = 0.001f;
+            return VectorUtils.AreVectorsEquals(Normal, other.Normal)
+                   && Math.Abs(_emptyCoef - other._emptyCoef) < tolerance;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            return obj is Plane plane && Equals(plane);
+        }
+
+        public override int GetHashCode()
+        {
+            return 1;
         }
     }
 }

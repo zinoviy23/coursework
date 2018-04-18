@@ -1,7 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
 using LessonLibrary.Permulation;
+using LessonLibrary.Visualisation3D.Animations;
+using OpenTK;
 
 namespace UnitTests
 {
@@ -215,6 +222,34 @@ namespace UnitTests
             Assert.AreEqual(perm, cycles.Permulation);
 
             Assert.AreEqual(cycles, perm.Cycles);
+        }
+
+        /// <summary>
+        /// Проверяет сериализацию анимаций вращений
+        /// </summary>
+        [TestMethod]
+        public void RotationAnimationSerializationAndDeserializationTest()
+        {
+            var rotation = new RotationAnimation(MathHelper.Pi / 2, Vector3.One, 10.01f);
+            var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
+            var writer = XmlWriter.Create("tmpRotation.xml", new XmlWriterSettings {Indent = true}); 
+            xmlSer.WriteObject(writer, rotation);
+            writer.Close();
+
+            var reader = new FileStream("tmpRotation.xml", FileMode.Open);
+            var newRot = (RotationAnimation) xmlSer.ReadObject(reader);
+            reader.Close();
+
+            Assert.AreEqual(rotation, newRot);
+        }
+
+        /// <summary>
+        /// Проверяет сереализацию симметрий
+        /// </summary>
+        [TestMethod]
+        public void SymmetryAnimationSerializationAndDeserializationTest()
+        {
+
         }
     }
 }

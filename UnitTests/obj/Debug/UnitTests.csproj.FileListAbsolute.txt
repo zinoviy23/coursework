@@ -24,3 +24,4 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\D
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\OpenTK.xml
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\OpenTK.GLControl.xml
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\obj\Debug\UnitTests.csproj.CopyComplete
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\UnitTests\bin\Debug\OpenTK.Compatibility.dll
