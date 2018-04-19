@@ -32,6 +32,7 @@ namespace LessonLibrary.Visualisation3D.Animations
         [DataMember]
         public float Speed { get; private set; }
 
+        // Возвращает закончилась ли анимация
         public bool IsFinish => Math.Abs(Angle - _currentAngle) < 0.0001f;
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace LessonLibrary.Visualisation3D.Animations
             _currentAngle = 0;
         }
 
+        // следующий шаг
         public void NextStep(float deltaTime)
         {
             _currentAngle += Speed * deltaTime;
@@ -61,6 +63,7 @@ namespace LessonLibrary.Visualisation3D.Animations
                 _currentAngle = Angle;
         }
 
+        // применяет анимацию к точке
         public Vector3 Apply(Vector3 vertex)
         {
             var rotationMatrix = Matrix4.CreateFromAxisAngle(Axis, _currentAngle);
@@ -68,6 +71,7 @@ namespace LessonLibrary.Visualisation3D.Animations
             return Vector3.Transform(vertex, rotationMatrix);
         }
 
+        // сбрасывает анимацию
         public void Reset()
         {
             _currentAngle = 0;

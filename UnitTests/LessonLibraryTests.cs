@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
 using LessonLibrary.Permulation;
 using LessonLibrary.Visualisation3D.Animations;
+using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 
 namespace UnitTests
@@ -249,7 +248,19 @@ namespace UnitTests
         [TestMethod]
         public void SymmetryAnimationSerializationAndDeserializationTest()
         {
+            var sym = new SymmetryAnimation(new Plane(Vector3.One, Vector3.UnitZ), 10f);
+            var xmlSer = new DataContractSerializer(typeof(SymmetryAnimation));
 
+            using (var writer = XmlWriter.Create("tmpSymmetry.xml", new XmlWriterSettings { Indent = true }))
+            {
+                xmlSer.WriteObject(writer, sym);
+            }
+
+            using (var reader = new FileStream("tmpSymmetry.xml", FileMode.Open))
+            {
+                var otherSym = (SymmetryAnimation) xmlSer.ReadObject(reader);
+                Assert.AreEqual(sym, otherSym);
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq.Expressions;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D;

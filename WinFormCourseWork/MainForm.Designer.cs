@@ -1,4 +1,6 @@
-﻿namespace WinFormCourseWork
+﻿using OpenTK.Graphics;
+
+namespace WinFormCourseWork
 {
     partial class MainForm
     {

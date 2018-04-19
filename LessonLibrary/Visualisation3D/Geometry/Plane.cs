@@ -4,6 +4,7 @@ using OpenTK;
 
 namespace LessonLibrary.Visualisation3D.Geometry
 {
+    /// <inheritdoc cref="IEquatable{T}" />
     /// <summary>
     /// Класс для представления плоскости
     /// </summary>
@@ -25,7 +26,6 @@ namespace LessonLibrary.Visualisation3D.Geometry
         /// <summary>
         /// Свободный коэффициент в уравнении плоскости
         /// </summary>
-        [DataMember]
         private float _emptyCoef;
 
         /// <summary>
@@ -50,8 +50,11 @@ namespace LessonLibrary.Visualisation3D.Geometry
             return Vector3.Dot(point, Normal) + _emptyCoef;
         }
 
+        /// <summary>
+        /// Нормализует уравнение прямой
+        /// </summary>
         [OnDeserialized]
-        public void Normalize()
+        private void NormalizeAfterSerialization(StreamingContext context)
         {
             Normal = Normal.Normalized();
             _emptyCoef = -Vector3.Dot(Normal, Point);
