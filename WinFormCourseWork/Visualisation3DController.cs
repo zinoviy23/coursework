@@ -34,11 +34,6 @@ namespace WinFormCourseWork
         private Label[] _initVertexLabels;
 
         /// <summary>
-        /// Ссылка на объект элемента TreeView
-        /// </summary>
-        private readonly TreeView _lessonTreeView;
-
-        /// <summary>
         /// Ссылка на визуализацию
         /// </summary>
         private VisualisationLesson _currentVisualisation;
@@ -66,13 +61,10 @@ namespace WinFormCourseWork
         /// </summary>
         /// <param name="glControl">Элемент для отображения 3D</param>
         /// <param name="mainForm">Главное окно</param>
-        /// <param name="lessonTreeView">TreeView для выбора уроков</param>
-        public Visualisation3DController([NotNull] GLControl glControl, [NotNull] MainForm mainForm,
-            [NotNull] TreeView lessonTreeView)
+        public Visualisation3DController([NotNull] GLControl glControl, [NotNull] MainForm mainForm)
         {
             _glControl = glControl;
             _mainForm = mainForm;
-            _lessonTreeView = lessonTreeView;
             InitVertexLabels(20);
             _glControl.Load += GlControlOnLoad;
             _glControl.Paint += GlControlOnPaint;
@@ -87,7 +79,7 @@ namespace WinFormCourseWork
         private void GlControlOnLoad(object sender, EventArgs args)
         {
             GlContolLoaded = true;
-            GL.Viewport(new Point(_glControl.Location.X - _lessonTreeView.Width, _glControl.Location.Y), _glControl.Size);
+            GL.Viewport(new Point(0 , _glControl.Location.Y), _glControl.Size);
 
             GL.ClearColor(Color.DarkGray);
             
@@ -222,7 +214,7 @@ namespace WinFormCourseWork
         {
             if (!GlContolLoaded) return;
 
-            GL.Viewport(new Point(_glControl.Location.X - _lessonTreeView.Width, _glControl.Location.Y),
+            GL.Viewport(new Point(0, _glControl.Location.Y),
                 _glControl.Size);
             _glControl.Update();
 

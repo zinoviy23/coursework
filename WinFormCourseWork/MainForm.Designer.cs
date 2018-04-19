@@ -62,7 +62,6 @@ namespace WinFormCourseWork
             // 
             // htmlView
             // 
-            this.htmlView.Dock = System.Windows.Forms.DockStyle.Right;
             this.htmlView.Location = new System.Drawing.Point(664, 28);
             this.htmlView.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlView.Name = "htmlView";
@@ -74,7 +73,7 @@ namespace WinFormCourseWork
             // 
             this.glTimer.Enabled = true;
             this.glTimer.Interval = 50;
-            this.glTimer.Tick += new System.EventHandler(this.Timer1_Tick);
+            this.glTimer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // glControl
             // 

@@ -61,6 +61,11 @@ namespace WinFormCourseWork
         private const string PermulationVisualisationFilePath = @"lessons\default\permulation_visualisation.xml";
 
         /// <summary>
+        /// путь до файла с шаблоном разметки для визуализации 3d
+        /// </summary>
+        private const string Visualisation3DMarkupFilePath = @"lessons\default\visualisation_3d.xml";
+
+        /// <summary>
         /// Объект для управления визуализациями
         /// </summary>
         private readonly Visualisation3DController _visualisationController;
@@ -94,12 +99,12 @@ namespace WinFormCourseWork
             glControl.Visible = false;
             cayleyTableGridView.Visible = false;
 
-            _visualisationController = new Visualisation3DController(glControl, this, lessonsTreeView);
+            _visualisationController = new Visualisation3DController(glControl, this);
 
             LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
 
-            SetElementsSizesAndPositions();  
+            SetUiView();  
         }
 
         /// <summary>
@@ -118,15 +123,21 @@ namespace WinFormCourseWork
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 _isPlayAnimation = false;
-                htmlView.Hide();
+                //htmlView.Hide();
                 glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;
                 cayleyTableGridView.Visible = false;
 
+                //TODO: удалить это
+                var tmp = new StreamReader(Visualisation3DMarkupFilePath);
+                htmlView.DocumentText = tmp.ReadToEnd();
+
                 _visualisationController.CurrentVisualisation =
                     _visualisationLessons[((string)node.Tag).Substring("Visualisation".Length)];
                 _visualisationController.IsAnimatingSessionStarted = false;
+
+                _uiState = UiState.Visualisation3D;
             }
             else switch ((string) node.Tag)
             {
@@ -138,6 +149,8 @@ namespace WinFormCourseWork
                     glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = true;
                     _visualisationController.HideVertexLabels();
+
+                    _uiState = UiState.CayleyTable;
                     break;
                 case "Permulation Visualisation":
                     htmlView.Visible = true;
@@ -155,6 +168,7 @@ namespace WinFormCourseWork
                         MessageBox.Show(ex.Message, @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
+                    _uiState = UiState.SimpleHtml;
                     break;
                 default:
                     PermulationVisualisation.Release();
@@ -163,8 +177,11 @@ namespace WinFormCourseWork
                     htmlView.Show();
                     glControl.Visible = false;
                     _visualisationController.HideVertexLabels();
+
+                    _uiState = UiState.SimpleHtml;
                     break;
             }
+            SetUiView();
         }
 
         /// <summary>
@@ -383,26 +400,72 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Задаёт размеры и положения всем элементам
+        /// Состояние интерфейса
         /// </summary>
-        private void SetElementsSizesAndPositions()
+        private UiState _uiState = UiState.SimpleHtml;
+
+        /// <summary>
+        /// Задаёт нужные элементы и их расположение
+        /// </summary>
+        private void SetUiView()
         {
             lessonsTreeView.Size = new Size(Math.Min(200, Size.Width / 5), lessonsTreeView.Height);
 
+            switch (_uiState)
+            {
+                case UiState.Visualisation3D:
+                    SetVisualisation3DUiView();
+                    return;
+                case UiState.SimpleHtml:
+                    SetSimpleHtmlUiView();
+                    return;
+                case UiState.CayleyTable:
+                    SetCayleyTableUiView();
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }  
+        }
+
+        /// <summary>
+        /// Располагает элементы при визуализации
+        /// </summary>
+        private void SetVisualisation3DUiView()
+        {
             htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
-                htmlView.Height);
+                Math.Max(100, ClientSize.Height / 6));
+            htmlView.Top = ClientSize.Height - htmlView.Height;
+            htmlView.Left = lessonsTreeView.Right;
 
-            glControl.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
             glControl.Size =
-                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15, Height);
-
-            cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
-            cayleyTableGridView.Size =
-                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15, Height / 2);
-
-            SetGridViewCellsSize();
+                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
+                    ClientSize.Height - htmlView.Height - 5);
+            glControl.Location = new Point(lessonsTreeView.Right + 1, 1);
 
             _visualisationController?.UpdateGlSettings();
+            _visualisationController?.UpdateVerticesIndexies();
+        }
+
+        /// <summary>
+        /// Располагает элементы при таблице Кэли
+        /// </summary>
+        private void SetCayleyTableUiView()
+        {
+            cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
+            cayleyTableGridView.Size =
+                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
+                    Height / 2);
+            SetGridViewCellsSize();
+        }
+
+        /// <summary>
+        /// Располагает элементы при простом html
+        /// </summary>
+        private void SetSimpleHtmlUiView()
+        {
+            htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
+                ClientSize.Height);
+            htmlView.Location = new Point(lessonsTreeView.Right + 1, 1);
         }
 
         /// <summary>
@@ -434,7 +497,7 @@ namespace WinFormCourseWork
         private bool _isPlayAnimation;
 
 
-        private void Timer1_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             if (!_timeCountingStarted)
             {
@@ -452,9 +515,6 @@ namespace WinFormCourseWork
             _stopwatch.Start();
             if (_visualisationController == null)
                 return;
-
-            //_debugWriter.WriteLine(_deltaTime);
-
 
             if (_visualisationController.GlContolLoaded && glControl.Visible)
             {
@@ -510,7 +570,7 @@ namespace WinFormCourseWork
  
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            SetElementsSizesAndPositions();
+            SetUiView();
         }
 
         private bool _isRotatingY;
