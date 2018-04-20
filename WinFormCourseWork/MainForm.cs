@@ -122,7 +122,6 @@ namespace WinFormCourseWork
 
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
-                _isPlayAnimation = false;
                 //htmlView.Hide();
                 glControl.Visible = true;
                 _currentTest = null;
@@ -136,6 +135,7 @@ namespace WinFormCourseWork
                 _visualisationController.CurrentVisualisation =
                     _visualisationLessons[((string)node.Tag).Substring("Visualisation".Length)];
                 _visualisationController.IsAnimatingSessionStarted = false;
+                _visualisationController.SetButtons(htmlView);
 
                 _uiState = UiState.Visualisation3D;
             }
@@ -494,7 +494,6 @@ namespace WinFormCourseWork
         private float _prevTime;
         private bool _timeCountingStarted;
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private bool _isPlayAnimation;
 
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -518,9 +517,10 @@ namespace WinFormCourseWork
 
             if (_visualisationController.GlContolLoaded && glControl.Visible)
             {
-                if (_isPlayAnimation)
+                if (_visualisationController.IsPlayingAnimation)
                     _visualisationController.CurrentVisualisation?.CurrentAnimation?.NextStep(_deltaTime);
                 UpdateGl();
+
             }
 
             glControl.Refresh();
@@ -648,7 +648,7 @@ namespace WinFormCourseWork
 
         private void PlayToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _isPlayAnimation = true;
+            _visualisationController.IsPlayingAnimation = true;
             _visualisationController.IsAnimatingSessionStarted = true;
         }
     }

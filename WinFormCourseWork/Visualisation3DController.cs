@@ -301,5 +301,40 @@ namespace WinFormCourseWork
                     _isOneStepWaited = false;
             }
         }
+
+        /// <summary>
+        /// Задаёт кнопки в html
+        /// </summary>
+        /// <param name="htmlView"></param>
+        public void SetButtons([NotNull] WebBrowser htmlView)
+        {
+            IsAnimatingSessionStarted = false;
+            IsPlayingAnimation = false;
+            htmlView.DocumentCompleted += HtmlOnDocumentCompleted;
+        }
+
+        /// <summary>
+        /// Событие при загрузке документа. Добавляет кнопки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void HtmlOnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs args)
+        {
+            var htmlView = sender as WebBrowser;
+            var buttonsDiv = htmlView.Document.GetElementById("buttons");
+            buttonsDiv.InnerHtml = "<input type=\"button\" value=\"animate\" id=\"kek\">";
+            htmlView.Document.GetElementById("kek").Click += (s, a) =>
+            {
+                IsPlayingAnimation = true;
+                IsAnimatingSessionStarted = true;
+            };
+
+            htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
+        }
+
+        /// <summary>
+        /// Проигрывается ли анимация
+        /// </summary>
+        public bool IsPlayingAnimation { get; set; }
     }
 }

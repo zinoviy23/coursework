@@ -46,6 +46,7 @@ namespace WinFormCourseWork
                 throw new ArgumentException("У урока должна быть кнопка для ввода с id input_button");
 
             inputButton.Click += InputButtonOnClick;
+            _htmlView.DocumentCompleted -= HtmlViewOnDocumentLoaded;
         }
 
         private void InputButtonOnClick(object sender, HtmlElementEventArgs htmlElementEventArgs)
@@ -102,10 +103,6 @@ namespace WinFormCourseWork
         /// </summary>
         public static void Release()
         {
-            if (_instance != null)
-            {
-                _instance._htmlView.DocumentCompleted -= _instance.HtmlViewOnDocumentLoaded;
-            }
             _instance = null;
         }
 
