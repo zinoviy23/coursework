@@ -563,6 +563,8 @@ namespace WinFormCourseWork
                 GL.LoadMatrix(ref modelview);
                 WorldInfo.ViewMatrix = modelview;
             }
+            _visualisationController.UpdateInfo();
+            _visualisationController.CheckHtmlButtons(htmlView);
 
             _visualisationController.UpdateVerticesIndexies();
 
@@ -649,7 +651,8 @@ namespace WinFormCourseWork
 
         private void PlayToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _visualisationController.IsPlayingAnimation = true;
+            if (!_visualisationController.IsPlayingAnimation)
+                _visualisationController.IsPlayingAnimation = true;
             _visualisationController.IsAnimatingSessionStarted = true;
         }
     }

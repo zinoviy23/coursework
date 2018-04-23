@@ -336,5 +336,28 @@ namespace WinFormCourseWork
         /// Проигрывается ли анимация
         /// </summary>
         public bool IsPlayingAnimation { get; set; }
+
+        /// <summary>
+        /// Обновляет информацию
+        /// </summary>
+        public void UpdateInfo()
+        {
+            if (CurrentVisualisation.CurrentAnimation.IsFinish)
+            {
+                IsPlayingAnimation = false;
+            }
+        }
+
+        public void CheckHtmlButtons(WebBrowser htmlView)
+        {
+            var buttons = htmlView.Document?.GetElementsByTagName("input");
+            if (buttons == null)
+                return;
+
+            foreach (HtmlElement button in buttons)
+            {
+                button.Enabled = !IsPlayingAnimation; // если играет анимация, то нельзя выбрать другую кнопку
+            }
+        }
     }
 }

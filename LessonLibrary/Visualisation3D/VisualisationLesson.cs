@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
@@ -27,6 +28,11 @@ namespace LessonLibrary.Visualisation3D
         protected Vector3[] InitVertices;
 
         /// <summary>
+        /// Предыдущие вершины
+        /// </summary>
+        protected Vector3[] PrevVertices;
+
+        /// <summary>
         /// Нормали, которые используются сейчас
         /// </summary>
         protected Vector3[] Normals;
@@ -35,6 +41,11 @@ namespace LessonLibrary.Visualisation3D
         /// Нормали без всяких преобразований
         /// </summary>
         protected Vector3[] InitNormals;
+
+        /// <summary>
+        /// Предыдущиие нормали
+        /// </summary>
+        protected Vector3[] PrevNormals;
 
         /// <summary>
         /// Отрисовывает фигуру
@@ -224,8 +235,9 @@ namespace LessonLibrary.Visualisation3D
         public void Reset()
         {
             CurrentAnimation?.Reset();
-            Vertices = (Vector3[]) InitVertices.Clone();
-            Normals = (Vector3[]) InitNormals.Clone();
+            PrevVertices = (Vector3[]) InitVertices.Clone();
+            PrevNormals = (Vector3[]) InitNormals.Clone();
+
         }
 
         /// <summary>
@@ -236,11 +248,11 @@ namespace LessonLibrary.Visualisation3D
             if (CurrentAnimation == null) return;
 
             for (var i = 0; i < Vertices.Length; i++)
-                Vertices[i] = CurrentAnimation.Apply(InitVertices[i]);
+                Vertices[i] = CurrentAnimation.Apply(PrevVertices[i]);
 
             for (var i = 0; i < Normals.Length; i++)
             {
-                Normals[i] = CurrentAnimation.Apply(InitNormals[i]);
+                Normals[i] = CurrentAnimation.Apply(PrevNormals[i]);
             }
         }
     }
