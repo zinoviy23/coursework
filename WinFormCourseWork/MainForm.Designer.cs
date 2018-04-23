@@ -35,7 +35,7 @@ namespace WinFormCourseWork
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
-            this.glControl = new OpenTK.GLControl();
+            this.glControl = new OpenTK.GLControl(new OpenTK.Graphics.GraphicsMode(32, 24, 0, 8));
             this.cayleyTableGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

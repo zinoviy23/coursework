@@ -123,6 +123,7 @@ namespace WinFormCourseWork
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 //htmlView.Hide();
+                PermulationVisualisation.Release();
                 glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;

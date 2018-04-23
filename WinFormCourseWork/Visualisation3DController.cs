@@ -251,7 +251,7 @@ namespace WinFormCourseWork
 
             for (var i = 0; i < points.Length; i++)
             {
-                if (points[i].Z > 4)
+                if (points[i].Z > 4.2f)
                 {
                     GetVertexLabel(i).Visible = false;
                     continue;
