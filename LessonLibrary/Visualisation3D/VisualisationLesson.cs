@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D.Animations;
@@ -48,9 +49,25 @@ namespace LessonLibrary.Visualisation3D
         protected Vector3[] PrevNormals;
 
         /// <summary>
+        /// Анимации
+        /// </summary>
+        protected List<IAnimation> Animations;
+
+        /// <summary>
         /// Отрисовывает фигуру
         /// </summary>
         public abstract void Render();
+
+        /// <summary>
+        /// Задаёт анимации
+        /// </summary>
+        /// <param name="animations">Анимации</param>
+        public abstract void SetAnimations([NotNull] IAnimation[] animations);
+
+        /// <summary>
+        /// Возвращает анимации, в виде неизменяемого лист
+        /// </summary>
+        public IReadOnlyList<IAnimation> ReadOnlyAnimations => Animations.AsReadOnly();
 
         /// <summary>
         /// Положение в пространствее данной визуализации
@@ -254,6 +271,18 @@ namespace LessonLibrary.Visualisation3D
             {
                 Normals[i] = CurrentAnimation.Apply(PrevNormals[i]);
             }
+        }
+
+        /// <summary>
+        /// Задаёт анимацию
+        /// </summary>
+        /// <param name="animation">новая анимация</param>
+        public void SetAnimation(IAnimation animation)
+        {
+            CurrentAnimation = animation;
+            CurrentAnimation.Reset();
+            PrevVertices = (Vector3[]) Vertices.Clone();
+            PrevNormals = (Vector3[]) Normals.Clone();
         }
     }
 }

@@ -119,5 +119,14 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode() => 1;
+
+        /// <summary>
+        /// Преобразует к строке
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"Rotation:{{ angle: {Angle:F5}, axis: {Axis}, Speed: {Speed}}}";
+        }
     }
 }

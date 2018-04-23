@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System.Runtime.Serialization;
+using OpenTK;
 
 namespace LessonLibrary.Visualisation3D.Animations
 {

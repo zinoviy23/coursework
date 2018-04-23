@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LessonLibrary.Visualisation3D.Animations;
 using OpenTK;
 using OpenTK.Graphics;
@@ -28,6 +29,10 @@ namespace LessonLibrary.Visualisation3D
                 new Vector3(0, (float)-(Math.Sqrt(8.0 / 12) / 4), (float)Math.Sqrt(3) / 3),
                 new Vector3(0, (float)Math.Sqrt(8.0f / 12) * 3.0f / 4, 0)
             };
+
+            var delta = 1.3f;
+            for (var i = 0; i < Vertices.Length; i++)
+                Vertices[i] *= delta;
 
             Normals = new[]
             {
@@ -119,6 +124,11 @@ namespace LessonLibrary.Visualisation3D
             DrawVertices();
 
             Transform.UnsetTransform();
+        }
+
+        public override void SetAnimations(IAnimation[] animations)
+        {
+            Animations = new List<IAnimation>((IAnimation[])animations.Clone());
         }
     }
 }

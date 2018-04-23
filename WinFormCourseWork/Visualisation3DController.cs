@@ -321,14 +321,34 @@ namespace WinFormCourseWork
         private void HtmlOnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs args)
         {
             var htmlView = sender as WebBrowser;
-            var buttonsDiv = htmlView.Document.GetElementById("buttons");
-            buttonsDiv.InnerHtml = "<input type=\"button\" value=\"animate\" id=\"kek\">";
-            htmlView.Document.GetElementById("kek").Click += (s, a) =>
-            {
-                IsPlayingAnimation = true;
-                IsAnimatingSessionStarted = true;
-            };
+            var buttonsDiv = htmlView?.Document?.GetElementById("buttons");
 
+            if (buttonsDiv == null)
+                return;
+
+            // настройка кнопок
+            var cnt = 0;
+            foreach (var animation in CurrentVisualisation.ReadOnlyAnimations)
+            {
+                var el = htmlView.Document.CreateElement("input");
+                if (el == null)
+                    return;
+                el.SetAttribute("type", "button");
+                el.SetAttribute("value", "animate");
+                el.InnerText = $"Поворот {cnt}";
+                el.Click += (o, eventArgs) =>
+                {
+                    IsAnimatingSessionStarted = true;
+                    IsPlayingAnimation = true;
+                    CurrentVisualisation.SetAnimation(animation);
+                    CheckHtmlButtons(htmlView);
+                };
+                buttonsDiv.AppendChild(el);
+                Log.WriteLine(animation);
+
+                cnt++;
+            }
+            Log.WriteLine(buttonsDiv.InnerHtml);
             htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
         }
 
@@ -348,6 +368,10 @@ namespace WinFormCourseWork
             }
         }
 
+        /// <summary>
+        /// Проверяет какое состояние должно быть у кнопок и задаёт его
+        /// </summary>
+        /// <param name="htmlView"></param>
         public void CheckHtmlButtons(WebBrowser htmlView)
         {
             var buttons = htmlView.Document?.GetElementsByTagName("input");

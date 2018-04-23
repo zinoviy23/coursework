@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using JetBrains.Annotations;
+using LessonLibrary.Visualisation3D.Animations;
 
 namespace LessonLibrary
 {
@@ -192,9 +194,10 @@ namespace LessonLibrary
         {
             try
             {
-                var streamReader = new StreamReader(permulationVisualisationFilePath);
-                htmlView.DocumentText = streamReader.ReadToEnd();
-                streamReader.Close();
+                using (var streamReader = new StreamReader(permulationVisualisationFilePath))
+                {
+                    htmlView.DocumentText = streamReader.ReadToEnd();
+                }
             }
             catch (FileNotFoundException)
             {
@@ -205,5 +208,43 @@ namespace LessonLibrary
                 throw new ArgumentException($@"По нет файла по переданному пути {permulationVisualisationFilePath}");
             }
         }
+
+        /// <summary>
+        /// Считывает все анимации из папки
+        /// </summary>
+        /// <param name="folderPath">папка с анимациями </param>
+        /// <returns>Массив анимаций</returns>
+        public static IAnimation[] ReadAnimationsFromFolder([NotNull] string folderPath)
+        {
+            var dirInfo = new DirectoryInfo(folderPath);
+            var res = new List<IAnimation>();
+            var serializerRotation = new DataContractSerializer(typeof(RotationAnimation));
+            var serializerSymmetry = new DataContractSerializer(typeof(SymmetryAnimation));
+
+            foreach (var fileInfo in dirInfo.EnumerateFiles())
+            {
+                try
+                {
+                    using (var reader = new FileStream(fileInfo.FullName, FileMode.Open))
+                    {
+                        if (fileInfo.Name.StartsWith("r"))
+                            res.Add((RotationAnimation) serializerRotation.ReadObject(reader));
+                        else
+                            res.Add((SymmetryAnimation) serializerSymmetry.ReadObject(reader));
+                    }
+                }
+                catch (SerializationException)
+                {
+                    throw new ArgumentException("Невозможно корректно считать файлы из папки");
+                }
+                catch (IOException)
+                {
+                    throw new ArgumentException("Проблемы с доступом к папке!");
+                }
+            }
+
+            return res.ToArray();
+        }
+
     }
 }

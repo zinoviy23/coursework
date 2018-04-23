@@ -173,5 +173,10 @@ namespace LessonLibrary.Visualisation3D
 
             Transform.UnsetTransform();
         }
+
+        public override void SetAnimations(IAnimation[] animations)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

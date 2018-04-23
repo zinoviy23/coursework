@@ -56,9 +56,14 @@ namespace WinFormCourseWork
         private const string LessonsTreeInfoPath = @"lessons\lessonstree.xml";
 
         /// <summary>
-        /// путь до папки со стандартными файлами
+        /// Путь до шаблона с визуализациями подстановок
         /// </summary>
         private const string PermulationVisualisationFilePath = @"lessons\default\permulation_visualisation.xml";
+
+        /// <summary>
+        /// путь до папки со стандартными файлами
+        /// </summary>
+        private const string DefultFilesPath = @"lessons\default";
 
         /// <summary>
         /// путь до файла с шаблоном разметки для визуализации 3d
@@ -394,6 +399,7 @@ namespace WinFormCourseWork
         private void InitVisualisationsDictionary()
         {
             _visualisationLessons["Tetrahedron"] = new TetrahedronVisualisation();
+            _visualisationLessons["Tetrahedron"].SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Tetrahedron"));
             _visualisationLessons["Cube"] = new CubeVisualisation();
             _visualisationLessons["Octahedron"] = new OctahedronVisualisation();
             _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
@@ -563,9 +569,9 @@ namespace WinFormCourseWork
                 GL.LoadMatrix(ref modelview);
                 WorldInfo.ViewMatrix = modelview;
             }
+
             _visualisationController.UpdateInfo();
             _visualisationController.CheckHtmlButtons(htmlView);
-
             _visualisationController.UpdateVerticesIndexies();
 
             //_currentVisualisation.Transform.Rotate(new Vector3(1f, 1f, 1f));
