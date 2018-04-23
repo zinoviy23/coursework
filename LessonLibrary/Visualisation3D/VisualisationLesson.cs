@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
