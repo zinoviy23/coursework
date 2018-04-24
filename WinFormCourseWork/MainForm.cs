@@ -440,7 +440,7 @@ namespace WinFormCourseWork
         private void SetVisualisation3DUiView()
         {
             htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
-                Math.Max(100, ClientSize.Height / 6));
+                Math.Max(200, ClientSize.Height / 3));
             htmlView.Top = ClientSize.Height - htmlView.Height;
             htmlView.Left = lessonsTreeView.Right;
 

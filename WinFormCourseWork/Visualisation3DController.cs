@@ -330,8 +330,10 @@ namespace WinFormCourseWork
             var cnt = 0;
             foreach (var animation in CurrentVisualisation.ReadOnlyAnimations)
             {
+                var div = htmlView.Document.CreateElement("div");
                 var el = htmlView.Document.CreateElement("input");
-                if (el == null)
+                var p = htmlView.Document.CreateElement("p");
+                if (el == null || div == null || p == null)
                     return;
                 el.SetAttribute("type", "button");
                 el.SetAttribute("value", "animate");
@@ -343,7 +345,10 @@ namespace WinFormCourseWork
                     CurrentVisualisation.SetAnimation(animation);
                     CheckHtmlButtons(htmlView);
                 };
-                buttonsDiv.AppendChild(el);
+                div.AppendChild(p);
+                p.InnerText = "Поворот";
+                div.AppendChild(el);
+                buttonsDiv.AppendChild(div);
                 Log.WriteLine(animation);
 
                 cnt++;
