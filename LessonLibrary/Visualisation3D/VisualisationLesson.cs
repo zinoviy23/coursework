@@ -66,7 +66,8 @@ namespace LessonLibrary.Visualisation3D
         /// <summary>
         /// Возвращает анимации, в виде неизменяемого лист
         /// </summary>
-        public IReadOnlyList<IAnimation> ReadOnlyAnimations => Animations.AsReadOnly();
+        [CanBeNull]
+        public IReadOnlyList<IAnimation> ReadOnlyAnimations => Animations?.AsReadOnly();
 
         /// <summary>
         /// Положение в пространствее данной визуализации
@@ -263,6 +264,19 @@ namespace LessonLibrary.Visualisation3D
         {
             if (CurrentAnimation == null) return;
 
+            if (CurrentAnimation is RotationAnimation rotation)
+            {
+
+                GL.Begin(PrimitiveType.Lines);
+
+                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Black);
+                GL.Normal3(Vector3.Cross(Vector3.One, rotation.Axis));
+                GL.Vertex3(-rotation.Axis.Normalized() * 2);
+                GL.Vertex3(rotation.Axis.Normalized() * 2);
+
+                GL.End();
+            }
+
             for (var i = 0; i < Vertices.Length; i++)
                 Vertices[i] = CurrentAnimation.Apply(PrevVertices[i]);
 
@@ -282,6 +296,35 @@ namespace LessonLibrary.Visualisation3D
             CurrentAnimation.Reset();
             PrevVertices = (Vector3[]) Vertices.Clone();
             PrevNormals = (Vector3[]) Normals.Clone();
+        }
+
+        /// <summary>
+        /// Отображает движение пространства в подстановку
+        /// </summary>
+        /// <param name="animation">Движение ввиде анимации</param>
+        /// <returns>Подстановка</returns>
+        [NotNull]
+        public Permulation.Permulation ConvertAnimationToPermuation([NotNull] IAnimation animation)
+        {
+            var permulationBottom = new List<int>(InitVertices.Length);
+
+            foreach (var vertex in InitVertices)
+            {
+                var ind = -1;
+                var appliedVertex = animation.ApplyToEnd(vertex);
+
+                for (var i = 0; i < InitVertices.Length; i++)
+                {
+                    if (!VectorUtils.AreVectorsEquals(appliedVertex, InitVertices[i])) continue;
+
+                    ind = i;
+                    break;
+                }
+
+                permulationBottom.Add(ind + 1);
+            }
+
+            return new Permulation.Permulation(permulationBottom);
         }
     }
 }

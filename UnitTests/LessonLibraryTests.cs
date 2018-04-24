@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
 using LessonLibrary.Permulation;
+using LessonLibrary.Visualisation3D;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
@@ -251,7 +253,7 @@ namespace UnitTests
             var sym = new SymmetryAnimation(new Plane(Vector3.One, Vector3.UnitZ), 10f);
             var xmlSer = new DataContractSerializer(typeof(SymmetryAnimation));
 
-            using (var writer = XmlWriter.Create("tmpSymmetry.xml", new XmlWriterSettings { Indent = true }))
+            using (var writer = XmlWriter.Create("tmpSymmetry.xml", new XmlWriterSettings {Indent = true}))
             {
                 xmlSer.WriteObject(writer, sym);
             }
@@ -260,6 +262,52 @@ namespace UnitTests
             {
                 var otherSym = (SymmetryAnimation) xmlSer.ReadObject(reader);
                 Assert.AreEqual(sym, otherSym);
+            }
+        }
+
+        /// <summary>
+        /// Пытается вывести все анимации куба
+        /// </summary>
+        [TestMethod]
+        public void CubeAnimationWritingTest()
+        {
+            var vertices = new CubeVisualisation().VerticesClone;
+            List<RotationAnimation> rotations = new List<RotationAnimation>();
+            var id = new RotationAnimation(0, Vector3.One, 10);
+            rotations.Add(id);
+
+            var vectors = new[] {Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ};
+
+            foreach (var axis in vectors)
+            {
+                for (var i = 1; i <= 3; i++)
+                    rotations.Add(new RotationAnimation(MathHelper.Pi / 2 * i, axis, MathHelper.Pi / 2));
+            }
+
+            for (var first = 0; first < 4; first++)
+            {
+                var second = (first + 2) % 4 + 4;
+                for (var angle = 1; angle <= 2; angle++)
+                    rotations.Add(new RotationAnimation(MathHelper.Pi * 2 / 3 * angle, vertices[second] - vertices[first],
+                        MathHelper.Pi / 2));
+            }
+
+            vectors = new[]
+            {
+                new Vector3(0, 1, 1), new Vector3(0, 1, -1), new Vector3(1, 0, 1), new Vector3(1, 0, -1),
+                new Vector3(1, 1, 0), new Vector3(-1, 1, 0)  
+            };
+
+            rotations.AddRange(vectors.Select(axis => new RotationAnimation(MathHelper.Pi, axis, MathHelper.Pi / 2)));
+            var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
+
+            for (var i = 0; i < rotations.Count; i++)
+            {
+                var name = $@"Cube\r{i.ToString($"D{2}")}.xml";
+                using (var writer = XmlWriter.Create(name, new XmlWriterSettings { Indent = true }))
+                {
+                    xmlSer.WriteObject(writer, rotations[i]);
+                }
             }
         }
     }

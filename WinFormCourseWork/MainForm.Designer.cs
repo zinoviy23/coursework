@@ -35,13 +35,11 @@ namespace WinFormCourseWork
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
-            this.glControl = new OpenTK.GLControl(new OpenTK.Graphics.GraphicsMode(32, 24, 0, 8));
+            this.glControl = new OpenTK.GLControl(new GraphicsMode(new ColorFormat(32), 24, 0, 8));
             this.cayleyTableGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.анимацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -108,8 +106,7 @@ namespace WinFormCourseWork
             // 
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem,
-            this.анимацияToolStripMenuItem});
+            this.testToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(856, 28);
@@ -129,25 +126,9 @@ namespace WinFormCourseWork
             this.checkTestToolStripMenuItem.Name = "checkTestToolStripMenuItem";
             this.checkTestToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.checkTestToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
-            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
+            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.checkTestToolStripMenuItem.Text = "Проверить";
             this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
-            // 
-            // анимацияToolStripMenuItem
-            // 
-            this.анимацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playToolStripMenuItem});
-            this.анимацияToolStripMenuItem.Name = "анимацияToolStripMenuItem";
-            this.анимацияToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
-            this.анимацияToolStripMenuItem.Text = "Анимация";
-            // 
-            // playToolStripMenuItem
-            // 
-            this.playToolStripMenuItem.Name = "playToolStripMenuItem";
-            this.playToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.playToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
-            this.playToolStripMenuItem.Text = "Проиграть";
-            this.playToolStripMenuItem.Click += new System.EventHandler(this.PlayToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -181,8 +162,6 @@ namespace WinFormCourseWork
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkTestToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem анимацияToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem;
     }
 }
 

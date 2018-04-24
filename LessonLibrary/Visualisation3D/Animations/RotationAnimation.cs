@@ -35,6 +35,14 @@ namespace LessonLibrary.Visualisation3D.Animations
         // Возвращает закончилась ли анимация
         public bool IsFinish => Math.Abs(Angle - _currentAngle) < 0.0001f;
 
+        // прииеняет поворот к вершине
+        public Vector3 ApplyToEnd(Vector3 vertex)
+        {
+            var rotationMatrix = Matrix4.CreateFromAxisAngle(Axis, Angle);
+
+            return Vector3.Transform(vertex, rotationMatrix);
+        }
+
         /// <summary>
         /// Текущий угол поворота
         /// </summary>

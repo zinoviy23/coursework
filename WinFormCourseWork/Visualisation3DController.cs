@@ -326,6 +326,9 @@ namespace WinFormCourseWork
             if (buttonsDiv == null)
                 return;
 
+            if (CurrentVisualisation.ReadOnlyAnimations == null)
+                return;
+
             // настройка кнопок
             var cnt = 0;
             foreach (var animation in CurrentVisualisation.ReadOnlyAnimations)
@@ -346,7 +349,10 @@ namespace WinFormCourseWork
                     CheckHtmlButtons(htmlView);
                 };
                 div.AppendChild(p);
-                p.InnerText = "Поворот";
+                //p.InnerText = "Поворот";
+                p.InnerHtml =
+                    PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
+                        .ConvertAnimationToPermuation(animation).TupleList);
                 div.AppendChild(el);
                 buttonsDiv.AppendChild(div);
                 Log.WriteLine(animation);
@@ -367,7 +373,7 @@ namespace WinFormCourseWork
         /// </summary>
         public void UpdateInfo()
         {
-            if (CurrentVisualisation.CurrentAnimation.IsFinish)
+            if (CurrentVisualisation.CurrentAnimation == null || CurrentVisualisation.CurrentAnimation.IsFinish)
             {
                 IsPlayingAnimation = false;
             }

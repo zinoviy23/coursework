@@ -46,9 +46,6 @@ namespace LessonLibrary.Visualisation3D
             InitNormals = (Vector3[])Normals.Clone();
             PrevVertices = VerticesClone;
             PrevNormals = (Vector3[]) InitNormals.Clone();
-
-            CurrentAnimation = new RotationAnimation(MathHelper.Pi / 3 * 2, Vector3.UnitY, MathHelper.Pi / 4);
-            //CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitX, Vertices[2]), 1f);
         }
 
         /// <inheritdoc cref="VisualisationLesson"/>

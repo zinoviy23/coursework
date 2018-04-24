@@ -399,8 +399,13 @@ namespace WinFormCourseWork
         private void InitVisualisationsDictionary()
         {
             _visualisationLessons["Tetrahedron"] = new TetrahedronVisualisation();
-            _visualisationLessons["Tetrahedron"].SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Tetrahedron"));
+            _visualisationLessons["Tetrahedron"]
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Tetrahedron"));
+
             _visualisationLessons["Cube"] = new CubeVisualisation();
+            _visualisationLessons["Cube"]
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Cube"));
+
             _visualisationLessons["Octahedron"] = new OctahedronVisualisation();
             _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
             _visualisationLessons["Dodecahedron"] = new DodecahedronVisualisation();

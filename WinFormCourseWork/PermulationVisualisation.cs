@@ -114,7 +114,7 @@ namespace WinFormCourseWork
         /// <param name="pairs">Лист пар с дополнительным параметром</param>
         /// <returns>HTML разметка для подстановки</returns>
         [NotNull]
-        private static string ListOfTuplesToHtml([NotNull] IReadOnlyList<Tuple<int, int, int>> pairs)
+        public static string ListOfTuplesToHtml([NotNull] IReadOnlyList<Tuple<int, int, int>> pairs)
         {
             var sb = new StringBuilder(@"<table>
                         <tr><td>

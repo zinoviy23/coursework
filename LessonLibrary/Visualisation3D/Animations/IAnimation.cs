@@ -35,5 +35,12 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// Возвращает, завершилась ли анимация
         /// </summary>
         bool IsFinish { get; }
+
+        /// <summary>
+        /// Применяет к вершине конечный вариант анимации
+        /// </summary>
+        /// <param name="vertex">Вершина</param>
+        /// <returns>Её образ</returns>
+        Vector3 ApplyToEnd(Vector3 vertex);
     }
 }

@@ -31,6 +31,12 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// </summary>
         public bool IsFinish => Math.Abs(_currentCoef - (-1)) < 0.0001f;
 
+        // применяет симметрию к вершине
+        public Vector3 ApplyToEnd(Vector3 vertex)
+        {
+            return vertex - Plane.Normal * Plane.Value(vertex) * 2;
+        }
+
         /// <summary>
         /// Текущий коэффициент применения анимации
         /// </summary>

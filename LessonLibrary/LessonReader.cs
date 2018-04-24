@@ -233,13 +233,13 @@ namespace LessonLibrary
                             res.Add((SymmetryAnimation) serializerSymmetry.ReadObject(reader));
                     }
                 }
-                catch (SerializationException)
+                catch (SerializationException ex)
                 {
-                    throw new ArgumentException("Невозможно корректно считать файлы из папки");
+                    throw new ArgumentException($"Невозможно корректно считать файлы из папки\n{ex.Message}");
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
-                    throw new ArgumentException("Проблемы с доступом к папке!");
+                    throw new ArgumentException($"Проблемы с доступом к папке!\n{ex.Message}");
                 }
             }
 
