@@ -407,6 +407,9 @@ namespace WinFormCourseWork
                 .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Cube"));
 
             _visualisationLessons["Octahedron"] = new OctahedronVisualisation();
+            _visualisationLessons["Octahedron"]
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Octahedron"));
+
             _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
             _visualisationLessons["Dodecahedron"] = new DodecahedronVisualisation();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
@@ -152,7 +153,7 @@ namespace LessonLibrary.Visualisation3D
 
         public override void SetAnimations(IAnimation[] animations)
         {
-            throw new NotImplementedException();
+            Animations = new List<IAnimation>((IAnimation[])animations.Clone());
         }
     }
 }

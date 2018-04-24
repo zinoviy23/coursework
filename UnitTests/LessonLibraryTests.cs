@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -304,6 +305,73 @@ namespace UnitTests
             for (var i = 0; i < rotations.Count; i++)
             {
                 var name = $@"Cube\r{i.ToString($"D{2}")}.xml";
+                using (var writer = XmlWriter.Create(name, new XmlWriterSettings { Indent = true }))
+                {
+                    xmlSer.WriteObject(writer, rotations[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Пытается вывести все анимации октаэдра
+        /// </summary>
+        [TestMethod]
+        public void OctahedronAnimationWritingTest()
+        {
+            var rotations = new List<RotationAnimation> { new RotationAnimation(0, Vector3.UnitY, MathHelper.Pi / 2) };
+
+            var vertices = new OctahedronVisualisation().VerticesClone;
+
+            var verticesTuples = new[]
+                {new Tuple<int, int>(0, 2), new Tuple<int, int>(1, 3), new Tuple<int, int>(4, 5)};
+
+            foreach (var tuple in verticesTuples)
+            {
+                for (var angleMult = 1; angleMult <= 3; angleMult++)
+                {
+                    rotations.Add(new RotationAnimation(MathHelper.Pi / 2 * angleMult,
+                        vertices[tuple.Item1] - vertices[tuple.Item2], MathHelper.Pi / 2));
+                }
+            }
+
+            var verticesTuple3 = new[]
+            {
+                new Tuple<int, int, int>(0, 1, 4), new Tuple<int, int, int>(1, 2, 4),
+                new Tuple<int, int, int>(2, 3, 4), new Tuple<int, int, int>(3, 0, 4)
+            };
+
+            rotations.AddRange(verticesTuple3.SelectMany(tuple => new []
+            {
+                new RotationAnimation(MathHelper.Pi / 3 * 2,
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2),
+                new RotationAnimation(MathHelper.Pi / 3 * 4,
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2)
+            }));
+
+            /*var vectors = new[]
+                {new Vector3(1, 1, 1), new Vector3(1, 1, -1), new Vector3(1, -1, 1), new Vector3(-1, 1, 1)};
+
+            rotations.AddRange(vectors.SelectMany(axis => new[]
+            {
+                new RotationAnimation(MathHelper.Pi * 2 / 3, axis, MathHelper.Pi / 2),
+                new RotationAnimation(MathHelper.Pi * 4 / 3, axis, MathHelper.Pi / 2) 
+            }));*/
+
+
+            verticesTuples = new[]
+            {
+                new Tuple<int, int>(0, 4), new Tuple<int, int>(1, 4), new Tuple<int, int>(2, 4),
+                new Tuple<int, int>(3, 4), new Tuple<int, int>(0, 1), new Tuple<int, int>(1, 2)
+            };
+
+            rotations.AddRange(verticesTuples.Select(tuple => new RotationAnimation(MathHelper.Pi, 
+                (vertices[tuple.Item1] + vertices[tuple.Item2]) / 2, MathHelper.Pi / 2)));
+
+            var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
+
+            for (var i = 0; i < rotations.Count; i++)
+            {
+                var name = $@"Octahedron\r{i.ToString($"D{2}")}.xml";
                 using (var writer = XmlWriter.Create(name, new XmlWriterSettings { Indent = true }))
                 {
                     xmlSer.WriteObject(writer, rotations[i]);

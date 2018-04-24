@@ -350,9 +350,9 @@ namespace WinFormCourseWork
                 };
                 div.AppendChild(p);
                 //p.InnerText = "Поворот";
-                p.InnerHtml =
-                    PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
-                        .ConvertAnimationToPermuation(animation).TupleList);
+                //p.InnerHtml =
+                  //  PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
+                    //    .ConvertAnimationToPermuation(animation).TupleList);
                 div.AppendChild(el);
                 buttonsDiv.AppendChild(div);
                 Log.WriteLine(animation);
