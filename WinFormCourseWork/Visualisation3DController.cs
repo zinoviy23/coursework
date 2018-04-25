@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using JetBrains.Annotations;
@@ -320,14 +321,21 @@ namespace WinFormCourseWork
         /// <param name="args"></param>
         private void HtmlOnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs args)
         {
-            var htmlView = sender as WebBrowser;
+            if (!(sender is WebBrowser htmlView)) return;
+
             var buttonsDiv = htmlView?.Document?.GetElementById("buttons");
 
             if (buttonsDiv == null)
+            {
+                htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
                 return;
+            }
 
             if (CurrentVisualisation.ReadOnlyAnimations == null)
+            {
+                htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
                 return;
+            }
 
             // настройка кнопок
             var cnt = 0;
@@ -350,9 +358,9 @@ namespace WinFormCourseWork
                 };
                 div.AppendChild(p);
                 //p.InnerText = "Поворот";
-                //p.InnerHtml =
-                  //  PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
-                    //    .ConvertAnimationToPermuation(animation).TupleList);
+                p.InnerHtml =
+                    PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
+                        .ConvertAnimationToPermuation(animation).TupleList);
                 div.AppendChild(el);
                 buttonsDiv.AppendChild(div);
                 Log.WriteLine(animation);

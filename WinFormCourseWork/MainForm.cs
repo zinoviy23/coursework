@@ -411,7 +411,12 @@ namespace WinFormCourseWork
                 .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Octahedron"));
 
             _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
+            _visualisationLessons["Icosahedron"]
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Icosahedron"));
+
             _visualisationLessons["Dodecahedron"] = new DodecahedronVisualisation();
+            _visualisationLessons["Dodecahedron"]
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Dodecahedron"));
         }
 
         /// <summary>

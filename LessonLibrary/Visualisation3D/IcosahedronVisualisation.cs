@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
+using LogicOp = OpenTK.Graphics.LogicOp;
 using MaterialFace = OpenTK.Graphics.OpenGL.MaterialFace;
 using MaterialParameter = OpenTK.Graphics.OpenGL.MaterialParameter;
 
@@ -24,22 +27,32 @@ namespace LessonLibrary.Visualisation3D
         {
             Vertices = new Vector3[12];
 
+            var rCircumscribedCircleOfPyramid = (float)Math.Sqrt(1.0f / (2 * (1 - (float)Math.Cos(72 * Math.PI / 180))));
+            var heightPyramid = (float)Math.Sqrt(1 - 1.0f / (4 * Math.Pow(Math.Sin(36 * Math.PI / 180), 2)));
+            var levelHeight = (float) (Math.Sin(2 * Math.PI / 5) - heightPyramid);
+
+
             for (var i = 0; i < 5; i++)
             {
                 var angle = 2 * (i + 3)  / 5d * Math.PI;
-                Vertices[i] = new Vector3((float)Math.Cos(angle), (float)Math.Sqrt(3) / 4, (float)Math.Sin(angle));
+                
+                Vertices[i] = new Vector3((float) Math.Cos(angle) * rCircumscribedCircleOfPyramid,
+                    /*(float) Math.Sqrt(3) / 4*/ levelHeight,
+                    (float) Math.Sin(angle) * rCircumscribedCircleOfPyramid);
             }
 
-            var height = (float) Math.Sqrt(1 - 1.0f / (4 * Math.Pow(Math.Sin(36 * Math.PI / 180), 2)));
-            Vertices[5] = new Vector3(0, (float)Math.Sqrt(3) / 4 + height, 0);
+            
+            Vertices[5] = new Vector3(0, levelHeight + heightPyramid, 0);
 
             for (var i = 0; i < 5; i++)
             {
                 var angle = (360d * (i + 3) / 5 + 36) * Math.PI / 180;
-                Vertices[i + 6] = new Vector3((float)Math.Cos(angle), -(float)Math.Sqrt(3) / 4, (float)Math.Sin(angle));
+                Vertices[i + 6] = new Vector3((float) Math.Cos(angle) * rCircumscribedCircleOfPyramid,
+                    /*-(float) Math.Sqrt(3) / 4*/ -levelHeight,
+                    (float) Math.Sin(angle) * rCircumscribedCircleOfPyramid);
             }
 
-            Vertices[11] = new Vector3(0, -(float)Math.Sqrt(3) / 4 - height, 0);
+            Vertices[11] = new Vector3(0, -levelHeight - heightPyramid, 0);
 
             var delta = 1.0f / (Vertices[0] - Vertices[1]).Length;
             for (var i = 0; i < Vertices.Length; i++)
@@ -268,7 +281,7 @@ namespace LessonLibrary.Visualisation3D
 
         public override void SetAnimations(IAnimation[] animations)
         {
-            throw new NotImplementedException();
+            Animations = new List<IAnimation>((IAnimation[]) animations.Clone());
         }
     }
 }

@@ -348,16 +348,6 @@ namespace UnitTests
                     (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2)
             }));
 
-            /*var vectors = new[]
-                {new Vector3(1, 1, 1), new Vector3(1, 1, -1), new Vector3(1, -1, 1), new Vector3(-1, 1, 1)};
-
-            rotations.AddRange(vectors.SelectMany(axis => new[]
-            {
-                new RotationAnimation(MathHelper.Pi * 2 / 3, axis, MathHelper.Pi / 2),
-                new RotationAnimation(MathHelper.Pi * 4 / 3, axis, MathHelper.Pi / 2) 
-            }));*/
-
-
             verticesTuples = new[]
             {
                 new Tuple<int, int>(0, 4), new Tuple<int, int>(1, 4), new Tuple<int, int>(2, 4),
@@ -377,6 +367,102 @@ namespace UnitTests
                     xmlSer.WriteObject(writer, rotations[i]);
                 }
             }
+        }
+
+        /// <summary>
+        /// Пытается вывести все анимации икосаэдра
+        /// </summary>
+        [TestMethod]
+        public void IcosahedronAnimationsWritingTest()
+        {
+            var rotations = new List<RotationAnimation> { new RotationAnimation(0, Vector3.UnitY, MathHelper.Pi / 2) };
+
+            var vertices = new IcosahedronVisualisation().VerticesClone;
+
+            var verticesTuples = new[] {
+                new Tuple<int, int>(5, 11), new Tuple<int, int>(0, 8),
+                new Tuple<int, int>(1, 9), new Tuple<int, int>(2, 10), 
+                new Tuple<int, int>(3, 6), new Tuple<int, int>(4, 7)  
+            };
+
+            foreach (var tuple in verticesTuples)
+            {
+                const float angle = MathHelper.Pi / 5;
+                for (var i = 1; i <= 4; i++ )
+                    rotations.Add(new RotationAnimation(angle * 2 * i, vertices[tuple.Item1] - vertices[tuple.Item2],
+                        MathHelper.Pi / 2));
+            }
+
+            var verticesTuple3 = new[]
+            {
+                new Tuple<int, int, int>(5, 0, 1), new Tuple<int, int, int>(5, 1, 2), new Tuple<int, int, int>(5, 2, 3),
+                new Tuple<int, int, int>(5, 3, 4), new Tuple<int, int, int>(5, 4, 0),
+                new Tuple<int, int, int>(0, 1, 6), new Tuple<int, int, int>(1, 2, 7), new Tuple<int, int, int>(2, 3, 8),
+                new Tuple<int, int, int>(3, 4, 9), new Tuple<int, int, int>(4, 0, 10)  
+            };
+
+            rotations.AddRange(verticesTuple3.SelectMany(tuple => new []
+            {
+                new RotationAnimation(2 * MathHelper.Pi / 3,
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2),
+                new RotationAnimation(4 * MathHelper.Pi / 3,
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2)
+            }));
+
+            verticesTuples = new[]
+            {
+                new Tuple<int, int>(0, 1), new Tuple<int, int>(1, 2), new Tuple<int, int>(2, 3),
+                new Tuple<int, int>(3, 4), new Tuple<int, int>(4, 0),
+                new Tuple<int, int>(5, 0), new Tuple<int, int>(5, 1), new Tuple<int, int>(5, 2),
+                new Tuple<int, int>(5, 3), new Tuple<int, int>(5, 4),
+                new Tuple<int, int>(0, 10), new Tuple<int, int>(1, 6), new Tuple<int, int>(2, 7),
+                new Tuple<int, int>(3, 8), new Tuple<int, int>(4, 9),  
+            };
+
+            rotations.AddRange(verticesTuples.Select(tuple => 
+                new RotationAnimation(MathHelper.Pi, (vertices[tuple.Item1] + vertices[tuple.Item2]) / 2,
+                    MathHelper.Pi / 2)));
+
+            var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
+
+            for (var i = 0; i < rotations.Count; i++)
+            {
+                var name = $@"Icosahedron\r{i.ToString($"D{2}")}.xml";
+                using (var writer = XmlWriter.Create(name, new XmlWriterSettings { Indent = true }))
+                {
+                    xmlSer.WriteObject(writer, rotations[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// проверяет построение вершин икосаэдра
+        /// </summary>
+        [TestMethod]
+        public void IcosahedronConstructorTest()
+        {
+            var vertices = new IcosahedronVisualisation().VerticesClone;
+            const float delta = 0.0001f;
+
+            Assert.AreEqual(1.0f, (vertices[0] - vertices[1]).Length, delta);
+            Assert.AreEqual(1.0f, (vertices[5] - vertices[1]).Length, delta);
+            Assert.AreEqual(1.0f, (vertices[3] - vertices[9]).Length, delta);
+        }
+
+        /// <summary>
+        /// Проверяет построение вершин додекаэдра
+        /// </summary>
+        [TestMethod]
+        public void DodecahedronConstructorTest()
+        {
+            const float delta = 0.0001f;
+
+            var vertices = new DodecahedronVisualisation().VerticesClone;
+
+            Assert.AreEqual(1.0f, (vertices[0] - vertices[1]).Length, delta);
+            Assert.AreEqual(1.0f, (vertices[0] - vertices[4]).Length, delta);
+            Assert.AreEqual(1.0f, (vertices[0] - vertices[5]).Length, delta);
+            Assert.AreEqual(1.0f, (vertices[5] - vertices[10]).Length, delta);
         }
     }
 }

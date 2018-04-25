@@ -16,7 +16,7 @@ namespace LessonLibrary.Visualisation3D.Geometry
         /// <returns>true, если вектора равны</returns>
         public static bool AreVectorsEquals(Vector3 a, Vector3 b)
         {
-            const float comparationError = 0.0001f;
+            const float comparationError = 0.001f;
             return Math.Abs(a.X - b.X) < comparationError && Math.Abs(a.Y - b.Y) < comparationError &&
                    Math.Abs(a.Z - b.Z) < comparationError;
         }
