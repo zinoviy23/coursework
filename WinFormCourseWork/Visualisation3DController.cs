@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D;
+using LessonLibrary.Visualisation3D.Animations;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -323,7 +323,7 @@ namespace WinFormCourseWork
         {
             if (!(sender is WebBrowser htmlView)) return;
 
-            var buttonsDiv = htmlView?.Document?.GetElementById("buttons");
+            var buttonsDiv = htmlView.Document?.GetElementById("buttons");
 
             if (buttonsDiv == null)
             {
@@ -357,10 +357,20 @@ namespace WinFormCourseWork
                     CheckHtmlButtons(htmlView);
                 };
                 div.AppendChild(p);
-                //p.InnerText = "Поворот";
-                p.InnerHtml =
+
+                if (animation is RotationAnimation rotation)
+                {
+                    p.InnerHtml = RotationAnimationToHtml(rotation);
+                }
+                else
+                {
+                    p.InnerHtml = "";
+                }
+
+                p.InnerHtml +=
                     PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
                         .ConvertAnimationToPermuation(animation).TupleList);
+                
                 div.AppendChild(el);
                 buttonsDiv.AppendChild(div);
                 Log.WriteLine(animation);
@@ -401,6 +411,66 @@ namespace WinFormCourseWork
             {
                 button.Enabled = !IsPlayingAnimation; // если играет анимация, то нельзя выбрать другую кнопку
             }
+        }
+
+        /// <summary>
+        /// Преобразовывает угол в дробь, домноженную на пи
+        /// </summary>
+        /// <param name="angle">угол</param>
+        /// <returns>пара, где первое - числитель, второе - знаменатель</returns>
+        [CanBeNull]
+        public static Tuple<int, int> AngleToFracWithPi(float angle)
+        {
+            var frac = angle / MathHelper.Pi;
+            const float delta = 0.00001f;
+            for (var denominator = 1; denominator <= 20; denominator++)
+            {
+                var fracNumerator = denominator * frac;
+                for (var numerator = 1; numerator <= denominator * 2; numerator++)
+                {
+                    if (Math.Abs(numerator - fracNumerator) < delta)
+                    {
+                        return new Tuple<int, int>(numerator, denominator);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Преобразовавет поворот в html строку
+        /// </summary>
+        /// <param name="rotation">поворот</param>
+        /// <returns>html строка</returns>
+        public static string RotationAnimationToHtml(RotationAnimation rotation)
+        {
+            var frac = AngleToFracWithPi(rotation.Angle);
+            if (frac == null)
+            {
+                return $@"<table> <tr> <td>Поворот на</td>
+                            <td align=""center""> {rotation.Angle} </td> </tr> </table >";
+            }
+
+            if (frac.Item2 == 1)
+            {
+                return $@"<table> <tr> <td>Поворот на</td>
+                            <td align=""center""> {(frac.Item1 == 1 ? "" : frac.Item2.ToString())} </td> <td>&#960;</td> </tr> </table >";
+            }
+
+            return $@"<table>
+                <tr>
+                <td>Поворот на</td>
+                <td align=""center""> <table>
+                <tr> <td>{frac.Item1}</td> </tr>
+                <tr>
+                <td align = ""center"" style = ""border-top-style: solid; border-top-color: black;"" > {frac.Item2}</td>
+                </tr>
+                </table>   
+                </td>
+                <td>&#960;</td>
+                </tr>
+                </table>";
         }
     }
 }

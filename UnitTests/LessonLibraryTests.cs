@@ -11,6 +11,7 @@ using LessonLibrary.Visualisation3D;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
+using WinFormCourseWork;
 
 namespace UnitTests
 {
@@ -463,6 +464,27 @@ namespace UnitTests
             Assert.AreEqual(1.0f, (vertices[0] - vertices[4]).Length, delta);
             Assert.AreEqual(1.0f, (vertices[0] - vertices[5]).Length, delta);
             Assert.AreEqual(1.0f, (vertices[5] - vertices[10]).Length, delta);
+        }
+
+        /// <summary>
+        /// Проверяет преобразование угла в дробь с пи
+        /// </summary>
+        [TestMethod]
+        public void AngleToFracWithPiTest()
+        {
+            const float angle = MathHelper.Pi * 2 / 3;
+            var frac = Visualisation3DController.AngleToFracWithPi(angle);
+
+            Assert.IsNotNull(frac);
+            Assert.AreEqual(2, frac.Item1);
+            Assert.AreEqual(3, frac.Item2);
+
+            const float angle2 = MathHelper.Pi * 8 / 5;
+            frac = Visualisation3DController.AngleToFracWithPi(angle2);
+
+            Assert.IsNotNull(frac);
+            Assert.AreEqual(8, frac.Item1);
+            Assert.AreEqual(5, frac.Item2);
         }
     }
 }
