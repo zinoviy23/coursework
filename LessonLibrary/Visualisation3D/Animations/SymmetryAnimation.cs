@@ -97,5 +97,14 @@ namespace LessonLibrary.Visualisation3D.Animations
         {
             return 1;
         }
+
+        /// <summary>
+        /// Представление симметрии в виде строки
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"Symmetry: Axis: {Plane}";
+        }
     }
 }

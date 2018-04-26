@@ -1,8 +1,6 @@
 <html>
     <body>
-        <p>
-        Это 3D!
-        </p>
+        <h2>Самосовмещения</h2>
         <div id="buttons">
         </div>
     </body>

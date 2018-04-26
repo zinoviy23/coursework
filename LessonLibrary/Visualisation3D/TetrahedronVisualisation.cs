@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using LessonLibrary.Visualisation3D.Animations;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -121,11 +119,6 @@ namespace LessonLibrary.Visualisation3D
             DrawVertices();
 
             Transform.UnsetTransform();
-        }
-
-        public override void SetAnimations(IAnimation[] animations)
-        {
-            Animations = new List<IAnimation>((IAnimation[])animations.Clone());
         }
     }
 }

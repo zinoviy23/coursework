@@ -61,7 +61,10 @@ namespace LessonLibrary.Visualisation3D
         /// Задаёт анимации
         /// </summary>
         /// <param name="animations">Анимации</param>
-        public abstract void SetAnimations([NotNull] IAnimation[] animations);
+        public void SetAnimations(IAnimation[] animations)
+        {
+            Animations = new List<IAnimation>((IAnimation[])animations.Clone());
+        }
 
         /// <summary>
         /// Возвращает анимации, в виде неизменяемого лист
@@ -251,7 +254,7 @@ namespace LessonLibrary.Visualisation3D
         /// </summary>
         public void Reset()
         {
-            CurrentAnimation?.Reset();
+            CurrentAnimation = null;
             PrevVertices = (Vector3[]) InitVertices.Clone();
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
@@ -262,19 +265,30 @@ namespace LessonLibrary.Visualisation3D
         /// </summary>
         protected void ApplyCurrentAnimationInRender()
         {
-            if (CurrentAnimation == null) return;
-
-            if (CurrentAnimation is RotationAnimation rotation)
+            switch (CurrentAnimation)
             {
+                case null:
+                    return;
+                case RotationAnimation rotation:
+                    GL.Begin(PrimitiveType.Lines);
 
-                GL.Begin(PrimitiveType.Lines);
+                    GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Black);
+                    GL.Normal3(Vector3.Cross(Vector3.One, rotation.Axis));
+                    GL.Vertex3(-rotation.Axis.Normalized() * 2);
+                    GL.Vertex3(rotation.Axis.Normalized() * 2);
 
-                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Black);
-                GL.Normal3(Vector3.Cross(Vector3.One, rotation.Axis));
-                GL.Vertex3(-rotation.Axis.Normalized() * 2);
-                GL.Vertex3(rotation.Axis.Normalized() * 2);
+                    GL.End();
+                    break;
+                case SymmetryAnimation symmetry:
+                    GL.Begin(PrimitiveType.Lines);
 
-                GL.End();
+                    GL.Material(MaterialFace.FrontAndBack, MaterialParameter.AmbientAndDiffuse, Color4.Black);
+                    GL.Normal3(symmetry.Plane.Normal);
+                    GL.Vertex3(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3);
+                    GL.Vertex3(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3);
+
+                    GL.End();
+                    break;
             }
 
             for (var i = 0; i < Vertices.Length; i++)

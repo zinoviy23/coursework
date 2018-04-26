@@ -134,12 +134,22 @@ namespace WinFormCourseWork
                 checkTestToolStripMenuItem.Enabled = false;
                 cayleyTableGridView.Visible = false;
 
+                var visualisationType = ((string) node.Tag).Substring("Visualisation".Length);
+                _visualisationController.CurrentVisualisation =
+                    _visualisationLessons[visualisationType];
+                if (visualisationType == "Polygon")
+                {
+                    var sizeInput = new PolygonSizeInput();
+                    sizeInput.ShowDialog();
+                    ((PolygonVisualisation) _visualisationController.CurrentVisualisation).VerticesCount =
+                        sizeInput.PolygonSize;
+                }
+
                 //TODO: удалить это
                 var tmp = new StreamReader(Visualisation3DMarkupFilePath);
                 htmlView.DocumentText = tmp.ReadToEnd();
+                tmp.Close();
 
-                _visualisationController.CurrentVisualisation =
-                    _visualisationLessons[((string)node.Tag).Substring("Visualisation".Length)];
                 _visualisationController.IsAnimatingSessionStarted = false;
                 _visualisationController.SetButtons(htmlView);
 
@@ -417,6 +427,8 @@ namespace WinFormCourseWork
             _visualisationLessons["Dodecahedron"] = new DodecahedronVisualisation();
             _visualisationLessons["Dodecahedron"]
                 .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Dodecahedron"));
+
+            _visualisationLessons["Polygon"] = new PolygonVisualisation();
         }
 
         /// <summary>

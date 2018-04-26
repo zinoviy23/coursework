@@ -338,7 +338,8 @@ namespace WinFormCourseWork
             }
 
             // настройка кнопок
-            var cnt = 0;
+            var cntRotation = 0;
+            var cntSymmetry = 0;
             foreach (var animation in CurrentVisualisation.ReadOnlyAnimations)
             {
                 var div = htmlView.Document.CreateElement("div");
@@ -348,7 +349,7 @@ namespace WinFormCourseWork
                     return;
                 el.SetAttribute("type", "button");
                 el.SetAttribute("value", "animate");
-                el.InnerText = $"Поворот {cnt}";
+                
                 el.Click += (o, eventArgs) =>
                 {
                     IsAnimatingSessionStarted = true;
@@ -358,13 +359,21 @@ namespace WinFormCourseWork
                 };
                 div.AppendChild(p);
 
-                if (animation is RotationAnimation rotation)
+                switch (animation)
                 {
-                    p.InnerHtml = RotationAnimationToHtml(rotation);
-                }
-                else
-                {
-                    p.InnerHtml = "";
+                    case RotationAnimation rotation:
+                        p.InnerHtml = RotationAnimationToHtml(rotation);
+                        cntRotation++;
+                        el.InnerText = $"Поворот {cntRotation}";
+                        break;
+                    case SymmetryAnimation symmetry:
+                        p.InnerHtml = SymmetryAnimationToHtml(symmetry, CurrentVisualisation);
+                        cntSymmetry++;
+                        el.InnerText = $"Симметрия {cntSymmetry}";
+                        break;
+                    default:
+                        p.InnerHtml = "";
+                        break;
                 }
 
                 p.InnerHtml +=
@@ -375,7 +384,6 @@ namespace WinFormCourseWork
                 buttonsDiv.AppendChild(div);
                 Log.WriteLine(animation);
 
-                cnt++;
             }
             Log.WriteLine(buttonsDiv.InnerHtml);
             htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
@@ -471,6 +479,70 @@ namespace WinFormCourseWork
                 <td>&#960;</td>
                 </tr>
                 </table>";
+        }
+
+        /// <summary>
+        /// Представляет симметрию в html
+        /// </summary>
+        /// <param name="symmetry">симметрия</param>
+        /// <param name="visualisation">3д объект</param>
+        /// <returns>Представление для html страницы</returns>
+        public static string SymmetryAnimationToHtml(SymmetryAnimation symmetry, VisualisationLesson visualisation)
+        {
+            var vertices = visualisation.VerticesClone;
+
+            if (!(visualisation is PolygonVisualisation))
+            {
+                return $"Симметрия относительно плоскости {symmetry.Plane}";
+            }
+
+            const float comparationConstant = 0.0001f;
+            if (vertices.Length % 2 == 1)
+            {
+                var verIndex = 0;
+                for (var i = 0; i < vertices.Length; i++)
+                    if (Math.Abs(symmetry.Plane.Value(vertices[i])) < comparationConstant)
+                    {
+                        verIndex = i;
+                        break;
+                    }
+
+                return
+                    $"Симметрия относительно оси, проходящей через вершину {verIndex + 1}" +
+                    $" и середину ребра ({(verIndex + vertices.Length / 2) % vertices.Length + 1}," +
+                    $" {(verIndex + vertices.Length / 2 + 1) % vertices.Length + 1})";
+            }
+            else
+            {
+                var verIndex = -1;
+                for (var i = 0; i < vertices.Length / 2; i++)
+                    if (Math.Abs(symmetry.Plane.Value(vertices[i])) < comparationConstant)
+                    {
+                        verIndex = i;
+                        break;
+                    }
+
+                if (verIndex != -1)
+                {
+                    return
+                        $"Симметрия относительно оси, проходящей через вершину {verIndex + 1}" +
+                        $" и вершину {(verIndex + vertices.Length / 2) % vertices.Length + 1 }";
+                }
+                else
+                {
+                    verIndex = -1;
+                    for (var i = 0; i < vertices.Length / 2; i++)
+                    {
+                        if (Math.Abs(symmetry.Plane.Value((vertices[i] + vertices[i + 1]) / 2)) < comparationConstant)
+                            verIndex = i;
+                    }
+
+                    return "Симметрия относительно оси, проходящей через середину ребра" +
+                           $" ({verIndex + 1}, {verIndex + 2}) и середину ребра" +
+                           $" ({(verIndex + vertices.Length / 2) % vertices.Length + 1}," +
+                           $" {(verIndex + vertices.Length / 2 + 1) % vertices.Length + 1})";
+                }
+            }
         }
     }
 }

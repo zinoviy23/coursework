@@ -89,6 +89,12 @@
       <DependentUpon>PermulationInput.cs</DependentUpon>
     </Compile>
     <Compile Include="PermulationVisualisation.cs" />
+    <Compile Include="PolygonSizeInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolygonSizeInput.Designer.cs">
+      <DependentUpon>PolygonSizeInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UiState.cs" />
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PermulationInput.resx">
       <DependentUpon>PermulationInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolygonSizeInput.resx">
+      <DependentUpon>PolygonSizeInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

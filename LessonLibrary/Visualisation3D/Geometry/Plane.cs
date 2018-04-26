@@ -77,5 +77,14 @@ namespace LessonLibrary.Visualisation3D.Geometry
         {
             return 1;
         }
+
+        /// <summary>
+        /// Возвращает уравнение плоскости
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{Normal.X}*x + {Normal.Y}*y + {Normal.Z}*z + {_emptyCoef} = 0";
+        }
     }
 }

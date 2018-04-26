@@ -15,6 +15,7 @@
         <visualisation tag="VisualisationOctahedron">Октаэдр</visualisation>
         <visualisation tag="VisualisationIcosahedron">Икосаэдр</visualisation>
         <visualisation tag="VisualisationDodecahedron">Додэкаэдр</visualisation>
+        <visualisation tag="VisualisationPolygon">Многоугольник</visualisation>
         <visualisation tag="Permulation Visualisation">Подстановки и циклы</visualisation>
     </root>
 </lessonstree>
