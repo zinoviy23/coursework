@@ -215,6 +215,19 @@ namespace UnitTests
         }
 
         /// <summary>
+        /// Проверяет получение обратной подтсановки
+        /// </summary>
+        [TestMethod]
+        public void PermulationNegationTest()
+        {
+            var permulation = new Permulation(new List<int>(new [] {3, 1, 5, 4, 2}));
+
+            Assert.AreEqual(new Permulation(5), permulation * (-permulation));
+            Assert.AreEqual(new Permulation(5), (-permulation) * permulation);
+        }
+
+
+        /// <summary>
         /// Проверяет преобразоавние между циклами и подстановками
         /// </summary>
         [TestMethod]

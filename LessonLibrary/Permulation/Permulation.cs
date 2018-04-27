@@ -173,6 +173,24 @@ namespace LessonLibrary.Permulation
             
             return new Permulation(resList);
         }
+
+        /// <summary>
+        /// Получает обратную подстановку
+        /// </summary>
+        /// <param name="a">Подстановка</param>
+        /// <returns>Обратная подстановка</returns>
+        [NotNull]
+        public static Permulation operator -([NotNull] Permulation a)
+        {
+            var res = new List<int>(new int[a.Size]);
+
+            for (var i = 1; i <= a.Size; i++)
+            {
+                res[a[i] - 1] = i;
+            }
+
+            return new Permulation(res);
+        }
         
         /// <summary>
         /// Возвращает представление подстановки в виде циклов
