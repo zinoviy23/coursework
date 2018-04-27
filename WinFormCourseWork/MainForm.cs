@@ -8,6 +8,7 @@ using LessonLibrary;
 using System.IO;
 using LessonLibrary.Visualisation3D;
 using OpenTK;
+using OpenTK.Graphics;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using MatrixMode = OpenTK.Graphics.OpenGL.MatrixMode;
 
@@ -19,6 +20,8 @@ namespace WinFormCourseWork
     /// </summary>
     public partial class MainForm : Form
     {
+        private readonly GLControl _glControl;
+
         /// <summary>
         /// Текущий тест
         /// </summary>
@@ -83,6 +86,16 @@ namespace WinFormCourseWork
         {
             InitializeComponent();
 
+            _glControl = new GLControl(new GraphicsMode(new ColorFormat(32), 24, 0, 8));
+            _glControl.BringToFront();
+            _glControl.Enabled = true;
+            _glControl.MouseDown += GlControl1_MouseDown;
+            _glControl.MouseMove += GlControl1_MouseMove;
+            _glControl.MouseUp += GlControl1_MouseUp;
+            _glControl.KeyUp += GlControl1_KeyDown;
+            
+            Controls.Add(_glControl);
+
             LoadLesson("title_page.xml");
 
             _tablesFolder = new DirectoryInfo(TablesFolderPath);
@@ -101,10 +114,10 @@ namespace WinFormCourseWork
 
             Closed += (sender, args) => Log.Close();
 
-            glControl.Visible = false;
+            _glControl.Visible = false;
             cayleyTableGridView.Visible = false;
 
-            _visualisationController = new Visualisation3DController(glControl, this);
+            _visualisationController = new Visualisation3DController(_glControl, this);
 
             LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
@@ -128,8 +141,9 @@ namespace WinFormCourseWork
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 //htmlView.Hide();
+                htmlView.Show();
                 PermulationVisualisation.Release();
-                glControl.Visible = true;
+                _glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;
                 cayleyTableGridView.Visible = false;
@@ -162,7 +176,7 @@ namespace WinFormCourseWork
                     LoadTable();
                     htmlView.Visible = false;
                     cayleyTableGridView.Visible = true;
-                    glControl.Visible = false;
+                    _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = true;
                     _visualisationController.HideVertexLabels();
 
@@ -171,7 +185,7 @@ namespace WinFormCourseWork
                 case "Permulation Visualisation":
                     htmlView.Visible = true;
                     cayleyTableGridView.Visible = false;
-                    glControl.Visible = false;
+                    _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
                     _visualisationController.HideVertexLabels();
                     try
@@ -191,7 +205,7 @@ namespace WinFormCourseWork
                     cayleyTableGridView.Visible = false;
                     LoadLesson((string) node.Tag);
                     htmlView.Show();
-                    glControl.Visible = false;
+                    _glControl.Visible = false;
                     _visualisationController.HideVertexLabels();
 
                     _uiState = UiState.SimpleHtml;
@@ -469,10 +483,10 @@ namespace WinFormCourseWork
             htmlView.Top = ClientSize.Height - htmlView.Height;
             htmlView.Left = lessonsTreeView.Right;
 
-            glControl.Size =
+            _glControl.Size =
                 new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
                     ClientSize.Height - htmlView.Height - 5);
-            glControl.Location = new Point(lessonsTreeView.Right + 1, 1);
+            _glControl.Location = new Point(lessonsTreeView.Right + 1, 1);
 
             _visualisationController?.UpdateGlSettings();
             _visualisationController?.UpdateVerticesIndexies();
@@ -547,7 +561,7 @@ namespace WinFormCourseWork
             if (_visualisationController == null)
                 return;
 
-            if (_visualisationController.GlContolLoaded && glControl.Visible)
+            if (_visualisationController.GlContolLoaded && _glControl.Visible)
             {
                 if (_visualisationController.IsPlayingAnimation)
                     _visualisationController.CurrentVisualisation?.CurrentAnimation?.NextStep(_deltaTime);
@@ -555,7 +569,7 @@ namespace WinFormCourseWork
 
             }
 
-            glControl.Refresh();
+            _glControl.Refresh();
 
         }
 
@@ -665,10 +679,6 @@ namespace WinFormCourseWork
             WorldInfo.ViewMatrix = modelview;
         }
 
-        private void GlControl1_KeyUp(object sender, KeyEventArgs e)
-        {
-        }
-
         /// <summary>
         /// Запрещает нажимать на F5 в браузере.
         /// </summary>
@@ -678,13 +688,6 @@ namespace WinFormCourseWork
         {
             if (e.KeyCode == Keys.F5)
                 e.IsInputKey = true;
-        }
-
-        private void PlayToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!_visualisationController.IsPlayingAnimation)
-                _visualisationController.IsPlayingAnimation = true;
-            _visualisationController.IsAnimatingSessionStarted = true;
         }
     }
 }

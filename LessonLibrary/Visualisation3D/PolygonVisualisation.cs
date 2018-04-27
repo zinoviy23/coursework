@@ -127,7 +127,7 @@ namespace LessonLibrary.Visualisation3D
 
             for (var i = 0; i < _verticesCount; i++)
             {
-                animations[i] = new RotationAnimation(angle * i, Vector3.UnitZ, MathHelper.Pi);
+                animations[i] = new RotationAnimation(angle * i, Vector3.UnitZ, MathHelper.Pi / 4);
             }
 
 

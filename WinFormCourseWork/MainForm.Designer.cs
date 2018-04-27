@@ -31,11 +31,10 @@ namespace WinFormCourseWork
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Материалы");
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
-            this.glControl = new OpenTK.GLControl(new GraphicsMode(new ColorFormat(32), 24, 0, 8));
             this.cayleyTableGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,10 +49,10 @@ namespace WinFormCourseWork
             this.lessonsTreeView.Indent = 7;
             this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
             this.lessonsTreeView.Name = "lessonsTreeView";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Материалы";
+            treeNode3.Name = "Узел0";
+            treeNode3.Text = "Материалы";
             this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode3});
             this.lessonsTreeView.Size = new System.Drawing.Size(152, 501);
             this.lessonsTreeView.TabIndex = 0;
             this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
@@ -72,21 +71,6 @@ namespace WinFormCourseWork
             this.glTimer.Enabled = true;
             this.glTimer.Interval = 50;
             this.glTimer.Tick += new System.EventHandler(this.Timer_Tick);
-            // 
-            // glControl
-            // 
-            this.glControl.BackColor = System.Drawing.Color.Black;
-            this.glControl.Location = new System.Drawing.Point(372, 65);
-            this.glControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.glControl.Name = "glControl";
-            this.glControl.Size = new System.Drawing.Size(200, 185);
-            this.glControl.TabIndex = 1;
-            this.glControl.VSync = false;
-            this.glControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GlControl1_KeyDown);
-            this.glControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GlControl1_KeyUp);
-            this.glControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GlControl1_MouseDown);
-            this.glControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GlControl1_MouseMove);
-            this.glControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GlControl1_MouseUp);
             // 
             // cayleyTableGridView
             // 
@@ -126,7 +110,7 @@ namespace WinFormCourseWork
             this.checkTestToolStripMenuItem.Name = "checkTestToolStripMenuItem";
             this.checkTestToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.checkTestToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
-            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.checkTestToolStripMenuItem.Text = "Проверить";
             this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
             // 
@@ -138,7 +122,6 @@ namespace WinFormCourseWork
             this.Controls.Add(this.cayleyTableGridView);
             this.Controls.Add(this.htmlView);
             this.Controls.Add(this.lessonsTreeView);
-            this.Controls.Add(this.glControl);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(500, 400);
@@ -157,7 +140,6 @@ namespace WinFormCourseWork
         private System.Windows.Forms.TreeView lessonsTreeView;
         private System.Windows.Forms.WebBrowser htmlView;
         private System.Windows.Forms.Timer glTimer;
-        private OpenTK.GLControl glControl;
         private System.Windows.Forms.DataGridView cayleyTableGridView;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
