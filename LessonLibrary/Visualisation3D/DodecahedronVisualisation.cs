@@ -386,5 +386,10 @@ namespace LessonLibrary.Visualisation3D
 
             Transform.UnsetTransform();
         }
+
+        protected override void InitFaces()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -12,7 +13,7 @@ namespace LessonLibrary.Visualisation3D
     /// <summary>
     /// Класс для визуализации тэтраэдра
     /// </summary>
-    public class TetrahedronVisualisation : VisualisationLesson
+    public sealed class TetrahedronVisualisation : VisualisationLesson
     {
         /// <summary>
         /// Иницилизирует тэтраэдр
@@ -44,6 +45,8 @@ namespace LessonLibrary.Visualisation3D
             InitNormals = (Vector3[])Normals.Clone();
             PrevVertices = VerticesClone;
             PrevNormals = (Vector3[]) InitNormals.Clone();
+
+            InitFaces();
         }
 
         /// <inheritdoc cref="VisualisationLesson"/>
@@ -119,6 +122,17 @@ namespace LessonLibrary.Visualisation3D
             DrawVertices();
 
             Transform.UnsetTransform();
+        }
+
+        protected override void InitFaces()
+        {
+            Faces = new[]
+            {
+                new Face(Vertices[0], Vertices[1], Vertices[2]),
+                new Face(Vertices[3], Vertices[0], Vertices[1]), 
+                new Face(Vertices[3], Vertices[0], Vertices[2]), 
+                new Face(Vertices[3], Vertices[2], Vertices[1]) 
+            };
         }
     }
 }

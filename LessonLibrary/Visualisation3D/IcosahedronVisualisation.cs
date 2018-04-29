@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
-using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using GL = OpenTK.Graphics.OpenGL.GL;
-using LogicOp = OpenTK.Graphics.LogicOp;
 using MaterialFace = OpenTK.Graphics.OpenGL.MaterialFace;
 using MaterialParameter = OpenTK.Graphics.OpenGL.MaterialParameter;
 
@@ -16,7 +13,7 @@ namespace LessonLibrary.Visualisation3D
     /// Класс для визуализации икосаэдра
     /// </summary>
     /// <inheritdoc cref="VisualisationLesson"/>
-    public class IcosahedronVisualisation : VisualisationLesson
+    public sealed class IcosahedronVisualisation : VisualisationLesson
     {
         /// <summary>
         /// Иницилизирует икосаэдр
@@ -89,9 +86,7 @@ namespace LessonLibrary.Visualisation3D
             PrevVertices = (Vector3[]) InitVertices.Clone();
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
-            CurrentAnimation =
-                new SymmetryAnimation(
-                    new Plane(Vector3.Cross(Vertices[4] - Vertices[5], Vertices[7] - Vertices[5]), Vector3.Zero), 1);
+            InitFaces();
         }
 
         /// <summary>
@@ -276,6 +271,33 @@ namespace LessonLibrary.Visualisation3D
             DrawVertices();
 
             Transform.UnsetTransform();
+        }
+
+        protected override void InitFaces()
+        {
+            Faces = new[]
+            {
+                new Face(Vertices[5], Vertices[0], Vertices[1]),
+                new Face(Vertices[5], Vertices[1], Vertices[2]),
+                new Face(Vertices[5], Vertices[2], Vertices[3]), 
+                new Face(Vertices[5], Vertices[4], Vertices[3]), 
+                new Face(Vertices[5], Vertices[4], Vertices[0]), 
+                new Face(Vertices[0], Vertices[1], Vertices[6]), 
+                new Face(Vertices[1], Vertices[2], Vertices[7]),
+                new Face(Vertices[2], Vertices[3], Vertices[8]), 
+                new Face(Vertices[3], Vertices[4], Vertices[9]),
+                new Face(Vertices[4], Vertices[0], Vertices[10]), 
+                new Face(Vertices[1], Vertices[6], Vertices[7]), 
+                new Face(Vertices[2], Vertices[7], Vertices[8]), 
+                new Face(Vertices[3], Vertices[8], Vertices[9]), 
+                new Face(Vertices[4], Vertices[9], Vertices[10]), 
+                new Face(Vertices[0], Vertices[10], Vertices[6]),
+                new Face(Vertices[11], Vertices[6], Vertices[7]), 
+                new Face(Vertices[11], Vertices[7], Vertices[8]), 
+                new Face(Vertices[11], Vertices[8], Vertices[9]), 
+                new Face(Vertices[11], Vertices[9], Vertices[10]), 
+                new Face(Vertices[11], Vertices[10], Vertices[6]), 
+            };
         }
     }
 }

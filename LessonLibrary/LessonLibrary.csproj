@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CayleyTableTestLesson.cs" />
+    <Compile Include="Visualisation3D\Geometry\Face.cs" />
     <Compile Include="Visualisation3D\PolygonVisualisation.cs" />
     <Compile Include="Visualisation3D\Geometry\VectorUtils.cs" />
     <Compile Include="Visualisation3D\Animations\RotationAnimation.cs" />

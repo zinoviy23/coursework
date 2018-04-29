@@ -14,7 +14,7 @@ namespace LessonLibrary.Visualisation3D
     /// Класс для визуализации октаэдра
     /// </summary>
     /// <inheritdoc cref="VisualisationLesson"/>
-    public class OctahedronVisualisation : VisualisationLesson
+    public sealed class OctahedronVisualisation : VisualisationLesson
     {
         /// <summary>
         /// Иницилизирует октаэдр
@@ -49,7 +49,7 @@ namespace LessonLibrary.Visualisation3D
             PrevVertices = (Vector3[]) InitVertices.Clone();
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
-            CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitY, Vector3.Zero), 1f);
+            InitFaces();
         }
 
         /// <summary>
@@ -148,6 +148,21 @@ namespace LessonLibrary.Visualisation3D
             DrawVertices();
 
             Transform.UnsetTransform();
+        }
+
+        protected override void InitFaces()
+        {
+            Faces = new[]
+            {
+                new Face(Vertices[0], Vertices[1], Vertices[4]),
+                new Face(Vertices[4], Vertices[1], Vertices[2]), 
+                new Face(Vertices[4], Vertices[3], Vertices[2]), 
+                new Face(Vertices[4], Vertices[3], Vertices[0]), 
+                new Face(Vertices[5], Vertices[0], Vertices[1]), 
+                new Face(Vertices[5], Vertices[2], Vertices[1]), 
+                new Face(Vertices[5], Vertices[2], Vertices[3]),
+                new Face(Vertices[5], Vertices[3], Vertices[0])
+            };
         }
     }
 }

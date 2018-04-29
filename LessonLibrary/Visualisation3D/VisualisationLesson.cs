@@ -58,6 +58,21 @@ namespace LessonLibrary.Visualisation3D
         public abstract void Render();
 
         /// <summary>
+        /// Грани объекта
+        /// </summary>
+        protected Face[] Faces;
+
+        /// <summary>
+        /// Рёбра визуализации
+        /// </summary>
+        protected Tuple<Vector3, Vector3>[] Edges { get; set; }
+
+        /// <summary>
+        /// Задаёт грани
+        /// </summary>
+        protected abstract void InitFaces();
+
+        /// <summary>
         /// Задаёт анимации
         /// </summary>
         /// <param name="animations">Анимации</param>
@@ -235,7 +250,7 @@ namespace LessonLibrary.Visualisation3D
                     var ind = -1;
                     for (var j = 0; j < InitVertices.Length; j++)
                     {
-                        if (VectorUtils.AreVectorsEquals(Vertices[i], InitVertices[j]))
+                        if (VectorUtils.AreVectorsEqual(Vertices[i], InitVertices[j]))
                             ind = j;
                     }
 
@@ -329,7 +344,7 @@ namespace LessonLibrary.Visualisation3D
 
                 for (var i = 0; i < InitVertices.Length; i++)
                 {
-                    if (!VectorUtils.AreVectorsEquals(appliedVertex, InitVertices[i])) continue;
+                    if (!VectorUtils.AreVectorsEqual(appliedVertex, InitVertices[i])) continue;
 
                     ind = i;
                     break;
@@ -339,6 +354,30 @@ namespace LessonLibrary.Visualisation3D
             }
 
             return new Permulation.Permulation(permulationBottom);
+        }
+
+        /// <summary>
+        /// Определяет рёбра по граням
+        /// </summary>
+        protected void InitEdgesByFaces()
+        {
+            var res = new List<Tuple<Vector3, Vector3>>();
+
+            foreach (var face in Faces)
+            {
+                foreach (var edge in face.Edges)
+                {
+                    // если ещё нет ребра или перевернутого ребра, то добавить
+                    if (!VectorUtils.IsVectorPairContainsInPairSequence(res, edge) &&  
+                        !VectorUtils.IsVectorPairContainsInPairSequence(res,
+                            new Tuple<Vector3, Vector3>(edge.Item2, edge.Item1)))
+                    {
+                        res.Add(edge);
+                    }
+                }
+            }
+
+            Edges = res.ToArray();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using LessonLibrary.Visualisation3D.Animations;
-using LessonLibrary.Visualisation3D.Geometry;
+﻿using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -13,7 +12,7 @@ namespace LessonLibrary.Visualisation3D
     /// <summary>
     /// Класс для визуализации куба
     /// </summary>
-    public class CubeVisualisation : VisualisationLesson
+    public sealed class CubeVisualisation : VisualisationLesson
     {
         /// <summary>
         /// Иницилизирует куб
@@ -48,7 +47,7 @@ namespace LessonLibrary.Visualisation3D
             PrevVertices = (Vector3[]) InitVertices.Clone();
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
-            CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.UnitX, new Vector3(0, 0, 0)), 1f);
+            InitFaces();
         }
 
         /// <summary>
@@ -172,6 +171,19 @@ namespace LessonLibrary.Visualisation3D
             DrawVertices();
 
             Transform.UnsetTransform();
+        }
+
+        protected override void InitFaces()
+        {
+            Faces = new[]
+            {
+                new Face(Vertices[0], Vertices[1], Vertices[2], Vertices[3]),
+                new Face(Vertices[0], Vertices[3], Vertices[7], Vertices[4]), 
+                new Face(Vertices[1], Vertices[2], Vertices[6], Vertices[5]),
+                new Face(Vertices[4], Vertices[5], Vertices[6], Vertices[7]),
+                new Face(Vertices[0], Vertices[1], Vertices[5], Vertices[4]),
+                new Face(Vertices[3], Vertices[7], Vertices[6], Vertices[2])
+            };
         }
     }
 }

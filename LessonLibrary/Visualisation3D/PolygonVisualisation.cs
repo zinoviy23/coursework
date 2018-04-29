@@ -14,7 +14,7 @@ namespace LessonLibrary.Visualisation3D
     /// <summary>
     /// Визуализация многоугольников
     /// </summary>
-    public class PolygonVisualisation : VisualisationLesson
+    public sealed class PolygonVisualisation : VisualisationLesson
     {
         /// <inheritdoc />
         /// <summary>
@@ -86,6 +86,11 @@ namespace LessonLibrary.Visualisation3D
             Transform.UnsetTransform();
         }
 
+        protected override void InitFaces()
+        {
+            Faces = new[] {new Face(Vertices) };
+        }
+
         /// <summary>
         /// Задаёт координаты и анимации
         /// </summary>
@@ -113,6 +118,7 @@ namespace LessonLibrary.Visualisation3D
             Normals = (Vector3[]) PrevNormals.Clone();
 
             SetAnimations(GenAnimations());
+            InitFaces();
         }
 
         /// <summary>

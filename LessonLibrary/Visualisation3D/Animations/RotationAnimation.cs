@@ -105,7 +105,7 @@ namespace LessonLibrary.Visualisation3D.Animations
             if (ReferenceEquals(this, other)) return true;
             const float tolerance = 0.0001f;
             return Math.Abs(Angle - other.Angle) < tolerance
-                   && VectorUtils.AreVectorsEquals(Axis, other.Axis)
+                   && VectorUtils.AreVectorsEqual(Axis, other.Axis)
                    && Math.Abs(Speed - other.Speed) < tolerance;
         }
 

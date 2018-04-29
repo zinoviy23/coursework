@@ -499,5 +499,38 @@ namespace UnitTests
             Assert.AreEqual(8, frac.Item1);
             Assert.AreEqual(5, frac.Item2);
         }
+
+        /// <summary>
+        /// Тестирует класс грани
+        /// </summary>
+        [TestMethod]
+        public void FaceTest()
+        {
+            var face = new Face(new Vector3(1, 1, 1), new Vector3(1, -1, 1), new Vector3(-1, -1, 1),
+                new Vector3(-1, 1, 1));
+
+            Assert.IsTrue(VectorUtils.AreVectorsEqual(new Vector3(0, 0, 1), face.Center));
+        }
+
+        /// <summary>
+        /// Проверяет метод IsVectorPairContainsInPairSequence
+        /// </summary>
+        [TestMethod]
+        public void IsVectorPairContainsInPairSequenceTest()
+        {
+            var tuples = new[]
+            {
+                new Tuple<Vector3, Vector3>(Vector3.UnitX, Vector3.UnitY),
+                new Tuple<Vector3, Vector3>(Vector3.One, Vector3.Zero)
+            };
+
+            var tuple = new Tuple<Vector3, Vector3>(new Vector3(1, 1.0000000001f, 1), new Vector3(0, 0, 0));
+
+            Assert.IsTrue(VectorUtils.IsVectorPairContainsInPairSequence(tuples, tuple));
+
+            tuple = new Tuple<Vector3, Vector3>(Vector3.One, Vector3.One);
+
+            Assert.IsFalse(VectorUtils.IsVectorPairContainsInPairSequence(tuples, tuple));
+        }
     }
 }

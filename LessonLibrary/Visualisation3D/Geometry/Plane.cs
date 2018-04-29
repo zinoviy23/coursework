@@ -63,7 +63,7 @@ namespace LessonLibrary.Visualisation3D.Geometry
         public bool Equals(Plane other)
         {
             const float tolerance = 0.001f;
-            return VectorUtils.AreVectorsEquals(Normal, other.Normal)
+            return VectorUtils.AreVectorsEqual(Normal, other.Normal)
                    && Math.Abs(_emptyCoef - other._emptyCoef) < tolerance;
         }
 
