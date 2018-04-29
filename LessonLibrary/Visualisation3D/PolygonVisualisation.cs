@@ -118,7 +118,8 @@ namespace LessonLibrary.Visualisation3D
             Normals = (Vector3[]) PrevNormals.Clone();
 
             SetAnimations(GenAnimations());
-            InitFaces();
+            if (_verticesCount >= 3)
+                InitFaces();
         }
 
         /// <summary>

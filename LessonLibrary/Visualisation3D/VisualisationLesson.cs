@@ -70,6 +70,7 @@ namespace LessonLibrary.Visualisation3D
         /// <summary>
         /// Задаёт грани
         /// </summary>
+        [UsedImplicitly]
         protected abstract void InitFaces();
 
         /// <summary>
