@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D;
 using LessonLibrary.Visualisation3D.Animations;
+using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -362,7 +364,7 @@ namespace WinFormCourseWork
                 switch (animation)
                 {
                     case RotationAnimation rotation:
-                        p.InnerHtml = RotationAnimationToHtml(rotation);
+                        p.InnerHtml = RotationAnimationToHtml(rotation, CurrentVisualisation);
                         cntRotation++;
                         el.InnerText = $"Поворот {cntRotation}";
                         break;
@@ -382,10 +384,10 @@ namespace WinFormCourseWork
                 
                 div.AppendChild(el);
                 buttonsDiv.AppendChild(div);
-                Log.WriteLine(animation);
+                //Log.WriteLine(animation);
 
             }
-            Log.WriteLine(buttonsDiv.InnerHtml);
+            //Log.WriteLine(buttonsDiv.InnerHtml);
             htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
         }
 
@@ -450,20 +452,26 @@ namespace WinFormCourseWork
         /// Преобразовавет поворот в html строку
         /// </summary>
         /// <param name="rotation">поворот</param>
+        /// <param name="visualisation">визуализация</param>
         /// <returns>html строка</returns>
-        public static string RotationAnimationToHtml(RotationAnimation rotation)
+        [NotNull]
+        public static string RotationAnimationToHtml([NotNull] RotationAnimation rotation,
+            [NotNull] VisualisationLesson visualisation)
         {
             var frac = AngleToFracWithPi(rotation.Angle);
             if (frac == null)
             {
                 return $@"<table> <tr> <td>Поворот на</td>
-                            <td align=""center""> {rotation.Angle} </td> </tr> </table >";
+                            <td align=""center""> {rotation.Angle} </td>
+                            <td>{GetRotationAxisForVisualisation(rotation, visualisation)}</td> </tr> </table>";
             }
 
             if (frac.Item2 == 1)
             {
                 return $@"<table> <tr> <td>Поворот на</td>
-                            <td align=""center""> {(frac.Item1 == 1 ? "" : frac.Item2.ToString())} </td> <td>&#960;</td> </tr> </table >";
+                            <td align=""center""> {(frac.Item1 == 1 ? "" : frac.Item2.ToString())} </td>
+                            <td>&#960;</td>
+                            <td> {GetRotationAxisForVisualisation(rotation, visualisation)} </td></tr> </table >";
             }
 
             return $@"<table>
@@ -477,8 +485,126 @@ namespace WinFormCourseWork
                 </table>   
                 </td>
                 <td>&#960;</td>
+                <td>
+                {GetRotationAxisForVisualisation(rotation, visualisation)}
+                </td>
                 </tr>
                 </table>";
+        }
+
+        /// <summary>
+        /// Получает информацию о повороте для переданной визуализации.
+        /// </summary>
+        /// <param name="rotation">Поворот</param>
+        /// <param name="visualisation">Визуализауич</param>
+        /// <returns>Угол поворота и ось в формате HTML таблицы</returns>
+        [NotNull]
+        public static string GetRotationAxisForVisualisation([NotNull] RotationAnimation rotation,
+            [NotNull] VisualisationLesson visualisation)
+        {
+            const float tolerance = 0.000001f;
+            if (Math.Abs(rotation.Angle) < tolerance)
+                return "";
+
+            var firstPointText = "";
+            var firstPoint = new Vector3();
+            var vertices = visualisation.ReadOnlyInitVertices;
+            var edges = visualisation.ReadOnlyEdges;
+            var faces = visualisation.ReadOnlyFaces;
+
+            for (var index = 0; index < vertices.Count; index++)
+            {
+                var vertex = vertices[index];
+                if (!VectorUtils.IsVertexOnLineByPointAndDirection(vertex, Vector3.Zero, rotation.Axis)) continue;
+                firstPointText = $"вершину {index + 1}";
+                firstPoint = vertex;
+            }
+
+            if (firstPointText == "")
+            {
+                foreach (var edge in edges)
+                {
+                    if (!VectorUtils.IsVertexOnLineByPointAndDirection(VectorUtils.EdgeCenter(edge), Vector3.Zero,
+                        rotation.Axis)) continue;
+                    firstPointText = $"середину ребра ({visualisation.GetStarterIndexByVertex(edge.Item1) + 1}, " +
+                                     $"{visualisation.GetStarterIndexByVertex(edge.Item2) + 1})";
+                    firstPoint = VectorUtils.EdgeCenter(edge);
+                }
+            }
+
+            if (firstPointText == "")
+            {
+                foreach (var face in faces)
+                {
+                    if (!VectorUtils.IsVertexOnLineByPointAndDirection(face.Center, Vector3.Zero, rotation.Axis)) continue;
+                    firstPoint = face.Center;
+
+                    var sb = new StringBuilder("центр грани (");
+
+                    for (var i = 0; i < face.Count; i++)
+                    {
+                        sb.AppendFormat("{0}, ", visualisation.GetStarterIndexByVertex(face[i]) + 1);
+                    }
+
+                    sb[sb.Length - 2] = ')';
+
+                    firstPointText = sb.ToString();
+                }
+            }
+
+            var secondPointText = "";
+
+            for (var index = 0; index < vertices.Count; index++)
+            {
+                if (VectorUtils.AreVectorsEqual(vertices[index], firstPoint)) continue;
+
+                if (VectorUtils.IsVertexOnLineByPointAndDirection(vertices[index], Vector3.Zero, rotation.Axis))
+                {
+                    secondPointText = $"вершину {index + 1}";
+                    Log.WriteLine(vertices[index]);
+                    Log.WriteLine(rotation.Axis);
+                }
+            }
+
+            if (secondPointText == "")
+            {
+                foreach (var edge in edges)
+                {
+                    if (VectorUtils.AreVectorsEqual(VectorUtils.EdgeCenter(edge), firstPoint)) continue;
+
+                    if (!VectorUtils.IsVertexOnLineByPointAndDirection(VectorUtils.EdgeCenter(edge), Vector3.Zero,
+                        rotation.Axis)) continue;
+                    secondPointText = $"середину ребра ({visualisation.GetStarterIndexByVertex(edge.Item1) + 1}, " +
+                                     $"{visualisation.GetStarterIndexByVertex(edge.Item2) + 1})";
+                }
+            }
+
+            if (secondPointText == "")
+            {
+                foreach (var face in faces)
+                {
+                    if (VectorUtils.AreVectorsEqual(face.Center, firstPoint)) continue;
+
+                    if (!VectorUtils.IsVertexOnLineByPointAndDirection(face.Center, Vector3.Zero, rotation.Axis)) continue;
+
+                    var sb = new StringBuilder("центр грани (");
+
+                    for (var i = 0; i < face.Count; i++)
+                    {
+                        sb.AppendFormat("{0}, ", visualisation.GetStarterIndexByVertex(face[i]) + 1);
+                    }
+
+                    sb[sb.Length - 2] = ')';
+
+                    secondPointText = sb.ToString();
+                }
+            }
+
+            if (firstPointText == "" && secondPointText == "")
+                return "";
+
+            return $"относительно оси проходящей через {firstPointText}" +
+                   $" {(secondPointText == "" ? "" : "и " + secondPointText)}";
         }
 
         /// <summary>
@@ -489,7 +615,7 @@ namespace WinFormCourseWork
         /// <returns>Представление для html страницы</returns>
         public static string SymmetryAnimationToHtml(SymmetryAnimation symmetry, VisualisationLesson visualisation)
         {
-            var vertices = visualisation.VerticesClone;
+            var vertices = visualisation.ReadOnlyInitVertices;
 
             if (!(visualisation is PolygonVisualisation))
             {
@@ -497,10 +623,10 @@ namespace WinFormCourseWork
             }
 
             const float comparationConstant = 0.0001f;
-            if (vertices.Length % 2 == 1)
+            if (vertices.Count % 2 == 1)
             {
                 var verIndex = 0;
-                for (var i = 0; i < vertices.Length; i++)
+                for (var i = 0; i < vertices.Count; i++)
                     if (Math.Abs(symmetry.Plane.Value(vertices[i])) < comparationConstant)
                     {
                         verIndex = i;
@@ -509,13 +635,13 @@ namespace WinFormCourseWork
 
                 return
                     $"Симметрия относительно оси, проходящей через вершину {verIndex + 1}" +
-                    $" и середину ребра ({(verIndex + vertices.Length / 2) % vertices.Length + 1}," +
-                    $" {(verIndex + vertices.Length / 2 + 1) % vertices.Length + 1})";
+                    $" и середину ребра ({(verIndex + vertices.Count / 2) % vertices.Count + 1}," +
+                    $" {(verIndex + vertices.Count / 2 + 1) % vertices.Count + 1})";
             }
             else
             {
                 var verIndex = -1;
-                for (var i = 0; i < vertices.Length / 2; i++)
+                for (var i = 0; i < vertices.Count / 2; i++)
                     if (Math.Abs(symmetry.Plane.Value(vertices[i])) < comparationConstant)
                     {
                         verIndex = i;
@@ -526,12 +652,12 @@ namespace WinFormCourseWork
                 {
                     return
                         $"Симметрия относительно оси, проходящей через вершину {verIndex + 1}" +
-                        $" и вершину {(verIndex + vertices.Length / 2) % vertices.Length + 1 }";
+                        $" и вершину {(verIndex + vertices.Count / 2) % vertices.Count + 1 }";
                 }
                 else
                 {
                     verIndex = -1;
-                    for (var i = 0; i < vertices.Length / 2; i++)
+                    for (var i = 0; i < vertices.Count / 2; i++)
                     {
                         if (Math.Abs(symmetry.Plane.Value((vertices[i] + vertices[i + 1]) / 2)) < comparationConstant)
                             verIndex = i;
@@ -539,8 +665,8 @@ namespace WinFormCourseWork
 
                     return "Симметрия относительно оси, проходящей через середину ребра" +
                            $" ({verIndex + 1}, {verIndex + 2}) и середину ребра" +
-                           $" ({(verIndex + vertices.Length / 2) % vertices.Length + 1}," +
-                           $" {(verIndex + vertices.Length / 2 + 1) % vertices.Length + 1})";
+                           $" ({(verIndex + vertices.Count / 2) % vertices.Count + 1}," +
+                           $" {(verIndex + vertices.Count / 2 + 1) % vertices.Count + 1})";
                 }
             }
         }

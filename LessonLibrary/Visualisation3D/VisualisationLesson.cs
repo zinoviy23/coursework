@@ -380,5 +380,37 @@ namespace LessonLibrary.Visualisation3D
 
             Edges = res.ToArray();
         }
+
+        /// <summary>
+        /// Возвращает изначальный индекс вершины, по её координатам
+        /// </summary>
+        /// <param name="vertex">Координаты вершины</param>
+        /// <returns>Индекс, если есть вершина с такими координатами, null иначе</returns>
+        [CanBeNull]
+        public int? GetStarterIndexByVertex(Vector3 vertex)
+        {
+            for (var i = 0; i < InitVertices.Length; i++)
+            {
+                if (VectorUtils.AreVectorsEqual(vertex, InitVertices[i]))
+                    return i;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Возвращает неизменяемый массив начальных вершин
+        /// </summary>
+        public IReadOnlyList<Vector3> ReadOnlyInitVertices => new List<Vector3>(InitVertices).AsReadOnly();
+
+        /// <summary>
+        /// Возвращает неизменяемый массив рёбер
+        /// </summary>
+        public IReadOnlyList<Tuple<Vector3, Vector3>> ReadOnlyEdges => new List<Tuple<Vector3, Vector3>>(Edges).AsReadOnly();
+
+        /// <summary>
+        /// Возвращает неизменяемый массив граней
+        /// </summary>
+        public IReadOnlyList<Face> ReadOnlyFaces => new List<Face>(Faces).AsReadOnly();
     }
 }

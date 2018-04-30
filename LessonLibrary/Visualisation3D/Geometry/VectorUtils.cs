@@ -34,5 +34,35 @@ namespace LessonLibrary.Visualisation3D.Geometry
             [ItemNotNull] [NotNull] IEnumerable<Tuple<Vector3, Vector3>> vectorPairs,
             [NotNull] Tuple<Vector3, Vector3> pair) => vectorPairs.Any(tuple =>
             AreVectorsEqual(tuple.Item1, pair.Item1) && AreVectorsEqual(tuple.Item2, pair.Item2));
+
+
+        /// <summary>
+        /// Возвращает лежит ли точка на прямой, заданной точкой, принадлежащей прямой, и направляющим вектором
+        /// </summary>
+        /// <param name="vertex">Точка</param>
+        /// <param name="pointOnLine">Точка на прямой</param>
+        /// <param name="direction">Направляющий вектор прямой</param>
+        /// <returns>true, если принадлежит, и false иначе</returns>
+        public static bool IsVertexOnLineByPointAndDirection(Vector3 vertex, Vector3 pointOnLine, Vector3 direction)
+        {
+            const float tolerance = 0.000001f;
+            return Math.Abs((vertex.X - pointOnLine.X) * direction.Y - (vertex.Y - pointOnLine.Y) * direction.X) <
+                   tolerance &&
+                   Math.Abs((vertex.X - pointOnLine.X) * direction.Z - (vertex.Z - pointOnLine.Z) * direction.X) <
+                   tolerance &&
+                   Math.Abs((vertex.Y - pointOnLine.Y) * direction.Z - (vertex.Z - pointOnLine.Z) * direction.Y) <
+                   tolerance;
+        }
+
+        /// <summary>
+        /// Получает середину ребра
+        /// </summary>
+        /// <param name="edge">Ребро</param>
+        /// <returns>Координаты середин</returns>
+        public static Vector3 EdgeCenter([NotNull] Tuple<Vector3, Vector3> edge)
+        {
+            return edge.Item1 / 2 + edge.Item2 / 2;
+        }
+
     }
 }

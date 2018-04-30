@@ -532,5 +532,35 @@ namespace UnitTests
 
             Assert.IsFalse(VectorUtils.IsVectorPairContainsInPairSequence(tuples, tuple));
         }
+
+        /// <summary>
+        /// проверяет метод GetStarterIndexByVertex
+        /// </summary>
+        [TestMethod]
+        public void GetStarterIndexByVertexTest()
+        {
+            var vis = new OctahedronVisualisation();
+
+            Assert.IsNull(vis.GetStarterIndexByVertex(Vector3.Zero));
+
+            var ind = vis.GetStarterIndexByVertex(new Vector3(0.0f, (float)Math.Sqrt(2) / 2.00000001f, 0.0000001f));
+
+            Assert.IsNotNull(ind);
+            Assert.AreEqual(4, ind.Value);
+        }
+
+        /// <summary>
+        /// Проверяет метод IsVertexOnLineByPointAndDirection
+        /// </summary>
+        [TestMethod]
+        public void IsVertexOnLineByPointAndDirectionTest()
+        {
+            Assert.IsTrue(VectorUtils.IsVertexOnLineByPointAndDirection(Vector3.Zero, Vector3.UnitX, Vector3.UnitX));
+            Assert.IsFalse(
+                VectorUtils.IsVertexOnLineByPointAndDirection(Vector3.Zero, Vector3.One, new Vector3(2, 1, 1)));
+
+            Assert.IsFalse(VectorUtils.IsVertexOnLineByPointAndDirection(Vector3.UnitZ, Vector3.Zero, Vector3.UnitX));
+            Assert.IsFalse(VectorUtils.IsVertexOnLineByPointAndDirection(new Vector3(0, -0.2653614f, 0.7505553f), Vector3.Zero, new Vector3(0, 1, 0)));
+        }
     }
 }
