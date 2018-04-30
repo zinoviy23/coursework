@@ -461,23 +461,23 @@ namespace WinFormCourseWork
             var frac = AngleToFracWithPi(rotation.Angle);
             if (frac == null)
             {
-                return $@"<table> <tr> <td>Поворот на</td>
+                return $@"<table style=""font-size: 12;""> <tr> <td>Поворот на</td>
                             <td align=""center""> {rotation.Angle} </td>
                             <td>{GetRotationAxisForVisualisation(rotation, visualisation)}</td> </tr> </table>";
             }
 
             if (frac.Item2 == 1)
             {
-                return $@"<table> <tr> <td>Поворот на</td>
+                return $@"<table style=""font-size: 12;""> <tr> <td>Поворот на</td>
                             <td align=""center""> {(frac.Item1 == 1 ? "" : frac.Item2.ToString())} </td>
                             <td>&#960;</td>
                             <td> {GetRotationAxisForVisualisation(rotation, visualisation)} </td></tr> </table >";
             }
 
-            return $@"<table style=""font-size: 11;"">
+            return $@"<table style=""font-size: 12;"">
                 <tr>
                 <td>Поворот на</td>
-                <td align=""center""> <table>
+                <td align=""center""> <table style=""font-size: 12;"">
                 <tr> <td>{frac.Item1}</td> </tr>
                 <tr>
                 <td align = ""center"" style = ""border-top-style: solid; border-top-color: black;"" > {frac.Item2}</td>
