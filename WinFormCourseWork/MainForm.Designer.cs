@@ -31,7 +31,7 @@ namespace WinFormCourseWork
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Материалы");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
@@ -49,11 +49,11 @@ namespace WinFormCourseWork
             this.lessonsTreeView.Indent = 7;
             this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
             this.lessonsTreeView.Name = "lessonsTreeView";
-            treeNode3.Name = "Узел0";
-            treeNode3.Text = "Материалы";
+            treeNode1.Name = "Узел0";
+            treeNode1.Text = "Материалы";
             this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
-            this.lessonsTreeView.Size = new System.Drawing.Size(152, 501);
+            treeNode1});
+            this.lessonsTreeView.Size = new System.Drawing.Size(152, 525);
             this.lessonsTreeView.TabIndex = 0;
             this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
             // 
@@ -118,13 +118,13 @@ namespace WinFormCourseWork
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 529);
+            this.ClientSize = new System.Drawing.Size(856, 553);
             this.Controls.Add(this.cayleyTableGridView);
             this.Controls.Add(this.htmlView);
             this.Controls.Add(this.lessonsTreeView);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
-            this.MinimumSize = new System.Drawing.Size(500, 400);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.Resize += new System.EventHandler(this.MainForm_Resize);

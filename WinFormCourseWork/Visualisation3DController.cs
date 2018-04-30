@@ -268,7 +268,7 @@ namespace WinFormCourseWork
                 points[i] = points[i] / points[i].Z;
 
                 var x = _glControl.Width / 2 + (int)(points[i].X * _glControl.Width / 2);
-                var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height);
+                var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height) - _glControl.Top;
                 GetVertexLabel(i).Location =
                     new Point(_glControl.Location.X + x - GetVertexLabel(i).Width, _glControl.Location.Y + y);
             }
@@ -474,7 +474,7 @@ namespace WinFormCourseWork
                             <td> {GetRotationAxisForVisualisation(rotation, visualisation)} </td></tr> </table >";
             }
 
-            return $@"<table>
+            return $@"<table style=""font-size: 11;"">
                 <tr>
                 <td>Поворот на</td>
                 <td align=""center""> <table>
