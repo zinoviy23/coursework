@@ -1,5 +1,4 @@
 ﻿using System;
-using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
 using OpenTK.Graphics;
@@ -50,6 +49,7 @@ namespace LessonLibrary.Visualisation3D
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
             InitFaces();
+            InitEdgesByFaces();
         }
 
         /// <summary>

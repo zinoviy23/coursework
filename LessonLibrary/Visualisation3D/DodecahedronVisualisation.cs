@@ -13,7 +13,7 @@ namespace LessonLibrary.Visualisation3D
     /// Класс для визуализации додэкаэдра
     /// </summary>
     /// <inheritdoc cref="VisualisationLesson"/>
-    public class DodecahedronVisualisation : VisualisationLesson
+    public sealed class DodecahedronVisualisation : VisualisationLesson
     {
         /// <summary>
         /// Иницилизирует додэкаэдр
@@ -77,7 +77,8 @@ namespace LessonLibrary.Visualisation3D
             PrevVertices = (Vector3[]) InitVertices.Clone();
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
-            CurrentAnimation = new SymmetryAnimation(new Plane(Vector3.Cross(Vertices[8] - Vertices[3], Vertices[10] - Vertices[3]), Vertices[3]), 1f);
+            InitFaces();
+            InitEdgesByFaces();
         }
 
         /// <summary>
@@ -389,7 +390,21 @@ namespace LessonLibrary.Visualisation3D
 
         protected override void InitFaces()
         {
-            throw new System.NotImplementedException();
+            Faces = new[]
+            {
+                new Face(Vertices[0], Vertices[1], Vertices[2], Vertices[3], Vertices[4]), 
+                new Face(Vertices[0], Vertices[1], Vertices[6], Vertices[10], Vertices[5]), 
+                new Face(Vertices[1], Vertices[2], Vertices[7], Vertices[11], Vertices[6]), 
+                new Face(Vertices[2], Vertices[3], Vertices[8], Vertices[12], Vertices[7]), 
+                new Face(Vertices[3], Vertices[4], Vertices[9], Vertices[13], Vertices[8]), 
+                new Face(Vertices[4], Vertices[0], Vertices[5], Vertices[14], Vertices[9]),
+                new Face(Vertices[15], Vertices[16], Vertices[17], Vertices[18], Vertices[19] ), 
+                new Face(Vertices[15], Vertices[16], Vertices[11], Vertices[6], Vertices[10]), 
+                new Face(Vertices[16], Vertices[17], Vertices[12], Vertices[7], Vertices[11]), 
+                new Face(Vertices[17], Vertices[18], Vertices[13], Vertices[8], Vertices[12]), 
+                new Face(Vertices[18], Vertices[19], Vertices[14], Vertices[9], Vertices[13]), 
+                new Face(Vertices[19], Vertices[15], Vertices[10], Vertices[5], Vertices[14]), 
+            };
         }
     }
 }

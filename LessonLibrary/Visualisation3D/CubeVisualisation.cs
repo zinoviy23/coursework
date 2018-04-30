@@ -48,6 +48,7 @@ namespace LessonLibrary.Visualisation3D
             PrevNormals = (Vector3[]) InitNormals.Clone();
 
             InitFaces();
+            InitEdgesByFaces();
         }
 
         /// <summary>
