@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using LessonLibrary.Permulation;
+using LessonLibrary.Permutation;
 
 namespace WinFormCourseWork
 {
@@ -10,12 +10,12 @@ namespace WinFormCourseWork
     /// <summary>
     /// Форма для ввода подстановки
     /// </summary>
-    public partial class PermulationInput : Form
+    public partial class PermutationInput : Form
     {
         /// <summary>
         /// Максимальная длина подстановки
         /// </summary>
-        private const int MaxPermulationLength = 15;
+        private const int MaxPermutationLength = 15;
 
         /// <summary>
         /// Ширина элемента
@@ -25,12 +25,12 @@ namespace WinFormCourseWork
         /// <summary>
         /// Текущая длина подстаноки
         /// </summary>
-        private int _permulationLength;
+        private int _permutationLength;
 
         /// <summary>
         /// Подстановка, которую ввёл пользователь
         /// </summary>
-        public Permulation ResultPermulation { get; private set; }
+        public Permutation ResultPermutation { get; private set; }
 
         /// <summary>
         /// Labelы для верхней части подстановки
@@ -42,42 +42,42 @@ namespace WinFormCourseWork
         /// </summary>
         private readonly TextBox[] _bottomTextBoxs;
 
-        public PermulationInput()
+        public PermutationInput()
         {
             InitializeComponent();
             
-            _headerLabels = new Label[MaxPermulationLength];
+            _headerLabels = new Label[MaxPermutationLength];
             for (var i = 0; i < _headerLabels.Length; i++)
             {
                 _headerLabels[i] = new Label();
             }
 
-            _bottomTextBoxs = new TextBox[MaxPermulationLength];
+            _bottomTextBoxs = new TextBox[MaxPermutationLength];
             for (var i = 0; i < _bottomTextBoxs.Length; i++)
             {
                 _bottomTextBoxs[i] = new TextBox {TextAlign = HorizontalAlignment.Center};
             }
         }
 
-        private void PermulationInput_Load(object sender, EventArgs e)
+        private void PermutationInput_Load(object sender, EventArgs e)
         {
-            permulationLengthComboBox.SelectedItem = "3";
+            permutationLengthComboBox.SelectedItem = "3";
         }
 
-        private void PermulationLengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void PermutationLengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ReleaseHeadersAndBottoms(_permulationLength);
-            _permulationLength = int.Parse(permulationLengthComboBox.SelectedItem.ToString());
-            InitPermulationHeaderLabelByLength(_permulationLength);
-            InitPermulationBottomByLength(_permulationLength);
+            ReleaseHeadersAndBottoms(_permutationLength);
+            _permutationLength = int.Parse(permutationLengthComboBox.SelectedItem.ToString());
+            InitPermutationHeaderLabelByLength(_permutationLength);
+            InitPermutationBottomByLength(_permutationLength);
 
-            rightParenthesisLabel.Left = permulationPanel.Right;
-            permulationLengthComboBox.Left = rightParenthesisLabel.Right + 10;
-            ClientSize = new Size(permulationLengthComboBox.Right + 10, ClientSize.Height);
+            rightParenthesisLabel.Left = permutationPanel.Right;
+            permutationLengthComboBox.Left = rightParenthesisLabel.Right + 10;
+            ClientSize = new Size(permutationLengthComboBox.Right + 10, ClientSize.Height);
             buttonOk.Left = ClientSize.Width / 2 - buttonOk.Width / 2;
 
-            buttonOk.TabIndex = _permulationLength;
-            permulationLengthComboBox.TabIndex = _permulationLength + 1;
+            buttonOk.TabIndex = _permutationLength;
+            permutationLengthComboBox.TabIndex = _permutationLength + 1;
 
             _bottomTextBoxs[0].Select();
         }
@@ -86,7 +86,7 @@ namespace WinFormCourseWork
         /// Используя длину, выводит на экран верхнюю часть подстановки
         /// </summary>
         /// <param name="length"></param>
-        private void InitPermulationHeaderLabelByLength(int length)
+        private void InitPermutationHeaderLabelByLength(int length)
         {
             var x = 2;
             for (var i = 0; i < length; i++)
@@ -95,24 +95,24 @@ namespace WinFormCourseWork
                 _headerLabels[i].Text = (i + 1).ToString();
                 _headerLabels[i].Top = 5;
                 _headerLabels[i].Left = x;
-                _headerLabels[i].Parent = permulationPanel;
+                _headerLabels[i].Parent = permutationPanel;
                 x += ElementWidth;
                 _headerLabels[i].BringToFront();
             }
 
-            permulationPanel.Width = x;
+            permutationPanel.Width = x;
         }
 
         /// <summary>
         /// Используя длину, задаёт TextBoxы для ввода нижней части подстановки
         /// </summary>
         /// <param name="length">Длина подстановки</param>
-        private void InitPermulationBottomByLength(int length)
+        private void InitPermutationBottomByLength(int length)
         {
             for (var i = 0; i < length; i++)
             {
                 _bottomTextBoxs[i].Visible = true;
-                _bottomTextBoxs[i].Parent = permulationPanel;
+                _bottomTextBoxs[i].Parent = permutationPanel;
                 _bottomTextBoxs[i].Top = 20;
                 _bottomTextBoxs[i].Width = ElementWidth - 1;
                 _bottomTextBoxs[i].Left = _headerLabels[i].Left + 1;
@@ -125,10 +125,10 @@ namespace WinFormCourseWork
         /// <summary>
         /// Убирает элементы старой подстановки
         /// </summary>
-        /// <param name="prevPermulationLength">Длина старой подстановки</param>
-        private void ReleaseHeadersAndBottoms(int prevPermulationLength)
+        /// <param name="prevPermutationLength">Длина старой подстановки</param>
+        private void ReleaseHeadersAndBottoms(int prevPermutationLength)
         {
-            for (var i = 0; i < prevPermulationLength; i++)
+            for (var i = 0; i < prevPermutationLength; i++)
             {
                 _headerLabels[i].Visible = false;
                 _bottomTextBoxs[i].Visible = false;
@@ -142,13 +142,13 @@ namespace WinFormCourseWork
         /// <exception cref="OverflowException"></exception>
         /// <exception cref="FormatException"></exception>
         /// <returns>Нижняя строка подстановки, введённая пользователем</returns>
-        private List<int> GetPermulationBottom()
+        private List<int> GetPermutationBottom()
         {
             var result = new List<int>();
-            for (var i = 0; i < _permulationLength; i++)
+            for (var i = 0; i < _permutationLength; i++)
             {
                 var tmp = int.Parse(_bottomTextBoxs[i].Text);
-                if (tmp < 1 || tmp > _permulationLength)
+                if (tmp < 1 || tmp > _permutationLength)
                     throw new OverflowException();
 
                 result.Add(tmp);
@@ -168,7 +168,7 @@ namespace WinFormCourseWork
         {
             try
             {
-                ResultPermulation = new Permulation(GetPermulationBottom());
+                ResultPermutation = new Permutation(GetPermutationBottom());
                 Close();
             }
             catch (FormatException)
@@ -178,7 +178,7 @@ namespace WinFormCourseWork
             }
             catch (OverflowException)
             {
-                MessageBox.Show($@"Числа должны быть от 1 до {_permulationLength}!", @"Ошибка!", MessageBoxButtons.OK,
+                MessageBox.Show($@"Числа должны быть от 1 до {_permutationLength}!", @"Ошибка!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)

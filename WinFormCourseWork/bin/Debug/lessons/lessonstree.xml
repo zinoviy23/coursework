@@ -16,6 +16,6 @@
         <visualisation tag="VisualisationIcosahedron">Икосаэдр</visualisation>
         <visualisation tag="VisualisationDodecahedron">Додэкаэдр</visualisation>
         <visualisation tag="VisualisationPolygon">Многоугольник</visualisation>
-        <visualisation tag="Permulation Visualisation">Подстановки и циклы</visualisation>
+        <visualisation tag="Permutation Visualisation">Подстановки и циклы</visualisation>
     </root>
 </lessonstree>

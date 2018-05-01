@@ -70,8 +70,8 @@
     <Compile Include="Visualisation3D\IcosahedronVisualisation.cs" />
     <Compile Include="LessonReader.cs" />
     <Compile Include="Visualisation3D\OctahedronVisualisation.cs" />
-    <Compile Include="Permulation\Permulation.cs" />
-    <Compile Include="Permulation\PermulationCycles.cs" />
+    <Compile Include="Permutation\Permutation.cs" />
+    <Compile Include="Permutation\PermutationCycles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionInfo.cs" />
     <Compile Include="SimpleLesson.cs" />

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
-using LessonLibrary.Permulation;
+using LessonLibrary.Permutation;
 using LessonLibrary.Visualisation3D;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
@@ -140,34 +140,34 @@ namespace UnitTests
         /// Проверяет проверку списка на перестановку
         /// </summary>
         [TestMethod]
-        public void CheckListOnPermulationTest()
+        public void CheckListOnPermutationTest()
         {
-            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int> {-1, 2, 3, 5}));
-            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int> { 1, 2, 3, 5 }));
-            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int>()));
-            Assert.IsFalse(Permulation.CheckListOnPermulation(new List<int> { 1, 1, 2, 4 }));
+            Assert.IsFalse(Permutation.CheckListOnPermutation(new List<int> {-1, 2, 3, 5}));
+            Assert.IsFalse(Permutation.CheckListOnPermutation(new List<int> { 1, 2, 3, 5 }));
+            Assert.IsFalse(Permutation.CheckListOnPermutation(new List<int>()));
+            Assert.IsFalse(Permutation.CheckListOnPermutation(new List<int> { 1, 1, 2, 4 }));
 
-            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1, 2, 3, 4 }));
-            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1, 3, 2, 4 }));
-            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1, 2, 3 }));
-            Assert.IsTrue(Permulation.CheckListOnPermulation(new List<int> { 1 }));
+            Assert.IsTrue(Permutation.CheckListOnPermutation(new List<int> { 1, 2, 3, 4 }));
+            Assert.IsTrue(Permutation.CheckListOnPermutation(new List<int> { 1, 3, 2, 4 }));
+            Assert.IsTrue(Permutation.CheckListOnPermutation(new List<int> { 1, 2, 3 }));
+            Assert.IsTrue(Permutation.CheckListOnPermutation(new List<int> { 1 }));
         }
 
         /// <summary>
-        /// Проверяет конструктор и индексаторы Permulation
+        /// Проверяет конструктор и индексаторы Permutation
         /// </summary>
         [TestMethod]
-        public void PermulationConstructorAndIndexatorTest()
+        public void PermutationConstructorAndIndexatorTest()
         {
-            var id = new Permulation(4);
-            var idFromList = new Permulation(new List<int>{1, 2, 3, 4});
+            var id = new Permutation(4);
+            var idFromList = new Permutation(new List<int>{1, 2, 3, 4});
 
             for (var i = 1; i <= id.Size; i++)
                 Assert.AreEqual(id[i], idFromList[i]);
 
             Assert.AreEqual(id, idFromList);
 
-            var perm1 = new Permulation(new List<int>{1, 3, 2, 4});
+            var perm1 = new Permutation(new List<int>{1, 3, 2, 4});
             
             Assert.AreNotEqual(id, perm1);
         }
@@ -176,36 +176,36 @@ namespace UnitTests
         /// Проверяет умножение подстановок
         /// </summary>
         [TestMethod]
-        public void PermulationCompositionTest()
+        public void PermutationCompositionTest()
         {
-            var id = new Permulation(3);
-            var perm = new Permulation(new List<int>{3, 2, 1});
+            var id = new Permutation(3);
+            var perm = new Permutation(new List<int>{3, 2, 1});
             Assert.AreEqual(perm, id * perm);
 
-            var perm2 = new Permulation(new List<int> {1, 3, 2});
-            var res = new Permulation(new List<int> {3, 1, 2});
+            var perm2 = new Permutation(new List<int> {1, 3, 2});
+            var res = new Permutation(new List<int> {3, 1, 2});
             Assert.AreEqual(res, perm * perm2);
         }
 
         /// <summary>
-        /// Проверяет конструкторы и ToString PermulationCycles
+        /// Проверяет конструкторы и ToString PermutationCycles
         /// </summary>
         [TestMethod]
-        public void PermulationCyclesToStringAndConstructorsTest()
+        public void PermutationCyclesToStringAndConstructorsTest()
         {
             var idCyclesString = "(1) (2) (3)";
-            var cycles = new PermulationCycles(new Permulation(3));
+            var cycles = new PermutationCycles(new Permutation(3));
             Assert.AreEqual(idCyclesString, cycles.ToString());
 
             var permCyclesString = "(1 3) (2)";
-            var perm = new PermulationCycles(new Permulation(new List<int>{3, 2, 1}));
+            var perm = new PermutationCycles(new Permutation(new List<int>{3, 2, 1}));
             Assert.AreEqual(permCyclesString, perm.ToString());
 
             permCyclesString = "(1 2) (3)";
-            perm = new PermulationCycles(new List<int> {2, 1, 3});
+            perm = new PermutationCycles(new List<int> {2, 1, 3});
             Assert.AreEqual(permCyclesString, perm.ToString());
 
-            perm = new PermulationCycles(
+            perm = new PermutationCycles(
                 new List<List<int>>
                 {
                     new List<int> {1, 2},
@@ -218,12 +218,12 @@ namespace UnitTests
         /// Проверяет получение обратной подтсановки
         /// </summary>
         [TestMethod]
-        public void PermulationNegationTest()
+        public void PermuationNegationTest()
         {
-            var permulation = new Permulation(new List<int>(new [] {3, 1, 5, 4, 2}));
+            var permutation = new Permutation(new List<int>(new [] {3, 1, 5, 4, 2}));
 
-            Assert.AreEqual(new Permulation(5), permulation * (-permulation));
-            Assert.AreEqual(new Permulation(5), (-permulation) * permulation);
+            Assert.AreEqual(new Permutation(5), permutation * (-permutation));
+            Assert.AreEqual(new Permutation(5), (-permutation) * permutation);
         }
 
 
@@ -231,11 +231,11 @@ namespace UnitTests
         /// Проверяет преобразоавние между циклами и подстановками
         /// </summary>
         [TestMethod]
-        public void PermulationCyclesToPermulationAndBackConvertionTest()
+        public void PermutationCyclesToPermutationAndBackConvertionTest()
         {
-            var cycles = new PermulationCycles(new List<List<int>> {new List<int> {1, 2}, new List<int> {3}});
-            var perm = new Permulation(new List<int> {2, 1, 3});
-            Assert.AreEqual(perm, cycles.Permulation);
+            var cycles = new PermutationCycles(new List<List<int>> {new List<int> {1, 2}, new List<int> {3}});
+            var perm = new Permutation(new List<int> {2, 1, 3});
+            Assert.AreEqual(perm, cycles.Permutation);
 
             Assert.AreEqual(cycles, perm.Cycles);
         }

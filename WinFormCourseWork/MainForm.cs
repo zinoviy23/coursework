@@ -61,7 +61,7 @@ namespace WinFormCourseWork
         /// <summary>
         /// Путь до шаблона с визуализациями подстановок
         /// </summary>
-        private const string PermulationVisualisationFilePath = @"lessons\default\permulation_visualisation.xml";
+        private const string PermutationVisualisationFilePath = @"lessons\default\permutation_visualisation.xml";
 
         /// <summary>
         /// путь до папки со стандартными файлами
@@ -142,7 +142,7 @@ namespace WinFormCourseWork
             {
                 //htmlView.Hide();
                 htmlView.Show();
-                PermulationVisualisation.Release();
+                PermutationVisualisation.Release();
                 _glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;
@@ -172,7 +172,7 @@ namespace WinFormCourseWork
             else switch ((string) node.Tag)
             {
                 case "Cayley Table":
-                    PermulationVisualisation.Release();
+                    PermutationVisualisation.Release();
                     LoadTable();
                     htmlView.Visible = false;
                     cayleyTableGridView.Visible = true;
@@ -182,7 +182,7 @@ namespace WinFormCourseWork
 
                     _uiState = UiState.CayleyTable;
                     break;
-                case "Permulation Visualisation":
+                case "Permutation Visualisation":
                     htmlView.Visible = true;
                     cayleyTableGridView.Visible = false;
                     _glControl.Visible = false;
@@ -190,8 +190,8 @@ namespace WinFormCourseWork
                     _visualisationController.HideVertexLabels();
                     try
                     {
-                        LessonReader.ReadPermulationVisualisationTemplate(htmlView, PermulationVisualisationFilePath);
-                        PermulationVisualisation.CreateInstance(htmlView);
+                        LessonReader.ReadPermutationVisualisationTemplate(htmlView, PermutationVisualisationFilePath);
+                        PermutationVisualisation.CreateInstance(htmlView);
                     }
                     catch (ArgumentException ex)
                     {
@@ -201,7 +201,7 @@ namespace WinFormCourseWork
                     _uiState = UiState.SimpleHtml;
                     break;
                 default:
-                    PermulationVisualisation.Release();
+                    PermutationVisualisation.Release();
                     cayleyTableGridView.Visible = false;
                     LoadLesson((string) node.Tag);
                     htmlView.Show();

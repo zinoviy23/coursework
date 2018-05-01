@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 
-namespace LessonLibrary.Permulation
+namespace LessonLibrary.Permutation
 {
     /// <inheritdoc cref="IEquatable{T}" />
     /// <summary>
     /// Класс для подстановок
     /// </summary>
-    public class Permulation : IEquatable<Permulation>
+    public class Permutation : IEquatable<Permutation>
     {
         /// <summary>
         /// Элементы перестановки
@@ -21,10 +21,10 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="elements">Список неповторяющихся элементов от 1 до n</param>
         /// <exception cref="ArgumentException"></exception>
-        public Permulation([NotNull] List<int> elements)
+        public Permutation([NotNull] List<int> elements)
         {
             if (elements == null) throw new ArgumentNullException(nameof(elements));
-            if (!CheckListOnPermulation(elements))
+            if (!CheckListOnPermutation(elements))
                 throw new ArgumentException(
                     "Список должен быть перестановкой натуральных чисел от 1 до n без повторений", nameof(elements));
             Elements = elements;
@@ -35,7 +35,7 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="n">длина подстановки</param>
         /// <exception cref="ArgumentException"></exception>
-        public Permulation(int n)
+        public Permutation(int n)
         {
             if (n <= 0)
                 throw new ArgumentException("Количество элементов в подстановке должно быть больше 0.", nameof(n));
@@ -72,7 +72,7 @@ namespace LessonLibrary.Permulation
         /// <param name="perm">список, который нужно проверить</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>true если список перестановка, false иначе</returns>
-        public static bool CheckListOnPermulation([NotNull] List<int> perm)
+        public static bool CheckListOnPermutation([NotNull] List<int> perm)
         {
             if (perm == null) throw new ArgumentNullException(nameof(perm));
             if (perm.Count == 0)
@@ -98,7 +98,7 @@ namespace LessonLibrary.Permulation
         /// <returns>true если подстановки одной длины и равны, false иначе</returns>
         /// <inheritdoc cref="IEquatable{T}"/>
         [ContractAnnotation("other:null => false")]
-        public bool Equals(Permulation other)
+        public bool Equals(Permutation other)
         {
             if (Size != other?.Size)
                 return false;
@@ -117,13 +117,13 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="obj">Объект</param>
         /// <returns>true - если переданный объект подстановка, равная данной, false иначе</returns>
-        /// <seealso cref="Equals(Permulation)"/>
+        /// <seealso cref="Equals(Permutation)"/>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Permulation)obj);
+            return Equals((Permutation)obj);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace LessonLibrary.Permulation
         /// <param name="b">Вторая подстановка</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>Результат композиции двух подстановок</returns>
-        public static Permulation operator *([NotNull] Permulation a, [NotNull] Permulation b)
+        public static Permutation operator *([NotNull] Permutation a, [NotNull] Permutation b)
         {
             if (a.Size != b.Size)
                 throw new ArgumentException(
@@ -171,7 +171,7 @@ namespace LessonLibrary.Permulation
                 resList.Add(a[b[i]]);
             }
             
-            return new Permulation(resList);
+            return new Permutation(resList);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace LessonLibrary.Permulation
         /// <param name="a">Подстановка</param>
         /// <returns>Обратная подстановка</returns>
         [NotNull]
-        public static Permulation operator -([NotNull] Permulation a)
+        public static Permutation operator -([NotNull] Permutation a)
         {
             var res = new List<int>(new int[a.Size]);
 
@@ -189,13 +189,13 @@ namespace LessonLibrary.Permulation
                 res[a[i] - 1] = i;
             }
 
-            return new Permulation(res);
+            return new Permutation(res);
         }
         
         /// <summary>
         /// Возвращает представление подстановки в виде циклов
         /// </summary>
-        public PermulationCycles Cycles => new PermulationCycles(this);
+        public PermutationCycles Cycles => new PermutationCycles(this);
 
         /// <summary>
         /// Возвращает представление подстановки в виде листа пар

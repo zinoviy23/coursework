@@ -379,7 +379,7 @@ namespace WinFormCourseWork
                 }
 
                 p.InnerHtml +=
-                    PermulationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
+                    PermutationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
                         .ConvertAnimationToPermuation(animation).TupleList);
                 
                 div.AppendChild(el);

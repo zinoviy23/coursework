@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 
-namespace LessonLibrary.Permulation
+namespace LessonLibrary.Permutation
 {
     /// <inheritdoc />
     /// <summary>
     /// Класс для представления подстановок ввиде циклов
     /// </summary>
-    public class PermulationCycles : IEquatable<PermulationCycles>
+    public class PermutationCycles : IEquatable<PermutationCycles>
     {
         /// <summary>
         /// Циклы подстановки
@@ -19,11 +19,11 @@ namespace LessonLibrary.Permulation
         /// <summary>
         /// Задаёт циклы по данной подстановке
         /// </summary>
-        /// <param name="permulation">Подстановка, по которой строятся циклы</param>
-        public PermulationCycles([NotNull] Permulation permulation)
+        /// <param name="permutation">Подстановка, по которой строятся циклы</param>
+        public PermutationCycles([NotNull] Permutation permutation)
         {
-            var used = new bool[permulation.Size];
-            for (var i = 1; i <= permulation.Size; i++)
+            var used = new bool[permutation.Size];
+            for (var i = 1; i <= permutation.Size; i++)
             {
                 if (used[i - 1]) continue;
 
@@ -33,7 +33,7 @@ namespace LessonLibrary.Permulation
                 {
                     cycle.Add(next);
                     used[next - 1] = true;
-                    next = permulation[next];
+                    next = permutation[next];
                 } while (next != i);
 
                 _cycles.Add(cycle);
@@ -45,8 +45,8 @@ namespace LessonLibrary.Permulation
         /// <summary>
         /// Конструктор, который принимает лист элементов и по нему строит подстановку, а затем по ней циклы
         /// </summary>
-        /// <param name="permulationElements">Лист с элементами подстановки</param>
-        public PermulationCycles([NotNull] List<int> permulationElements) : this(new Permulation(permulationElements))
+        /// <param name="permutationElements">Лист с элементами подстановки</param>
+        public PermutationCycles([NotNull] List<int> permutationElements) : this(new Permutation(permutationElements))
         {
         }
 
@@ -55,7 +55,7 @@ namespace LessonLibrary.Permulation
         /// Принимает лист листов, представляющих циклы
         /// </summary>
         /// <param name="cycles">Циклы подстановки</param>
-        public PermulationCycles([NotNull] List<List<int>> cycles) : this(GetPermulationListByCycles(cycles))
+        public PermutationCycles([NotNull] List<List<int>> cycles) : this(GetPermutationListByCycles(cycles))
         {
         }
 
@@ -66,7 +66,7 @@ namespace LessonLibrary.Permulation
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>Элементы подстановки в правильном порядке</returns>
-        public static List<int> GetPermulationListByCycles([NotNull] List<List<int>> cycles)
+        public static List<int> GetPermutationListByCycles([NotNull] List<List<int>> cycles)
         {
             if (cycles == null) throw new ArgumentNullException(nameof(cycles));
 
@@ -75,7 +75,7 @@ namespace LessonLibrary.Permulation
                 throw new ArgumentException("Должен быть хотя бы 1 цикл", nameof(cycles));
             }
 
-            var permulationSize = 0;
+            var permutationSize = 0;
             foreach (var cycle in cycles)
             {
                 if (cycle == null)
@@ -83,19 +83,19 @@ namespace LessonLibrary.Permulation
                 if (cycle.Count == 0)
                     throw new ArgumentException("Цикл должен содержать хотя бы 1 элемент");
 
-                permulationSize += cycle.Count;
+                permutationSize += cycle.Count;
             }
 
-            var isElementUsed = new bool[permulationSize];
-            var permulationList = new List<int>(new int[permulationSize]);
+            var isElementUsed = new bool[permutationSize];
+            var permutationList = new List<int>(new int[permutationSize]);
 
             foreach (var cycle in cycles)
             {
                 for (var i = 0; i < cycle.Count; i++)
                 {
-                    if (cycle[i] > permulationSize || cycle[i] < 1)
+                    if (cycle[i] > permutationSize || cycle[i] < 1)
                         throw new ArgumentException(
-                            $"Элементы подстановки должны быть от 1 до {permulationSize}." 
+                            $"Элементы подстановки должны быть от 1 до {permutationSize}." 
                             + $" Полученный элемент : {cycle[i]}");
 
                     if (isElementUsed[cycle[i] - 1])
@@ -103,11 +103,11 @@ namespace LessonLibrary.Permulation
                             $"Элементы подстановки не могут повторяться. Повторяющийся элемент {cycle[i]}");
 
                     isElementUsed[cycle[i] - 1] = true;
-                    permulationList[cycle[i] - 1] = cycle[(i + 1) % cycle.Count];
+                    permutationList[cycle[i] - 1] = cycle[(i + 1) % cycle.Count];
                 }    
             }
 
-            return permulationList;
+            return permutationList;
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace LessonLibrary.Permulation
         /// <summary>
         /// Возвращает подстановку в нормальном представлении
         /// </summary>
-        public Permulation Permulation => new Permulation(GetPermulationListByCycles(_cycles));
+        public Permutation Permutation => new Permutation(GetPermutationListByCycles(_cycles));
 
 
         /// <inheritdoc />
@@ -146,7 +146,7 @@ namespace LessonLibrary.Permulation
         /// <param name="other"></param>
         /// <returns>true если равны</returns>
         [ContractAnnotation("other:null => false")]
-        public bool Equals(PermulationCycles other)
+        public bool Equals(PermutationCycles other)
         {
             if (_cycles.Count != other?._cycles.Count)
                 return false;
@@ -173,7 +173,7 @@ namespace LessonLibrary.Permulation
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((PermulationCycles) obj);
+            return Equals((PermutationCycles) obj);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace LessonLibrary.Permulation
         /// </summary>
         /// <param name="p">Подстановка</param>
         /// <returns>Лист пар, где первый элемент число, а второй это результат применения подстановки</returns>
-        public static List<Tuple<int, int, int>> GroupPermulationElementsByCycles(Permulation p)
+        public static List<Tuple<int, int, int>> GroupPermutationElementsByCycles(Permutation p)
         {
             var result = new List<Tuple<int, int, int>>();
 

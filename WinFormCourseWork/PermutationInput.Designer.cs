@@ -1,6 +1,6 @@
 ﻿namespace WinFormCourseWork
 {
-    partial class PermulationInput
+    partial class PermutationInput
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.permulationLengthComboBox = new System.Windows.Forms.ComboBox();
+            this.permutationLengthComboBox = new System.Windows.Forms.ComboBox();
             this.leftParenthesisLabel = new System.Windows.Forms.Label();
             this.rightParenthesisLabel = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
-            this.permulationPanel = new System.Windows.Forms.Panel();
+            this.permutationPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // permulationLengthComboBox
+            // permutationLengthComboBox
             // 
-            this.permulationLengthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.permulationLengthComboBox.FormattingEnabled = true;
-            this.permulationLengthComboBox.Items.AddRange(new object[] {
+            this.permutationLengthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.permutationLengthComboBox.FormattingEnabled = true;
+            this.permutationLengthComboBox.Items.AddRange(new object[] {
             "3",
             "4",
             "5",
@@ -53,11 +53,11 @@
             "13",
             "14",
             "15"});
-            this.permulationLengthComboBox.Location = new System.Drawing.Point(417, 44);
-            this.permulationLengthComboBox.Name = "permulationLengthComboBox";
-            this.permulationLengthComboBox.Size = new System.Drawing.Size(46, 24);
-            this.permulationLengthComboBox.TabIndex = 2;
-            this.permulationLengthComboBox.SelectedIndexChanged += new System.EventHandler(this.PermulationLengthComboBox_SelectedIndexChanged);
+            this.permutationLengthComboBox.Location = new System.Drawing.Point(417, 44);
+            this.permutationLengthComboBox.Name = "permutationLengthComboBox";
+            this.permutationLengthComboBox.Size = new System.Drawing.Size(46, 24);
+            this.permutationLengthComboBox.TabIndex = 2;
+            this.permutationLengthComboBox.SelectedIndexChanged += new System.EventHandler(this.PermutationLengthComboBox_SelectedIndexChanged);
             // 
             // leftParenthesisLabel
             // 
@@ -89,37 +89,37 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
-            // permulationPanel
+            // permutationPanel
             // 
-            this.permulationPanel.Location = new System.Drawing.Point(33, 31);
-            this.permulationPanel.Name = "permulationPanel";
-            this.permulationPanel.Size = new System.Drawing.Size(282, 56);
-            this.permulationPanel.TabIndex = 6;
+            this.permutationPanel.Location = new System.Drawing.Point(33, 31);
+            this.permutationPanel.Name = "permutationPanel";
+            this.permutationPanel.Size = new System.Drawing.Size(282, 56);
+            this.permutationPanel.TabIndex = 6;
             // 
-            // PermulationInput
+            // PermutationInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(475, 128);
-            this.Controls.Add(this.permulationPanel);
+            this.Controls.Add(this.permutationPanel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.rightParenthesisLabel);
             this.Controls.Add(this.leftParenthesisLabel);
-            this.Controls.Add(this.permulationLengthComboBox);
+            this.Controls.Add(this.permutationLengthComboBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "PermulationInput";
+            this.Name = "PermutationInput";
             this.Text = "Введите подстановку";
-            this.Load += new System.EventHandler(this.PermulationInput_Load);
+            this.Load += new System.EventHandler(this.PermutationInput_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ComboBox permulationLengthComboBox;
+        private System.Windows.Forms.ComboBox permutationLengthComboBox;
         private System.Windows.Forms.Label leftParenthesisLabel;
         private System.Windows.Forms.Label rightParenthesisLabel;
         private System.Windows.Forms.Button buttonOk;
-        private System.Windows.Forms.Panel permulationPanel;
+        private System.Windows.Forms.Panel permutationPanel;
     }
 }

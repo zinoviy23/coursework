@@ -4,16 +4,16 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
-using LessonLibrary.Permulation;
+using LessonLibrary.Permutation;
 
 namespace WinFormCourseWork
 {
     /// <summary>
     /// Класс для урока визуализации подстановок. Может быть только один объект.
     /// </summary>
-    public class PermulationVisualisation
+    public class PermutationVisualisation
     {
-        private static PermulationVisualisation _instance;
+        private static PermutationVisualisation _instance;
 
         public static readonly Color[] Colors =
         {
@@ -31,7 +31,7 @@ namespace WinFormCourseWork
         /// Конструктор визуализации
         /// </summary>
         /// <param name="htmlView">WebBrowser для отображения уроков</param>
-        private PermulationVisualisation([NotNull] WebBrowser htmlView)
+        private PermutationVisualisation([NotNull] WebBrowser htmlView)
         {
             _htmlView = htmlView;
 
@@ -51,41 +51,41 @@ namespace WinFormCourseWork
 
         private void InputButtonOnClick(object sender, HtmlElementEventArgs htmlElementEventArgs)
         {
-            var permulationInput = new PermulationInput();
-            permulationInput.ShowDialog();
-            var permulationDiv = _htmlView.Document?.GetElementById("permulation");
-            var permulationCyclesDiv = _htmlView.Document?.GetElementById("permulation_cycles");
-            var permulationGroupedByCyclesDiv = _htmlView.Document?.GetElementById("permulation_grouped_by_cycles");
+            var permutationInput = new PermutationInput();
+            permutationInput.ShowDialog();
+            var permutationDiv = _htmlView.Document?.GetElementById("permutation");
+            var permutationCyclesDiv = _htmlView.Document?.GetElementById("permutation_cycles");
+            var permutationGroupedByCyclesDiv = _htmlView.Document?.GetElementById("permutation_grouped_by_cycles");
 
-            if (permulationDiv == null)
+            if (permutationDiv == null)
             {
-                MessageBox.Show(@"У файла отсутсвует div с id permulation!", @"Ошибка!", MessageBoxButtons.OK,
+                MessageBox.Show(@"У файла отсутсвует div с id permutation!", @"Ошибка!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
 
-            if (permulationCyclesDiv == null)
+            if (permutationCyclesDiv == null)
             {
-                MessageBox.Show(@"У файла отсутсвует div с id permulation_cycles!", @"Ошибка!", MessageBoxButtons.OK,
+                MessageBox.Show(@"У файла отсутсвует div с id permutation_cycles!", @"Ошибка!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
 
-            if (permulationGroupedByCyclesDiv == null)
+            if (permutationGroupedByCyclesDiv == null)
             {
-                MessageBox.Show(@"У файла отсутсвует div с id permulation_grouped_by_cycles!", @"Ошибка!",
+                MessageBox.Show(@"У файла отсутсвует div с id permutation_grouped_by_cycles!", @"Ошибка!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
 
-            var p = permulationInput.ResultPermulation;
+            var p = permutationInput.ResultPermutation;
 
             if (p == null) return;
-            permulationDiv.InnerHtml = "Подстановка:" + ListOfTuplesToHtml(p.TupleList);
-            permulationCyclesDiv.InnerHtml = "Подстановка в виде циклов:" + CyclesListToHtml(p.Cycles.CyclesList);
-            permulationGroupedByCyclesDiv.InnerHtml = "Подстановка, где элементы сгруппированы по циклам:" +
-                ListOfTuplesToHtml(PermulationCycles.GroupPermulationElementsByCycles(p));
+            permutationDiv.InnerHtml = "Подстановка:" + ListOfTuplesToHtml(p.TupleList);
+            permutationCyclesDiv.InnerHtml = "Подстановка в виде циклов:" + CyclesListToHtml(p.Cycles.CyclesList);
+            permutationGroupedByCyclesDiv.InnerHtml = "Подстановка, где элементы сгруппированы по циклам:" +
+                ListOfTuplesToHtml(PermutationCycles.GroupPermutationElementsByCycles(p));
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace WinFormCourseWork
         public static void CreateInstance([NotNull] WebBrowser htmlView)
         {
             if (_instance == null)
-                _instance = new PermulationVisualisation(htmlView);
+                _instance = new PermutationVisualisation(htmlView);
         }
 
         /// <summary>
