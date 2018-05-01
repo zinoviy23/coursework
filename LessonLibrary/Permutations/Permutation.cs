@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 
-namespace LessonLibrary.Permutation
+namespace LessonLibrary.Permutations
 {
     /// <inheritdoc cref="IEquatable{T}" />
     /// <summary>

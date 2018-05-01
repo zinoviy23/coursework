@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using LessonLibrary.Permutation;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;
 using OpenTK;
@@ -335,7 +334,7 @@ namespace LessonLibrary.Visualisation3D
         /// <param name="animation">Движение ввиде анимации</param>
         /// <returns>Подстановка</returns>
         [NotNull]
-        public Permutation.Permutation ConvertAnimationToPermuation([NotNull] IAnimation animation)
+        public Permutations.Permutation ConvertAnimationToPermuation([NotNull] IAnimation animation)
         {
             var permutationBottom = new List<int>(InitVertices.Length);
 
@@ -355,7 +354,7 @@ namespace LessonLibrary.Visualisation3D
                 permutationBottom.Add(ind + 1);
             }
 
-            return new Permutation.Permutation(permutationBottom);
+            return new Permutations.Permutation(permutationBottom);
         }
 
         /// <summary>
