@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <h2>Калькулятор подстановок</h2>
+        <table>
+          <tr>
+            <td id="permutation">
+            </td>
+            <td>
+              <input type="button" value="Ввести" id="input_button"/>
+            </td>
+            <td>
+              <input type="button" value="Сбросить" id="delete_button" />
+            </td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td>
+              <input type="button" value="Обратная подстановка(-1)" id="negation_button" />
+            </td>
+            <td>
+              <input type="button" value="Композиция подстановок(&#9675;)" id="composition_button" />
+            </td>
+          </tr>
+        </table>
+        <h3>История операций</h3>
+    </body>
+</html>

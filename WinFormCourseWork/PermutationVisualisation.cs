@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
-using LessonLibrary.Permutation;
+using LessonLibrary.Permutations;
 
 namespace WinFormCourseWork
 {

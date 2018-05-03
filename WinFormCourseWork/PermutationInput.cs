@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using LessonLibrary.Permutation;
+using LessonLibrary.Permutations;
 
 namespace WinFormCourseWork
 {

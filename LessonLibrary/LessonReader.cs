@@ -187,25 +187,25 @@ namespace LessonLibrary
         /// Считывает шаблон для визуализации подстановок
         /// </summary>
         /// <param name="htmlView">WebBrowser для отображения уроков</param>
-        /// <param name="permutationVisualisationFilePath">Путь до шаблона</param>
+        /// <param name="permutationPageFilePath">Путь до шаблона</param>
         /// <exception cref="ArgumentException"></exception>
-        public static void ReadPermutationVisualisationTemplate([NotNull] WebBrowser htmlView,
-            string permutationVisualisationFilePath)
+        public static void ReadPermutationPageTemplate([NotNull] WebBrowser htmlView,
+            string permutationPageFilePath)
         {
             try
             {
-                using (var streamReader = new StreamReader(permutationVisualisationFilePath))
+                using (var streamReader = new StreamReader(permutationPageFilePath))
                 {
                     htmlView.DocumentText = streamReader.ReadToEnd();
                 }
             }
             catch (FileNotFoundException)
             {
-                throw new ArgumentException($@"По нет файла по переданному пути {permutationVisualisationFilePath}");
+                throw new ArgumentException($@"По нет файла по переданному пути {permutationPageFilePath}");
             }
             catch (DirectoryNotFoundException)
             {
-                throw new ArgumentException($@"По нет файла по переданному пути {permutationVisualisationFilePath}");
+                throw new ArgumentException($@"По нет файла по переданному пути {permutationPageFilePath}");
             }
         }
 

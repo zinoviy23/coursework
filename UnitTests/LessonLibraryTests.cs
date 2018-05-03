@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LessonLibrary;
-using LessonLibrary.Permutation;
+using LessonLibrary.Permutations;
 using LessonLibrary.Visualisation3D;
 using LessonLibrary.Visualisation3D.Animations;
 using LessonLibrary.Visualisation3D.Geometry;

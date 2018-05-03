@@ -64,6 +64,11 @@ namespace WinFormCourseWork
         private const string PermutationVisualisationFilePath = @"lessons\default\permutation_visualisation.xml";
 
         /// <summary>
+        /// Путь до шаблона калькулятора подстановок
+        /// </summary>
+        private const string PermutationCalculatorFilePath = @"lessons\default\permutation_calculator.xml";
+
+        /// <summary>
         /// путь до папки со стандартными файлами
         /// </summary>
         private const string DefultFilesPath = @"lessons\default";
@@ -143,6 +148,7 @@ namespace WinFormCourseWork
                 //htmlView.Hide();
                 htmlView.Show();
                 PermutationVisualisation.Release();
+                PermutationCalculator.Release();
                 _glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;
@@ -173,6 +179,7 @@ namespace WinFormCourseWork
             {
                 case "Cayley Table":
                     PermutationVisualisation.Release();
+                    PermutationCalculator.Release();
                     LoadTable();
                     htmlView.Visible = false;
                     cayleyTableGridView.Visible = true;
@@ -183,6 +190,7 @@ namespace WinFormCourseWork
                     _uiState = UiState.CayleyTable;
                     break;
                 case "Permutation Visualisation":
+                    PermutationCalculator.Release();
                     htmlView.Visible = true;
                     cayleyTableGridView.Visible = false;
                     _glControl.Visible = false;
@@ -190,7 +198,7 @@ namespace WinFormCourseWork
                     _visualisationController.HideVertexLabels();
                     try
                     {
-                        LessonReader.ReadPermutationVisualisationTemplate(htmlView, PermutationVisualisationFilePath);
+                        LessonReader.ReadPermutationPageTemplate(htmlView, PermutationVisualisationFilePath);
                         PermutationVisualisation.CreateInstance(htmlView);
                     }
                     catch (ArgumentException ex)
@@ -200,8 +208,29 @@ namespace WinFormCourseWork
 
                     _uiState = UiState.SimpleHtml;
                     break;
+                case "Permutation Calculator":
+                    PermutationVisualisation.Release();
+                    htmlView.Visible = true;
+                    cayleyTableGridView.Visible = false;
+                    _glControl.Visible = false;
+                    checkTestToolStripMenuItem.Enabled = false;
+                    _visualisationController.HideVertexLabels();
+                    try
+                    {
+                        LessonReader.ReadPermutationPageTemplate(htmlView, PermutationCalculatorFilePath);
+                        PermutationCalculator.Create(htmlView);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        MessageBox.Show(ex.Message, @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    _uiState = UiState.SimpleHtml;
+
+                    break;
                 default:
                     PermutationVisualisation.Release();
+                    PermutationCalculator.Release();
                     cayleyTableGridView.Visible = false;
                     LoadLesson((string) node.Tag);
                     htmlView.Show();
