@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Permutations;
@@ -19,11 +20,6 @@ namespace WinFormCourseWork
         /// Ссылка на браузер
         /// </summary>
         private readonly WebBrowser _htmlView;
-
-        /// <summary>
-        /// Сохранённая подстановка
-        /// </summary>
-        private Permutation _savedPermutation;
 
         /// <summary>
         /// Подстановка, которая сейчас отображается
@@ -82,6 +78,44 @@ namespace WinFormCourseWork
             if (negationButton == null)
                 return;
             negationButton.Click += NegationButtonOnClick;
+
+            var compositionButton = _htmlView.Document?.GetElementById("composition_button");
+            if (compositionButton == null)
+                return;
+            compositionButton.Click += CompositionButtonOnClick;
+        }
+
+        private void CompositionButtonOnClick(object sender, HtmlElementEventArgs e)
+        {
+            if (_showingPermutation == null)
+            {
+                MessageBox.Show(@"Введите подстановку!", @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // ввод подстановки
+            Permutation enteredPermutation;
+            do
+            {
+                var permutationInputDialog = new PermutationInput();
+                permutationInputDialog.ShowDialog();
+                enteredPermutation = permutationInputDialog.ResultPermutation;
+
+                if (enteredPermutation == null)
+                    MessageBox.Show(@"Введите вторую подстановку!", @"Ошибка!", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                else if (enteredPermutation.Size != _showingPermutation.Size)
+                {
+                    MessageBox.Show($@"Размер второй подстановки должен быть {_showingPermutation.Size}",
+                        @"Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    enteredPermutation = null;
+                }
+            } while (enteredPermutation == null);
+
+            var result = _showingPermutation * enteredPermutation;
+            WriteCompositionHistory(enteredPermutation, _showingPermutation, result);
+            _showingPermutation = result;
+            ShowCurrentPermutation();
         }
 
         /// <summary>
@@ -110,7 +144,6 @@ namespace WinFormCourseWork
         /// <param name="e">Аргументы события</param>
         private void DeleteButtonOnClick(object sender, HtmlElementEventArgs e)
         {
-            _savedPermutation = null;
             _showingPermutation = null;
             ShowCurrentPermutation();
         }
@@ -163,7 +196,33 @@ namespace WinFormCourseWork
                 "<td>это</td>" +
                 $"<td>{PermutationVisualisation.ListOfTuplesToHtml(newPerm.TupleList)}</td></tr></table>";
 
-            hisotoryDiv.AppendChild(newDiv);
+            hisotoryDiv.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterBegin ,newDiv);
+        }
+
+        /// <summary>
+        /// Отрисовывает информацию о композиции
+        /// </summary>
+        /// <param name="first">первая подстановка</param>
+        /// <param name="second">вторая подстановка</param>
+        /// <param name="result">результат композиции</param>
+        private void WriteCompositionHistory([NotNull] Permutation first, [NotNull] Permutation second,
+            [NotNull] Permutation result)
+        {
+            var hisotoryDiv = _htmlView.Document?.GetElementById("history");
+            var newDiv = _htmlView.Document?.CreateElement("div");
+            if (hisotoryDiv == null || newDiv == null)
+                return;
+
+            newDiv.InnerHtml =
+                "<table><tr><td>Композиция подстановок</td>" +
+                $"<td>{PermutationVisualisation.ListOfTuplesToHtml(first.TupleList)}</td>" +
+                "<td>и</td>" +
+                $"<td>{PermutationVisualisation.ListOfTuplesToHtml(second.TupleList)}</td>" +
+                "<td>это</td>" +
+                $"<td>{PermutationVisualisation.ListOfTuplesToHtml(result.TupleList)}</td>" +
+                "</tr></table>";
+
+            hisotoryDiv.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterBegin, newDiv);
         }
     }
 }

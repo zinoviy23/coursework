@@ -1,6 +1,22 @@
 <html>
     <body>
         <h2>Калькулятор подстановок</h2>
+        <input type="button" value="Показать справку" onclick="showInfo()" id="show_button" style="margin-bottom: 20pt;"/>
+        <div id="info" style="display: none; margin-bottom: 20pt;">
+          <p>
+            Здесь можно перемножать подстановки и получать обратные к подстановкам.
+          </p>
+          <ul >
+            <li>
+              Для получения обратной подстановки надо ввести подстановку и нажать кнопку "Обратная подстановка".
+            </li>
+            <li>
+              Для получения композиции подстановок нужно ввести первую подстановку, нажать кнопку "Композиция подстановок" и ввести вторую подстановку.
+              Композиция происходит так: сначала применяется первая подстановка, потом вторая.
+            </li>
+          </ul>
+          <input type="button" value="Убрать справку" onclick="hideInfo()"/>
+        </div>
         <table>
           <tr>
             <td id="permutation">
@@ -27,5 +43,17 @@
         <div id="history">
 
         </div>
+        <script>
+        // показывает справку
+        function showInfo() {
+          document.getElementById('info').style.display = "block";
+          document.getElementById('show_button').style.display = "none";
+        }
+        // прячет справку
+        function hideInfo() {
+          document.getElementById('info').style.display = "none";
+          document.getElementById('show_button').style.display = "block";
+        }
+        </script>
     </body>
 </html>
