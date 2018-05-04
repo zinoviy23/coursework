@@ -164,5 +164,7 @@ namespace LessonLibrary.Visualisation3D
                 new Face(Vertices[5], Vertices[3], Vertices[0])
             };
         }
+
+        public override string UserTutorialHtmlCode { get; }
     }
 }

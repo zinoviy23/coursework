@@ -339,9 +339,18 @@ namespace WinFormCourseWork
                 return;
             }
 
+            var infoDiv = htmlView.Document?.GetElementById("info");
+            if (infoDiv == null)
+            {
+                htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
+                return;
+            }
+
+            AddVisualisationInformation(infoDiv, htmlView);
+
             // настройка кнопок
             var cntRotation = 0;
-            var cntSymmetry = 0;
+            var cntSymmetry = 1;
             foreach (var animation in CurrentVisualisation.ReadOnlyAnimations)
             {
                 var div = htmlView.Document.CreateElement("div");
@@ -365,13 +374,15 @@ namespace WinFormCourseWork
                 {
                     case RotationAnimation rotation:
                         p.InnerHtml = RotationAnimationToHtml(rotation, CurrentVisualisation);
-                        cntRotation++;
                         el.InnerText = $"Поворот {cntRotation}";
+                        div.Id = $"rotation{cntRotation}";
+                        cntRotation++;
                         break;
                     case SymmetryAnimation symmetry:
                         p.InnerHtml = SymmetryAnimationToHtml(symmetry, CurrentVisualisation);
-                        cntSymmetry++;
                         el.InnerText = $"Симметрия {cntSymmetry}";
+                        div.Id = $"symmetry{cntSymmetry}";
+                        cntSymmetry++;
                         break;
                     default:
                         p.InnerHtml = "";
@@ -384,11 +395,63 @@ namespace WinFormCourseWork
                 
                 div.AppendChild(el);
                 buttonsDiv.AppendChild(div);
-                //Log.WriteLine(animation);
-
             }
-            //Log.WriteLine(buttonsDiv.InnerHtml);
+
+            var resetButton = htmlView.Document?.GetElementById("reset_button");
+
+            if (resetButton == null)
+            {
+                htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
+                return;
+            }
+
+            resetButton.Click += (o, eventArgs) =>
+            {
+                CurrentVisualisation.Reset();
+            };
+
             htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
+        }
+
+        private void AddVisualisationInformation([NotNull] HtmlElement infoDiv, [NotNull] WebBrowser htmlView)
+        {
+            if (CurrentVisualisation.UserTutorialHtmlCode == null)
+                return;
+
+            infoDiv.InnerHtml = CurrentVisualisation.UserTutorialHtmlCode;
+            foreach (HtmlElement div in infoDiv.GetElementsByTagName("div"))
+            {
+                if (div.Id == "rotation")
+                {
+                    var rotationNumber = int.Parse(div.InnerText);
+                    var rotation = CurrentVisualisation.GetRotationByIndex(rotationNumber);
+                    var button = infoDiv.Document?.CreateElement("input");
+                    var a = infoDiv.Document?.CreateElement("a");
+
+                    div.InnerText = "";
+
+                    if (a == null || button == null)
+                        continue;
+
+                    a.SetAttribute("href", $"#rotation{rotationNumber}");
+                    button.InnerText = $"Поворот {rotationNumber}";
+                    button.SetAttribute("type", "button");
+
+                    button.Click += (sender, args) => {
+                        IsAnimatingSessionStarted = true;
+                        IsPlayingAnimation = true;
+                        CurrentVisualisation.SetAnimation(rotation);
+                        CheckHtmlButtons(htmlView);
+                    };
+                    a.InnerHtml = "(Посмотреть)";
+
+                    button.Style = "margin-left: 2pt; margin-right: 1pt;";
+                    a.Style = "margin-right: 2pt;";
+
+                    div.AppendChild(button);
+                    div.AppendChild(a);
+                }
+            }
         }
 
         /// <summary>
@@ -654,20 +717,18 @@ namespace WinFormCourseWork
                         $"Симметрия относительно оси, проходящей через вершину {verIndex + 1}" +
                         $" и вершину {(verIndex + vertices.Count / 2) % vertices.Count + 1 }";
                 }
-                else
-                {
-                    verIndex = -1;
-                    for (var i = 0; i < vertices.Count / 2; i++)
-                    {
-                        if (Math.Abs(symmetry.Plane.Value((vertices[i] + vertices[i + 1]) / 2)) < comparationConstant)
-                            verIndex = i;
-                    }
 
-                    return "Симметрия относительно оси, проходящей через середину ребра" +
-                           $" ({verIndex + 1}, {verIndex + 2}) и середину ребра" +
-                           $" ({(verIndex + vertices.Count / 2) % vertices.Count + 1}," +
-                           $" {(verIndex + vertices.Count / 2 + 1) % vertices.Count + 1})";
+                verIndex = -1;
+                for (var i = 0; i < vertices.Count / 2; i++)
+                {
+                    if (Math.Abs(symmetry.Plane.Value((vertices[i] + vertices[i + 1]) / 2)) < comparationConstant)
+                        verIndex = i;
                 }
+
+                return "Симметрия относительно оси, проходящей через середину ребра" +
+                       $" ({verIndex + 1}, {verIndex + 2}) и середину ребра" +
+                       $" ({(verIndex + vertices.Count / 2) % vertices.Count + 1}," +
+                       $" {(verIndex + vertices.Count / 2 + 1) % vertices.Count + 1})";
             }
         }
     }

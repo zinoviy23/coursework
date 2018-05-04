@@ -135,5 +135,25 @@ namespace LessonLibrary.Visualisation3D
                 new Face(Vertices[3], Vertices[2], Vertices[1]) 
             };
         }
+
+        public override string UserTutorialHtmlCode =>
+            @"<p>
+                Повороты <b>тэтраэдра</b> составляют группу мощности 12.
+            </p>
+            <p style=""display: inline"">
+                Например<div style=""display: inline"" id=""rotation"">1</div >
+                и <div style=""display: inline"" id=""rotation"">2</div >
+                обратные друг другу.
+            </p>
+            <p style=""display: inline"">
+                А<div style=""display: inline"" id=""rotation"">11</div >
+                обратен сам себе.
+            </p>
+            <p style=""display: inline"">
+                Также <div style=""display: inline"" id=""rotation"">3</div >
+                умножить на <div style=""display: inline"" id=""rotation"">10</div >
+                это <div style=""display: inline"" id=""rotation"">5</div >
+            </p>
+            ";
     }
 }

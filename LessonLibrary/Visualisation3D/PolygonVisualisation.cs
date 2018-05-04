@@ -91,6 +91,8 @@ namespace LessonLibrary.Visualisation3D
             Faces = new[] {new Face(Vertices) };
         }
 
+        public override string UserTutorialHtmlCode { get; }
+
         /// <summary>
         /// Задаёт координаты и анимации
         /// </summary>

@@ -91,6 +91,9 @@ namespace WinFormCourseWork
         {
             InitializeComponent();
 
+            Width = SystemInformation.VirtualScreen.Width;
+            Height = SystemInformation.VirtualScreen.Height;
+
             _glControl = new GLControl(new GraphicsMode(new ColorFormat(32), 24, 0, 8));
             _glControl.BringToFront();
             _glControl.Enabled = true;

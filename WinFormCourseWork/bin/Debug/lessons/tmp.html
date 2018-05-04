@@ -1,33 +1,37 @@
 <html>
     <body>
-        <h2>Калькулятор подстановок</h2>
-        <table>
-          <tr>
-            <td id="permutation">
-              <span style="font-size:2.5em;">( </span>
-          </td><td>
-              <table><tr><td>1 2 3</td></tr><tr><td>1 2 3</td></tr></table>
-          </td><td>
-              <span style="font-size:2.5em;">) </span>
-            </td>
-            <td>
-              <input type="button" value="Ввести" id="input_button"/>
-            </td>
-            <td>
-              <input type="button" value="Сбросить" id="delete_button" />
-            </td>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <td>
-              <input type="button" value="Обратная подстановка(-1)" id="negation_button" />
-            </td>
-            <td>
-              <input type="button" value="Композиция подстановок(&#9675;)" id="composition_button" />
-            </td>
-          </tr>
-        </table>
-        <h3>История операций</h3>
+        <div>
+          <p>
+            Повороты <b>тэтраэдра</b> составляют группу мощности 12.
+          </p>
+          <p style="display: inline">
+            Например <div style="display: inline" id="rotation"><input type="button" value="поворот 1"/><a href="#rotation1">(Посмотреть)</a></div>
+            и <div style="display: inline" id="rotation"><input type="button" value="поворот 10"/><a href="#rotation10">(Посмотреть)</a></div>
+            обратные друг другу.
+          </p>
+          <input type="button" value="Показать предупреждение" onclick="showAttention()" id="show_button" style="background-color: #f44256;"/>
+          <div style="background-color: #f44256; border-style: solid; width: 80%; display: none;" id="attention">
+            <h4>Важно!</h4>
+            <p>
+              Номера элементов этой группы взяты для удобства и не несут никакой информации. Вы можете их перенумеровать как вам захочется.
+              Главное, чтобы вы помнили какому числу соответсвует какой номер и, исходя из этого, перемножали их.
+            </p>
+          </div>
+          <input type="button" value="Спрятать предупреждение" onclick="hideAttention()" id="hide_button" style="display: none; margin-top: 10pt;"/>
+          <script>
+            // показывает справку
+            function showAttention() {
+              document.getElementById('attention').style.display = "block";
+              document.getElementById('hide_button').style.display = "block";
+              document.getElementById('show_button').style.display = "none";
+            }
+            // прячет справку
+            function hideAttention() {
+              document.getElementById('attention').style.display = "none";
+              document.getElementById('show_button').style.display = "block";
+              document.getElementById('hide_button').style.display = "none";
+            }
+        </script>
+      </div>
     </body>
 </html>

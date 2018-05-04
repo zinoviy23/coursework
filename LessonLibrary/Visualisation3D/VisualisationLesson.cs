@@ -273,7 +273,8 @@ namespace LessonLibrary.Visualisation3D
             CurrentAnimation = null;
             PrevVertices = (Vector3[]) InitVertices.Clone();
             PrevNormals = (Vector3[]) InitNormals.Clone();
-
+            Vertices = (Vector3[]) PrevVertices.Clone();
+            Normals = PrevNormals.Clone() as Vector3[];
         }
 
         /// <summary>
@@ -412,5 +413,32 @@ namespace LessonLibrary.Visualisation3D
         /// Возвращает неизменяемый массив граней
         /// </summary>
         public IReadOnlyList<Face> ReadOnlyFaces => new List<Face>(Faces).AsReadOnly();
+
+        /// <summary>
+        /// Получает информацию о данной визуализации для пользователя
+        /// </summary>
+        public abstract string UserTutorialHtmlCode { get; }
+
+        /// <summary>
+        /// Получает поворот по индексу
+        /// </summary>
+        /// <param name="index">индекс</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <returns>поворот, номер которого(среди поворотов) равен переданному индексу</returns>
+        public IAnimation GetRotationByIndex(int index)
+        {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index), @"Индекс меньше 0");
+            var cnt = 0;
+            foreach (var anim in Animations)
+            {
+                if (cnt == index)
+                    return anim;
+                if (anim is RotationAnimation)
+                    cnt++;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(index), @"Нет столько поворотов!");
+        }
     }
 }
