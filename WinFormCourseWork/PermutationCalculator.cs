@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.ExceptionServices;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using LessonLibrary.Permutations;
@@ -62,6 +61,11 @@ namespace WinFormCourseWork
             _instance = null;
         }
 
+       /// <summary>
+       /// Обработчик события загрузки страницы. Добавляет обработчики событий к кнопкам
+       /// </summary>
+       /// <param name="sender">объект</param>
+       /// <param name="agrs">аргументы</param>
         private void HtmlViewOnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs agrs)
         {
             var inputButton = _htmlView.Document?.GetElementById("input_button");
@@ -83,8 +87,15 @@ namespace WinFormCourseWork
             if (compositionButton == null)
                 return;
             compositionButton.Click += CompositionButtonOnClick;
+
+            ShowCurrentPermutation();
         }
 
+       /// <summary>
+       /// Обработчик события нажатия на кнопку композиции. Просит ввести ещё одну подстановку и перемножает их
+       /// </summary>
+       /// <param name="sender">объект</param>
+       /// <param name="e">аргументы события</param>
         private void CompositionButtonOnClick(object sender, HtmlElementEventArgs e)
         {
             if (_showingPermutation == null)
@@ -173,9 +184,17 @@ namespace WinFormCourseWork
             if (permutationElement == null)
                 return;
 
-            permutationElement.InnerHtml = _showingPermutation == null
-                ? ""
-                : PermutationVisualisation.ListOfTuplesToHtml(_showingPermutation.TupleList);
+            if (_showingPermutation == null)
+            {
+                permutationElement.InnerHtml = "";
+                permutationElement.Style = "display: none";
+            }
+            else
+            {
+                permutationElement.InnerHtml =
+                    PermutationVisualisation.ListOfTuplesToHtml(_showingPermutation.TupleList);
+                permutationElement.Style = "display: block";
+            }
         }
 
         /// <summary>

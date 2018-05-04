@@ -29,16 +29,14 @@
             </td>
           </tr>
         </table>
-        <table>
-          <tr>
-            <td>
-              <input type="button" value="Обратная подстановка(-1)" id="negation_button" />
-            </td>
-            <td>
-              <input type="button" value="Композиция подстановок(&#9675;)" id="composition_button" />
-            </td>
-          </tr>
-        </table>
+        <ul style="margin: 0; padding: 2pt">
+          <li style="display: inline; margin-left: 0pt">
+            <input type="button" value="Обратная подстановка(-1)" id="negation_button" style="width: 130pt"/>
+          </li>
+          <li style="display: inline; margin-left: 0pt">
+            <input type="button" value="Композиция подстановок(&#9675;)" id="composition_button" style="width: 150pt"/>
+          </li>
+        </ul>
         <h3>История операций</h3>
         <div id="history">
 
