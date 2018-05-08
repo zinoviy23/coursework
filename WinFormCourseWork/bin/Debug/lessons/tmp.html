@@ -1,14 +1,23 @@
 <html>
     <body>
-        <div>
+        <h2>Самосовмещения</h2>
+        <div id="info">
           <p>
-            Повороты <b>тэтраэдра</b> составляют группу мощности 12.
+            Повороты и симметрии <b>n-угольника</b> составляют группу мощности 2n.
           </p>
-          <p style="display: inline">
-            Например <div style="display: inline" id="rotation"><input type="button" value="поворот 1"/><a href="#rotation1">(Посмотреть)</a></div>
-            и <div style="display: inline" id="rotation"><input type="button" value="поворот 10"/><a href="#rotation10">(Посмотреть)</a></div>
-            обратные друг другу.
+          <p style="display: inline;">
+            Например, <div style="display: inline;" id="rotation">1</div> и <div style="display: inline;" id="rotation">4</div> обратные друг другу.
           </p>
+          <p style="display: inline;">
+            А <div style="display: inline;" id="symmetry">2</div> обратен сам себе.
+          </p>
+          <p style="display: inline;">
+            Рассмотрим теперь композиции движений. Например, <div style="display: inline;" id="rotation">3</div> умножить на
+            <div style="display: inline;" id="symmetry">58</div> это <div style="display: inline;" id="symmetry">57</div>.
+            А если применить эти повороты наоборот, то получиться <div style="display: inline;" id="symmetry">59</div>.
+          </p>
+        </div>
+        <div>
           <input type="button" value="Показать предупреждение" onclick="showAttention()" id="show_button" style="background-color: #f44256;"/>
           <div style="background-color: #f44256; border-style: solid; width: 80%; display: none;" id="attention">
             <h4>Важно!</h4>
@@ -32,6 +41,25 @@
               document.getElementById('hide_button').style.display = "none";
             }
         </script>
-      </div>
+        </div>
+        <div id="buttons" style="margin-top: 10pt;">
+          <div>
+            <input type="button" value="Сбросить" id="reset_button" />
+          </div>
+
+          <div>
+            <input type="button" class="rotation" value="kek" />
+          </div>
+        </div>
+        <style type="text/css">
+          .rotation {
+            border-radius: 50%;
+            background-color: #4CAF50;
+          }
+          .symmetry {
+            border-radius: 20%;
+            background-color: #008CBA;
+          }
+        </style>
     </body>
 </html>

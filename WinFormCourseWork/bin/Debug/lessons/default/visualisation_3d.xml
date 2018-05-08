@@ -1,9 +1,9 @@
 <html>
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    </head>
     <body>
         <h2>Самосовмещения</h2>
-        <div id="info">
-
-        </div>
         <div>
           <input type="button" value="Показать предупреждение" onclick="showAttention()" id="show_button" style="background-color: #f44256;"/>
           <div style="background-color: #f44256; border-style: solid; width: 80%; display: none;" id="attention">
@@ -28,6 +28,9 @@
               document.getElementById('hide_button').style.display = "none";
             }
         </script>
+        </div>
+        <div id="info">
+
         </div>
         <div id="buttons" style="margin-top: 10pt;">
           <div>

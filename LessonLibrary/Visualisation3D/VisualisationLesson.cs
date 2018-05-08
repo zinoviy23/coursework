@@ -432,13 +432,39 @@ namespace LessonLibrary.Visualisation3D
             var cnt = 0;
             foreach (var anim in Animations)
             {
+                if (!(anim is RotationAnimation)) continue;
+
                 if (cnt == index)
                     return anim;
-                if (anim is RotationAnimation)
-                    cnt++;
+
+                cnt++;
             }
 
             throw new ArgumentOutOfRangeException(nameof(index), @"Нет столько поворотов!");
+        }
+
+        /// <summary>
+        /// Находит симметрию по индексу
+        /// </summary>
+        /// <param name="index">индекс</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <returns>симметрия, номер которой(среди симметрий) равен переданному индексу</returns>
+        public IAnimation GetSymmetryByIndex(int index)
+        {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index), @"Индекс меньше 0");
+            var cnt = 0;
+            foreach (var animation in Animations)
+            {
+                if (!(animation is SymmetryAnimation)) continue;
+
+                if (cnt == index)
+                    return animation;
+
+                cnt++;
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(index), @"Нет столько симметрий!");
         }
     }
 }

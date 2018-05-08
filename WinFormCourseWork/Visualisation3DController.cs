@@ -354,14 +354,14 @@ namespace WinFormCourseWork
             foreach (var animation in CurrentVisualisation.ReadOnlyAnimations)
             {
                 var div = htmlView.Document.CreateElement("div");
-                var el = htmlView.Document.CreateElement("input");
+                var button = htmlView.Document.CreateElement("input");
                 var p = htmlView.Document.CreateElement("p");
-                if (el == null || div == null || p == null)
+                if (button == null || div == null || p == null)
                     return;
-                el.SetAttribute("type", "button");
-                el.SetAttribute("value", "animate");
+                button.SetAttribute("type", "button");
+                button.SetAttribute("value", "animate");
                 
-                el.Click += (o, eventArgs) =>
+                button.Click += (o, eventArgs) =>
                 {
                     IsAnimatingSessionStarted = true;
                     IsPlayingAnimation = true;
@@ -374,14 +374,18 @@ namespace WinFormCourseWork
                 {
                     case RotationAnimation rotation:
                         p.InnerHtml = RotationAnimationToHtml(rotation, CurrentVisualisation);
-                        el.InnerText = $"Поворот {cntRotation}";
+                        button.InnerText = $"Поворот {cntRotation}";
+                        button.SetAttribute("class", "rotation");
+                        button.Style = "background-color: #4CAF50; border-radius: 50px;";
                         div.Id = $"rotation{cntRotation}";
                         cntRotation++;
                         break;
                     case SymmetryAnimation symmetry:
                         p.InnerHtml = SymmetryAnimationToHtml(symmetry, CurrentVisualisation);
-                        el.InnerText = $"Симметрия {cntSymmetry}";
+                        button.InnerText = $"Симметрия {cntSymmetry}";
                         div.Id = $"symmetry{cntSymmetry}";
+                        button.SetAttribute("class", "symmetry");
+                        button.Style = "background-color: #008CBA; border-radius: 3px;";
                         cntSymmetry++;
                         break;
                     default:
@@ -389,11 +393,16 @@ namespace WinFormCourseWork
                         break;
                 }
 
-                p.InnerHtml +=
+                p.InnerHtml += "<div>Подстановка соответсвующая самосовмещению:" +
                     PermutationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
-                        .ConvertAnimationToPermuation(animation).TupleList);
+                        .ConvertAnimationToPermuation(animation).TupleList) + "</div>";
                 
-                div.AppendChild(el);
+                div.AppendChild(button);
+
+                div.Style = "border-style: solid; border-width: 1pt; border-color: #f28b71; margin-top: 10pt;" +
+                            "border-radius: 20px;" +
+                            "padding: 0 5pt 5pt 5pt;";
+                
                 buttonsDiv.AppendChild(div);
             }
 
@@ -409,10 +418,16 @@ namespace WinFormCourseWork
             {
                 CurrentVisualisation.Reset();
             };
+            Log.WriteLine(buttonsDiv.InnerHtml);
 
             htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
         }
 
+        /// <summary>
+        /// Добавляет к визуализации некоторую информацию, которая может содержать ссылки на самосовмещения.
+        /// </summary>
+        /// <param name="infoDiv">куда добавлять</param>
+        /// <param name="htmlView">отображение HTML</param>
         private void AddVisualisationInformation([NotNull] HtmlElement infoDiv, [NotNull] WebBrowser htmlView)
         {
             if (CurrentVisualisation.UserTutorialHtmlCode == null)
@@ -443,10 +458,40 @@ namespace WinFormCourseWork
                         CurrentVisualisation.SetAnimation(rotation);
                         CheckHtmlButtons(htmlView);
                     };
-                    a.InnerHtml = "(Посмотреть)";
+                    a.InnerHtml = "[См.]";
 
-                    button.Style = "margin-left: 2pt; margin-right: 1pt;";
-                    a.Style = "margin-right: 2pt;";
+                    button.Style = "margin-left: 2pt; margin-right: 1pt; background-color: #4CAF50; border-radius: 50px;";
+                    a.Style = "margin-right: 2pt; font-size: 10pt;";
+
+                    div.AppendChild(button);
+                    div.AppendChild(a);
+                }
+                else if (div.Id == "symmetry")
+                {
+                    var symmetryNumber = int.Parse(div.InnerText);
+                    var symmetry = CurrentVisualisation.GetSymmetryByIndex(symmetryNumber - 1);
+                    var button = infoDiv.Document?.CreateElement("input");
+                    var a = infoDiv.Document?.CreateElement("a");
+
+                    div.InnerText = "";
+
+                    if (a == null || button == null)
+                        continue;
+
+                    a.SetAttribute("href", $"#symmetry{symmetryNumber}");
+                    button.InnerText = $"Симметрия {symmetryNumber}";
+                    button.SetAttribute("type", "button");
+
+                    button.Click += (sender, args) => {
+                        IsAnimatingSessionStarted = true;
+                        IsPlayingAnimation = true;
+                        CurrentVisualisation.SetAnimation(symmetry);
+                        CheckHtmlButtons(htmlView);
+                    };
+                    a.InnerHtml = "[См.]";
+
+                    button.Style = "margin-left: 2pt; margin-right: 1pt; background-color: #008CBA; border-radius: 3px;";
+                    a.Style = "margin-right: 2pt; font-size: 10pt;";
 
                     div.AppendChild(button);
                     div.AppendChild(a);
@@ -524,35 +569,55 @@ namespace WinFormCourseWork
             var frac = AngleToFracWithPi(rotation.Angle);
             if (frac == null)
             {
-                return $@"<table style=""font-size: 12;""> <tr> <td>Поворот на</td>
-                            <td align=""center""> {rotation.Angle} </td>
-                            <td>{GetRotationAxisForVisualisation(rotation, visualisation)}</td> </tr> </table>";
+                return 
+                    $@"Поворот на {rotation.Angle} {GetRotationAxisForVisualisation(rotation, visualisation)}";
             }
 
             if (frac.Item2 == 1)
-            {
-                return $@"<table style=""font-size: 12;""> <tr> <td>Поворот на</td>
-                            <td align=""center""> {(frac.Item1 == 1 ? "" : frac.Item2.ToString())} </td>
-                            <td>&#960;</td>
-                            <td> {GetRotationAxisForVisualisation(rotation, visualisation)} </td></tr> </table >";
+            { 
+                return
+                    $@"<span style=""vertical-align: 5pt;"">Поворот на</span>
+                    <table style=""display: inline; vertical-align: baseline;"">
+                      <tr>
+                        <td>
+                          {(frac.Item1 == 1 ? "" : frac.Item2.ToString())}
+                        </td>
+                        <td>
+                          &#960;
+                        </td>
+                      </tr>
+                    </table>
+                    <span style=""vertical-align: 5pt;"">
+                      {GetRotationAxisForVisualisation(rotation, visualisation)}
+                    </span>";
             }
 
-            return $@"<table style=""font-size: 12;"">
-                <tr>
-                <td>Поворот на</td>
-                <td align=""center""> <table style=""font-size: 12;"">
-                <tr> <td>{frac.Item1}</td> </tr>
-                <tr>
-                <td align = ""center"" style = ""border-top-style: solid; border-top-color: black;"" > {frac.Item2}</td>
-                </tr>
-                </table>   
-                </td>
-                <td>&#960;</td>
-                <td>
-                {GetRotationAxisForVisualisation(rotation, visualisation)}
-                </td>
-                </tr>
-                </table>";
+            return 
+                $@"<span style=""vertical-align: 17pt;"">Поворот на</span>
+                <table style=""display: inline; vertical-align: baseline;"">
+                  <tr>
+                    <td>
+                      <table>
+                        <tr>
+                          <td>
+                            {frac.Item1}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style=""border-top-style: solid; border-top-color: black;"">
+                            {frac.Item2}
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td>
+                      &#960;
+                    </td>
+                  </tr>
+                </table>
+                <span style=""vertical-align: 17pt;"">
+                  {GetRotationAxisForVisualisation(rotation, visualisation)}
+                </span>";
         }
 
         /// <summary>

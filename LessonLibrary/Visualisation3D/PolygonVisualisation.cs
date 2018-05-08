@@ -91,7 +91,23 @@ namespace LessonLibrary.Visualisation3D
             Faces = new[] {new Face(Vertices) };
         }
 
-        public override string UserTutorialHtmlCode { get; }
+        public override string UserTutorialHtmlCode =>
+            $@"<p>
+            Повороты и симметрии <b>{_verticesCount}-угольника</b> составляют группу мощности {_verticesCount * 2}.
+          </p>
+          <p style=""display: inline;"">
+            Например, <div style=""display: inline;"" id=""rotation"">1</div> и 
+            <div style=""display: inline;"" id=""rotation"">{_verticesCount - 1}</div> обратные друг другу.
+          </p>
+          <p style=""display: inline;"">
+            А <div style=""display: inline;"" id=""symmetry"">{(_verticesCount + 1) / 2}</div> обратен сам себе.
+          </p>
+          <p style=""display: inline;"">
+            Рассмотрим теперь композиции движений. Например, <div style=""display: inline;"" id=""rotation"">2</div>
+            умножить на <div style=""display: inline;"" id=""symmetry"">1</div> это 
+            <div style=""display: inline;"" id=""symmetry"">{(_verticesCount % 2 == 0 ? _verticesCount / 2 : _verticesCount)}</div>.
+            А если применить эти повороты наоборот, то получиться <div style=""display: inline;"" id=""symmetry"">2</div>.
+          </p>";
 
         /// <summary>
         /// Задаёт координаты и анимации

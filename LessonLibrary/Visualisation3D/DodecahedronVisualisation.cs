@@ -407,6 +407,24 @@ namespace LessonLibrary.Visualisation3D
             };
         }
 
-        public override string UserTutorialHtmlCode { get; }
+        public override string UserTutorialHtmlCode =>
+            @"<p>
+            Повороты <b>додекаэдра</b> составляют группу мощности 60, так как <b>додекаэдр</b> изоморфен <b>икосаэдру</b>.
+          </p>
+          <p style=""display: inline;"">
+            Например, <div style=""display: inline;"" id=""rotation"">1</div> и 
+            <div style=""display: inline;"" id=""rotation"">4</div> обратные друг другу.
+            Или <div style=""display: inline;"" id=""rotation"">25</div> и 
+            <div style=""display: inline;"" id=""rotation"">26</div> обратные друг другу.
+          </p>
+          <p style=""display: inline;"">
+            А <div style=""display: inline;"" id=""rotation"">45</div> обратен сам себе.
+          </p>
+          <p style=""display: inline;"">
+            Рассмотрим теперь композиции поворотов. Например, <div style=""display: inline;"" id=""rotation"">3</div>
+            умножить на <div style=""display: inline;"" id=""rotation"">58</div> это 
+            <div style=""display: inline;"" id=""rotation"">57</div>.
+            А если применить эти повороты наоборот, то получиться <div style=""display: inline;"" id=""rotation"">59</div>.
+          </p>";
     }
 }

@@ -187,6 +187,24 @@ namespace LessonLibrary.Visualisation3D
             };
         }
 
-        public override string UserTutorialHtmlCode { get; }
+        public override string UserTutorialHtmlCode =>
+            @"<p>
+            Повороты <b>куба</b> составляют группу мощности 24.
+          </p>
+          <p style=""display: inline;"">
+            Например, <div style=""display: inline;"" id=""rotation"">1</div>
+            и <div style=""display: inline;"" id=""rotation"">3</div>
+            обратные друг другу. Или <div style=""display: inline;"" id=""rotation"">10</div>
+            и <div style=""display: inline;"" id=""rotation"">11</div> обратные друг другу.
+          </p>
+          <p style=""display: inline;"">
+            A <div style=""display: inline;"" id=""rotation"">18</div> обратен сам себе.
+          </p>
+          <p style=""display: inline;"">
+            Рассмотрим теперь композиции. Например, <div style=""display: inline;"" id=""rotation"">23</div>
+            умножить на <div style=""display: inline;"" id=""rotation"">13</div> 
+            это <div style=""display: inline;"" id=""rotation"">3</div>.
+            А если применить эти повороты наоборот получится <div style=""display: inline;"" id=""rotation"">4</div>.
+          </p>";
     }
 }

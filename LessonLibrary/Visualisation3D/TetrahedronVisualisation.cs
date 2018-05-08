@@ -141,7 +141,7 @@ namespace LessonLibrary.Visualisation3D
                 Повороты <b>тэтраэдра</b> составляют группу мощности 12.
             </p>
             <p style=""display: inline"">
-                Например<div style=""display: inline"" id=""rotation"">1</div >
+                Например, <div style=""display: inline"" id=""rotation"">1</div >
                 и <div style=""display: inline"" id=""rotation"">2</div >
                 обратные друг другу.
             </p>
@@ -152,8 +152,8 @@ namespace LessonLibrary.Visualisation3D
             <p style=""display: inline"">
                 Также <div style=""display: inline"" id=""rotation"">3</div >
                 умножить на <div style=""display: inline"" id=""rotation"">10</div >
-                это <div style=""display: inline"" id=""rotation"">5</div >
-            </p>
-            ";
+                это <div style=""display: inline"" id=""rotation"">5</div >.
+                А если применить повороты наоборот получится <div style=""display: inline"" id=""rotation"">7</div >.
+            </p>";
     }
 }

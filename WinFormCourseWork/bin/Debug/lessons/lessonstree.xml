@@ -14,7 +14,7 @@
         <visualisation tag="VisualisationCube">Куб</visualisation>
         <visualisation tag="VisualisationOctahedron">Октаэдр</visualisation>
         <visualisation tag="VisualisationIcosahedron">Икосаэдр</visualisation>
-        <visualisation tag="VisualisationDodecahedron">Додэкаэдр</visualisation>
+        <visualisation tag="VisualisationDodecahedron">Додекаэдр</visualisation>
         <visualisation tag="VisualisationPolygon">Многоугольник</visualisation>
         <visualisation tag="Permutation Visualisation">Подстановки и циклы</visualisation>
         <visualisation tag="Permutation Calculator">Калькулятор подстановок</visualisation>
