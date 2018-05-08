@@ -269,8 +269,16 @@ namespace WinFormCourseWork
 
                 var x = _glControl.Width / 2 + (int)(points[i].X * _glControl.Width / 2);
                 var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height) - _glControl.Top;
-                GetVertexLabel(i).Location =
-                    new Point(_glControl.Location.X + x - GetVertexLabel(i).Width, _glControl.Location.Y + y);
+                if (x +_glControl.Location.X >= _glControl.Left && x + _glControl.Location.X <= _glControl.Right)
+                {
+                    GetVertexLabel(i).Location =
+                        new Point(_glControl.Location.X + x - GetVertexLabel(i).Width, _glControl.Location.Y + y);
+                }
+                else
+                {
+                    GetVertexLabel(i).Visible = false;
+                }
+                Log.WriteLine(_glControl.Right + " " + _glControl.Left + " " + _glControl.Location);
             }
 
             if (IsAnimatingSessionStarted && !_isOneStepWaited)
@@ -418,7 +426,6 @@ namespace WinFormCourseWork
             {
                 CurrentVisualisation.Reset();
             };
-            Log.WriteLine(buttonsDiv.InnerHtml);
 
             htmlView.DocumentCompleted -= HtmlOnDocumentCompleted;
         }
@@ -689,8 +696,6 @@ namespace WinFormCourseWork
                 if (VectorUtils.IsVertexOnLineByPointAndDirection(vertices[index], Vector3.Zero, rotation.Axis))
                 {
                     secondPointText = $"вершину {index + 1}";
-                    Log.WriteLine(vertices[index]);
-                    Log.WriteLine(rotation.Axis);
                 }
             }
 
