@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using LessonLibrary;
 using System.IO;
+using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D;
 using OpenTK;
 using OpenTK.Graphics;
@@ -84,6 +85,16 @@ namespace WinFormCourseWork
         private readonly Visualisation3DController _visualisationController;
 
         /// <summary>
+        /// Текущая вершина
+        /// </summary>
+        private TreeNode _currentNode;
+
+        /// <summary>
+        /// Предыдущая вершина
+        /// </summary>
+        private TreeNode _prevNode;
+
+        /// <summary>
         /// Конструктор формы
         /// </summary>
         /// <inheritdoc cref="Form"/>
@@ -131,6 +142,7 @@ namespace WinFormCourseWork
             lessonsTreeView.Nodes[0].Expand();
 
             SetUiView();  
+            EnableButtons(null);
         }
 
         /// <summary>
@@ -144,7 +156,18 @@ namespace WinFormCourseWork
             if (node.Tag == null) return;
             _currentTest = null;
             _currentTable = null;
+            _currentNode = node;
 
+            EnableButtons(node);
+
+            if (_prevNode != null)
+            {
+                _prevNode.BackColor = lessonsTreeView.BackColor;
+            }
+
+            node.BackColor = SystemColors.Highlight;
+
+            _prevNode = node;
 
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
@@ -155,6 +178,7 @@ namespace WinFormCourseWork
                 _glControl.Visible = true;
                 _currentTest = null;
                 checkTestToolStripMenuItem.Enabled = false;
+                checkButton.Visible = false;
                 cayleyTableGridView.Visible = false;
 
                 var visualisationType = ((string) node.Tag).Substring("Visualisation".Length);
@@ -188,6 +212,7 @@ namespace WinFormCourseWork
                     cayleyTableGridView.Visible = true;
                     _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = true;
+                    checkButton.Visible = true;
                     _visualisationController.HideVertexLabels();
 
                     _uiState = UiState.CayleyTable;
@@ -198,6 +223,7 @@ namespace WinFormCourseWork
                     cayleyTableGridView.Visible = false;
                     _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
+                    checkButton.Visible = false;
                     _visualisationController.HideVertexLabels();
                     try
                     {
@@ -217,6 +243,7 @@ namespace WinFormCourseWork
                     cayleyTableGridView.Visible = false;
                     _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
+                    checkButton.Visible = false;
                     _visualisationController.HideVertexLabels();
                     try
                     {
@@ -265,11 +292,13 @@ namespace WinFormCourseWork
                 {
                     _currentTest = _currentLoadingLesson as TestLesson;
                     checkTestToolStripMenuItem.Enabled = true;
+                    checkButton.Visible = true;
                 }
                 else
                 {
                     _currentTest = null;
                     checkTestToolStripMenuItem.Enabled = false;
+                    checkButton.Visible = false;
                 }
 
                 htmlView.DocumentCompleted += HtmlViewOnLoadHandlerBySimpleHtmlLesson;
@@ -489,6 +518,13 @@ namespace WinFormCourseWork
         {
             lessonsTreeView.Size = new Size(Math.Min(200, Size.Width / 5), lessonsTreeView.Height);
 
+            buttonsPanel.Size = new Size(ClientSize.Width - lessonsTreeView.Width, buttonsPanel.Height);
+            buttonsPanel.Left = lessonsTreeView.Right;
+            buttonsPanel.Top = ClientSize.Height - buttonsPanel.Height;
+
+            checkButton.Location = new Point(buttonsPanel.Width / 2 - checkButton.Width / 2,
+                buttonsPanel.Height / 2 - checkButton.Height / 2);
+
             switch (_uiState)
             {
                 case UiState.Visualisation3D:
@@ -511,13 +547,13 @@ namespace WinFormCourseWork
         private void SetVisualisation3DUiView()
         {
             htmlView.Size = new Size(Math.Max(250, (ClientSize.Width - lessonsTreeView.Width) / 2),
-                ClientSize.Height - menuStrip.Height);
+                ClientSize.Height - menuStrip.Height - buttonsPanel.Height);
             htmlView.Top = menuStrip.Height + 1;
             htmlView.Left = ClientSize.Width - htmlView.Width;
 
             _glControl.Size =
                 new Size(Width - htmlView.Width - lessonsTreeView.Size.Width - 15,
-                    ClientSize.Height);
+                    ClientSize.Height - buttonsPanel.Height);
             _glControl.Location = new Point(lessonsTreeView.Right + 1, menuStrip.Height + 1);
 
             _visualisationController?.UpdateGlSettings();
@@ -542,8 +578,8 @@ namespace WinFormCourseWork
         private void SetSimpleHtmlUiView()
         {
             htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
-                ClientSize.Height);
-            htmlView.Location = new Point(lessonsTreeView.Right + 1, 1);
+                ClientSize.Height - buttonsPanel.Height);
+            htmlView.Location = new Point(lessonsTreeView.Right + 1, menuStrip.Height + 1);
         }
 
         /// <summary>
@@ -720,6 +756,76 @@ namespace WinFormCourseWork
         {
             if (e.KeyCode == Keys.F5)
                 e.IsInputKey = true;
+        }
+
+        private void NextButtonOnClick(object sender, EventArgs e)
+        {
+            lessonsTreeView.SelectedNode = NextNode(_currentNode);
+        }
+
+        [NotNull]
+        private static TreeNode NextNode([NotNull] TreeNode node)
+        {
+            var current = node;
+            while (current.Parent != null && current.NextNode == null)
+            {
+                current = current.Parent;
+            }
+
+            if (current.Parent == null)
+                return node;
+
+            current = current.NextNode;
+            while (current.FirstNode != null)
+            {
+                current = current.FirstNode;
+            }
+
+            return current;
+        }
+
+        private void BackButtonOnClick(object sender, EventArgs e)
+        {
+            lessonsTreeView.SelectedNode = PreviousNode(_currentNode);
+        }
+
+        /// <summary>
+        /// Предыдущая вершина
+        /// </summary>
+        /// <param name="node">вершина</param>
+        /// <returns>Предыдущая вершина</returns>
+        [NotNull]
+        private static TreeNode PreviousNode([NotNull] TreeNode node)
+        {
+            var current = node;
+            while (current.Parent != null && current.PrevNode == null)
+            {
+                current = current.Parent;
+            }
+
+            if (current.Parent == null)
+                return node;
+
+            current = current.PrevNode;
+            while (current.LastNode != null)
+            {
+                current = current.LastNode;
+            }
+
+            return current;
+        }
+
+        private void EnableButtons(TreeNode node)
+        {
+            backButton.Enabled = nextButton.Enabled = false;
+            if (node == null) return;
+
+            if (NextNode(node) != node)
+                nextButton.Enabled = true;
+
+            if (PreviousNode(node) != node)
+                backButton.Enabled = true;
+
         }
     }
 }

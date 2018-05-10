@@ -31,7 +31,7 @@ namespace WinFormCourseWork
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Материалы");
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
@@ -39,8 +39,13 @@ namespace WinFormCourseWork
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonsPanel = new System.Windows.Forms.Panel();
+            this.checkButton = new System.Windows.Forms.Button();
+            this.nextButton = new System.Windows.Forms.Button();
+            this.backButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
+            this.buttonsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // lessonsTreeView
@@ -49,27 +54,27 @@ namespace WinFormCourseWork
             this.lessonsTreeView.Indent = 7;
             this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
             this.lessonsTreeView.Name = "lessonsTreeView";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Материалы";
+            treeNode2.Name = "Узел0";
+            treeNode2.Text = "Материалы";
             this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.lessonsTreeView.Size = new System.Drawing.Size(152, 525);
             this.lessonsTreeView.TabIndex = 0;
             this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
             // 
             // htmlView
             // 
-            this.htmlView.Location = new System.Drawing.Point(664, 28);
+            this.htmlView.Location = new System.Drawing.Point(671, 31);
             this.htmlView.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlView.Name = "htmlView";
-            this.htmlView.Size = new System.Drawing.Size(192, 501);
+            this.htmlView.Size = new System.Drawing.Size(185, 437);
             this.htmlView.TabIndex = 0;
             this.htmlView.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.HtmlView_PreviewKeyDown);
             // 
             // glTimer
             // 
             this.glTimer.Enabled = true;
-            this.glTimer.Interval = 50;
+            this.glTimer.Interval = 20;
             this.glTimer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // cayleyTableGridView
@@ -114,11 +119,57 @@ namespace WinFormCourseWork
             this.checkTestToolStripMenuItem.Text = "Проверить";
             this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
             // 
+            // buttonsPanel
+            // 
+            this.buttonsPanel.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.buttonsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.buttonsPanel.Controls.Add(this.checkButton);
+            this.buttonsPanel.Controls.Add(this.nextButton);
+            this.buttonsPanel.Controls.Add(this.backButton);
+            this.buttonsPanel.Location = new System.Drawing.Point(158, 487);
+            this.buttonsPanel.Name = "buttonsPanel";
+            this.buttonsPanel.Size = new System.Drawing.Size(698, 41);
+            this.buttonsPanel.TabIndex = 4;
+            // 
+            // checkButton
+            // 
+            this.checkButton.Location = new System.Drawing.Point(311, 1);
+            this.checkButton.Name = "checkButton";
+            this.checkButton.Size = new System.Drawing.Size(124, 38);
+            this.checkButton.TabIndex = 2;
+            this.checkButton.Text = "Проверить";
+            this.checkButton.UseVisualStyleBackColor = true;
+            this.checkButton.Visible = false;
+            this.checkButton.Click += new System.EventHandler(this.CheckTestButton_Click);
+            // 
+            // nextButton
+            // 
+            this.nextButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.nextButton.Location = new System.Drawing.Point(602, 0);
+            this.nextButton.Name = "nextButton";
+            this.nextButton.Size = new System.Drawing.Size(94, 39);
+            this.nextButton.TabIndex = 1;
+            this.nextButton.Text = "Вперед >";
+            this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.Click += new System.EventHandler(this.NextButtonOnClick);
+            // 
+            // backButton
+            // 
+            this.backButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.backButton.Location = new System.Drawing.Point(0, 0);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(75, 39);
+            this.backButton.TabIndex = 0;
+            this.backButton.Text = "< Назад";
+            this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.BackButtonOnClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 553);
+            this.Controls.Add(this.buttonsPanel);
             this.Controls.Add(this.cayleyTableGridView);
             this.Controls.Add(this.htmlView);
             this.Controls.Add(this.lessonsTreeView);
@@ -131,6 +182,7 @@ namespace WinFormCourseWork
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            this.buttonsPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,6 +196,10 @@ namespace WinFormCourseWork
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkTestToolStripMenuItem;
+        private System.Windows.Forms.Panel buttonsPanel;
+        private System.Windows.Forms.Button nextButton;
+        private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.Button checkButton;
     }
 }
 

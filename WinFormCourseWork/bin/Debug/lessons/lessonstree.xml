@@ -1,6 +1,7 @@
 <lessonstree>
     <comment>
         тэг table, visualisation лучше не трогать и оставлять как есть.
+        у каждого листа должен быть тэг, и тэг может быть только у листов.
     </comment>
     <root name="Теория">
         <leaf tag="lesson1.xml" type="text">Глава 1. Введение </leaf>

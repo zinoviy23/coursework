@@ -23,10 +23,10 @@ namespace LessonLibrary.Permutations
         /// <exception cref="ArgumentException"></exception>
         public Permutation([NotNull] List<int> elements)
         {
-            if (elements == null) throw new ArgumentNullException(nameof(elements));
+            if (elements == null) throw new ArgumentNullException();
             if (!CheckListOnPermutation(elements))
                 throw new ArgumentException(
-                    "Список должен быть перестановкой натуральных чисел от 1 до n без повторений", nameof(elements));
+                    "Список должен быть перестановкой натуральных чисел от 1 до n без повторений");
             Elements = elements;
         }
 
@@ -38,7 +38,7 @@ namespace LessonLibrary.Permutations
         public Permutation(int n)
         {
             if (n <= 0)
-                throw new ArgumentException("Количество элементов в подстановке должно быть больше 0.", nameof(n));
+                throw new ArgumentException("Количество элементов в подстановке должно быть больше 0.");
             Elements = new List<int>(n);
             for (var i = 1; i <= n; i++)
                 Elements.Add(i);
@@ -74,7 +74,7 @@ namespace LessonLibrary.Permutations
         /// <returns>true если список перестановка, false иначе</returns>
         public static bool CheckListOnPermutation([NotNull] List<int> perm)
         {
-            if (perm == null) throw new ArgumentNullException(nameof(perm));
+            if (perm == null) throw new ArgumentNullException();
             if (perm.Count == 0)
                 return false;
 
