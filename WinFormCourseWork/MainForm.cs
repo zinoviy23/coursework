@@ -577,8 +577,9 @@ namespace WinFormCourseWork
         /// </summary>
         private void SetSimpleHtmlUiView()
         {
-            htmlView.Size = new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
-                ClientSize.Height - buttonsPanel.Height);
+            htmlView.Size =
+                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
+                    ClientSize.Height - buttonsPanel.Height - menuStrip.Height);
             htmlView.Location = new Point(lessonsTreeView.Right + 1, menuStrip.Height + 1);
         }
 

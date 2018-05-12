@@ -1,8 +1,55 @@
 <test>
+    <q answer="Yes" type="radio">
+      <p>
+          1. Являются ли натуральные числа полугруппой по операции +?
+          <p><input value="Yes"></input>Да</p>
+          <p><input value="No"></input>Нет</p>
+      </p>
+    </q>
     <q answer="No" type="radio">
-        <p>1. Являются ли натуральные числа группой по операции +?</p>
+      <p>
+          2. Являются ли натуральные числа моноидом по операции +?
+          <p><input value="Yes"></input>Да</p>
+          <p><input value="No"></input>Нет</p>
+      </p>
+    </q>
+    <q answer="No" type="radio">
+        <p>3. Являются ли натуральные числа группой по операции +?</p>
         <p><input value="Yes"></input>Да</p>
         <p><input value="No"></input>Нет</p>
+    </q>
+    <q answer="No" type="radio">
+      <p>
+          4. Являются ли натуральные числа абелевой группой по операции +?
+          <p><input value="Yes"></input>Да</p>
+          <p><input value="No"></input>Нет</p>
+      </p>
+    </q>
+    <q answer="Yes" type="radio">
+      <p>
+          5. Являются ли целые числа полугруппой по операции +?
+          <p><input value="Yes"></input>Да</p>
+          <p><input value="No"></input>Нет</p>
+      </p>
+    </q>
+    <q answer="Yes" type="radio">
+      <p>
+          6. Являются ли целые числа моноидом по операции +?
+          <p><input value="Yes"></input>Да</p>
+          <p><input value="No"></input>Нет</p>
+      </p>
+    </q>
+    <q answer="Yes" type="radio">
+        <p>7. Являются ли целые числа группой по операции +?</p>
+        <p><input value="Yes"></input>Да</p>
+        <p><input value="No"></input>Нет</p>
+    </q>
+    <q answer="Yes" type="radio">
+      <p>
+          8. Являются ли целые числа абелевой группой по операции +?
+          <p><input value="Yes"></input>Да</p>
+          <p><input value="No"></input>Нет</p>
+      </p>
     </q>
     <q answer="No" type="radio">
         <p>2. Являются ли натуральные числа группой по операции *?</p>
