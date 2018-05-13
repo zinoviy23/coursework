@@ -117,7 +117,7 @@ namespace WinFormCourseWork
             this.checkTestToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
             this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.checkTestToolStripMenuItem.Text = "Проверить";
-            this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButton_Click);
+            this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButtonOnClick);
             // 
             // buttonsPanel
             // 
@@ -140,7 +140,7 @@ namespace WinFormCourseWork
             this.checkButton.Text = "Проверить";
             this.checkButton.UseVisualStyleBackColor = true;
             this.checkButton.Visible = false;
-            this.checkButton.Click += new System.EventHandler(this.CheckTestButton_Click);
+            this.checkButton.Click += new System.EventHandler(this.CheckTestButtonOnClick);
             // 
             // nextButton
             // 

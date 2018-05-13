@@ -65,6 +65,11 @@ namespace WinFormCourseWork
         private TreeNode _prevNode;
 
         /// <summary>
+        /// Тэг, который сейчас
+        /// </summary>
+        private string _currentTag;
+
+        /// <summary>
         /// Конструктор формы
         /// </summary>
         /// <inheritdoc cref="Form"/>
@@ -104,9 +109,9 @@ namespace WinFormCourseWork
             Closed += (sender, args) =>
             {
                 Log.Close();
-                WriteSettings();
-                SaveUsersTables();
-                SaveCurrentUser();
+                MainFormSettingsLoader.WriteSettings();
+                MainFormSettingsLoader.SaveUsersTables();
+                MainFormSettingsLoader.SaveCurrentUser();
             };
 
             _glControl.Visible = false;
@@ -119,64 +124,6 @@ namespace WinFormCourseWork
 
             SetUiView();  
             EnableButtons(null);
-        }
-
-        /// <summary>
-        /// Загружает настройки
-        /// </summary>
-        private static void LoadSettings()
-        {
-            if (File.Exists(MainFormPathes.SettingsFilePath))
-            {
-                try
-                {
-                    using (var settingsFileStream =
-                        new FileStream(MainFormPathes.SettingsFilePath, FileMode.Open, FileAccess.Read))
-                    {
-                        Settings.ReadSettingsFromStream(settingsFileStream);
-                    }
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Установлены настройки по умолчанию", @"Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Settings.CreateEmpty();
-                }
-                catch (ArgumentException ex)
-                {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Установлены настройки по умолчанию", @"Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Settings.CreateEmpty();
-                }
-            }
-            else
-            {
-                MessageBox.Show(@"Отсутсвует файл настроек. Установлены настройки по умолчанию", @"Предупреждение!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Settings.CreateEmpty();
-            }
-        }
-
-        private static void WriteSettings()
-        {
-            try
-            {
-                using (var settingsFileStream =
-                    new FileStream(MainFormPathes.SettingsFilePath, FileMode.Create, FileAccess.Write))
-                {
-                    Settings.WriteToStream(settingsFileStream);
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show($@"Не удалось записать настройки. {'\n'}" + ex.Message, @"Ошибка!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show($@"Не удалось записать настройки. {'\n'}" + ex.Message, @"Ошибка!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         /// <summary>
@@ -203,6 +150,8 @@ namespace WinFormCourseWork
 
             _prevNode = node;
 
+            _currentTag = (string) node.Tag;
+
             if (((string) node.Tag).StartsWith("Visualisation"))
             {
                 //htmlView.Hide();
@@ -226,10 +175,7 @@ namespace WinFormCourseWork
                         sizeInput.PolygonSize;
                 }
 
-                //TODO: удалить это
-                var tmp = new StreamReader(MainFormPathes.Visualisation3DMarkupFilePath);
-                htmlView.DocumentText = tmp.ReadToEnd();
-                tmp.Close();
+                LessonReader.ReadPageTemplate(htmlView, MainFormPathes.Visualisation3DMarkupFilePath);
 
                 _visualisationController.IsAnimatingSessionStarted = false;
                 _visualisationController.SetButtons(htmlView);
@@ -261,7 +207,7 @@ namespace WinFormCourseWork
                     _visualisationController.HideVertexLabels();
                     try
                     {
-                        LessonReader.ReadPermutationPageTemplate(htmlView, MainFormPathes.PermutationVisualisationFilePath);
+                        LessonReader.ReadPageTemplate(htmlView, MainFormPathes.PermutationVisualisationFilePath);
                         PermutationVisualisation.CreateInstance(htmlView);
                     }
                     catch (ArgumentException ex)
@@ -281,7 +227,7 @@ namespace WinFormCourseWork
                     _visualisationController.HideVertexLabels();
                     try
                     {
-                        LessonReader.ReadPermutationPageTemplate(htmlView, MainFormPathes.PermutationCalculatorFilePath);
+                        LessonReader.ReadPageTemplate(htmlView, MainFormPathes.PermutationCalculatorFilePath);
                         PermutationCalculator.Create(htmlView);
                     }
                     catch (ArgumentException ex)
@@ -354,6 +300,12 @@ namespace WinFormCourseWork
         {
             _currentLoadingLesson.HtmlView = htmlView;
             Log.WriteLine(htmlView.DocumentText);
+
+            if (_currentTest != null && Settings.CurrentUser.Tests.ContainsKey(_currentTag))
+            {
+                _currentTest.SetEnteredAnswers(Settings.CurrentUser.Tests[_currentTag].Answers);
+            }
+
             htmlView.DocumentCompleted -= HtmlViewOnLoadHandlerBySimpleHtmlLesson;
         }
 
@@ -453,13 +405,25 @@ namespace WinFormCourseWork
         /// </summary>
         /// <param name="sender">Объект</param>
         /// <param name="e">Параметры</param>
-        private void CheckTestButton_Click(object sender, EventArgs e)
+        private void CheckTestButtonOnClick(object sender, EventArgs e)
         {
             if (_currentTest != null)
             {
                 var mistakes = _currentTest.CheckAnswers();
+
+                // добавление ответов к пользователю
+                for (var i = 0; i < _currentTest.Questions.Count; i++)
+                {
+                    if (!mistakes.Contains(i))
+                    {
+                        Settings.CurrentUser.AddAnswer(_currentTag, i, _currentTest.Questions[i].Answer);
+                    }
+                }
+
                 if (mistakes == null)
+                {
                     return;
+                }
 
                 if (mistakes.Count == 0)
                 {
@@ -837,8 +801,8 @@ namespace WinFormCourseWork
         /// <param name="e"></param>
         private void MainFormOnLoad(object sender, EventArgs e)
         {
-            LoadSettings();
-            LoadUsersTables();
+            MainFormSettingsLoader.LoadSettings();
+            MainFormSettingsLoader.LoadUsersTables();
             if (Settings.CurrentUserName == null)
             {
                 var userDialog = new UserForm();
@@ -859,128 +823,8 @@ namespace WinFormCourseWork
                 UsersTables.AddUser(Settings.CurrentUserName);
             }
 
-            LoadUser(UsersTables.GetUserFileName(Settings.CurrentUserName));
-        }
-
-        /// <summary>
-        /// Загружает список пользователей
-        /// </summary>
-        private static void LoadUsersTables()
-        {
-            if (File.Exists(MainFormPathes.UsersFile))
-            {
-                try
-                {
-                    using (var usersFileStream = new FileStream(MainFormPathes.UsersFile, FileMode.Open, FileAccess.Read))
-                    {
-                        UsersTables.ReadUsersFromFile(usersFileStream);
-                    }
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Список пользователей создан заново.", @"Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    UsersTables.CreateEmptyInstance();
-                }
-                catch (ArgumentException ex)
-                {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Список пользователей создан заново.", @"Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    UsersTables.CreateEmptyInstance();
-                }
-            }
-            else
-            {
-                UsersTables.CreateEmptyInstance();
-            }
-        }
-
-        /// <summary>
-        /// Сохраняет список пользователей
-        /// </summary>
-        private static void SaveUsersTables()
-        {
-            try
-            {
-                using (var usersFileStream =
-                    new FileStream(MainFormPathes.UsersFile, FileMode.Create, FileAccess.Write))
-                {
-                    UsersTables.WriteUsersInfo(usersFileStream);
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show($@"Не удалось записать список пользоватлей. {'\n'}" + ex.Message, @"Ошибка!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show($@"Не удалось записать список пользователей. {'\n'}" + ex.Message, @"Ошибка!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Загрузка пользователя
-        /// </summary>
-        /// <param name="userPath">путь до файла</param>
-        private static void LoadUser(string userPath)
-        {
-            if (userPath != null && File.Exists(userPath))
-            {
-                try
-                {
-                    using (var userFileStream = new FileStream(userPath, FileMode.Open, FileAccess.Read))
-                    {
-                        Settings.CurrentUser = new User(userFileStream);
-                    }
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Пользователь создан заново", @"Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Settings.CurrentUser = new User(Settings.CurrentUserName);
-                }
-                catch (ArgumentException ex)
-                {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Пользователь создан заново", @"Ошибка!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Settings.CurrentUser = new User(Settings.CurrentUserName);
-                }
-            }
-            else
-            {
-                Settings.CurrentUser = new User(Settings.CurrentUserName);
-            }
-        }
-
-        /// <summary>
-        /// Сохраняет пользователя
-        /// </summary>
-        private static void SaveCurrentUser()
-        {
-            try
-            {
-                var userPath = UsersTables.GetUserFileName(Settings.CurrentUserName);
-                if (userPath == null)
-                    return;
-
-                using (var userFileStream =
-                    new FileStream(MainFormPathes.UserFolderPath + userPath, FileMode.Create, FileAccess.Write))
-                {
-                    Settings.CurrentUser.WriteUser(userFileStream);
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show($@"Не удалось записать пользователя. {'\n'}" + ex.Message, @"Ошибка!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show($@"Не удалось записать пользователя. {'\n'}" + ex.Message, @"Ошибка!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MainFormSettingsLoader.LoadUser(MainFormPathes.UserFolderPath +
+                                            UsersTables.GetUserFileName(Settings.CurrentUserName));
         }
     }
 }

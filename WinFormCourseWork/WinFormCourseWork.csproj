@@ -84,6 +84,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainFormPathes.cs" />
+    <Compile Include="MainFormSettingsLoader.cs" />
     <Compile Include="MainFormUtils.cs" />
     <Compile Include="PermutationCalculator.cs" />
     <Compile Include="PermutationInput.cs">

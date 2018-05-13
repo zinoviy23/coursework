@@ -1,4 +1,28 @@
 {
   "Name": "Саша",
-  "Tests": [ ]
+  "Tests": [
+    {
+      "Key": "test_lesson1.xml",
+      "Value": {
+        "Answers": [
+          {
+            "Key": 0,
+            "Value": "Yes"
+          },
+          {
+            "Key": 1,
+            "Value": "No"
+          },
+          {
+            "Key": 10,
+            "Value": "23"
+          },
+          {
+            "Key": 11,
+            "Value": "123"
+          }
+        ]
+      }
+    }
+  ]
 }

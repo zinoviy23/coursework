@@ -62,6 +62,41 @@ namespace LessonLibrary
         }
 
         /// <summary>
+        /// Сразу отвечает на ответы, которые переданы в метод
+        /// </summary>
+        /// <param name="answers">Словарь ответорв, где номеру ответа соответвует ответ</param>
+        public void SetEnteredAnswers(IReadOnlyDictionary<int, string> answers)
+        {
+            var inputs = CurrenHtmlView.Document?.GetElementsByTagName("input");
+
+            if (inputs == null)
+                return;
+
+            foreach (var answer in answers)
+            {
+                foreach (HtmlElement input in inputs)
+                {
+                    if (input.GetAttribute("name") != (answer.Key + 1).ToString()) continue;
+                    switch (input.GetAttribute("type"))
+                    {
+                        case "radio":
+                            if (input.GetAttribute("value") == answer.Value.Trim())
+                                input.SetAttribute("checked", "checked");
+                            break;
+                        case "checkbox":
+                            if (answer.Value.Contains(input.GetAttribute("value")))
+                                input.SetAttribute("checked", "checked");
+                            break;
+                        case "text":
+                            input.SetAttribute("value", answer.Value);
+                            break;
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
         /// Обработчик события клика на элемент
         /// </summary>
         /// <param name="sender">объект</param>
