@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormCourseWork
 {
     public partial class PolygonSizeInput : Form
     {
+        /// <summary>
+        /// Размер полигона
+        /// </summary>
         public int PolygonSize { get; private set; }
 
+        /// <summary>
+        /// Есть ли ошибка
+        /// </summary>
         private bool _hasError;
 
         public PolygonSizeInput()
@@ -23,6 +23,11 @@ namespace WinFormCourseWork
             textBox.Focus();
         }
 
+        /// <summary>
+        /// Обработчик события изменения текста. Проверяет на ошибки
+        /// </summary>
+        /// <param name="sender">объект</param>
+        /// <param name="e">аругменты</param>
         private void TextBoxOnTextChanged(object sender, EventArgs e)
         {
             toolTip.RemoveAll();
@@ -57,27 +62,52 @@ namespace WinFormCourseWork
             }
         }
 
+        /// <summary>
+        /// Изменение значения ползунка
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TrackBarOnValueChanged(object sender, EventArgs e)
         {
             textBox.Text = trackBar.Value.ToString();
         }
 
+        /// <summary>
+        /// Обработчик события нажатия клавиши в форме
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PolygonSizeInputOnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter && !_hasError)
                 Close();
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на клавишу ок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonOnClick(object sender, EventArgs e)
         {
             if (!_hasError) Close();
         }
 
+        /// <summary>
+        /// Обработчик события нажатия клавиши на текстбокс
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxOnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter && !_hasError) Close();
         }
 
+        /// <summary>
+        /// Обработчик события нажатия клавиши на ползунок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TrackBarOnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter && !_hasError) Close();

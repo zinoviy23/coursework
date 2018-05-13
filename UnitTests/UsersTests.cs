@@ -1,7 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WinFormCourseWork;
 using WinFormCourseWork.Users;
@@ -67,9 +65,7 @@ namespace UnitTests
         [TestMethod]
         public void SettingsTest()
         {
-#pragma warning disable CS0618 // Тип или член устарел
             Settings.CreateEmpty();
-#pragma warning restore CS0618 // Тип или член устарел
             using (var stream = new FileStream("settings.json", FileMode.Create, FileAccess.Write))
             {
                 Settings.WriteToStream(stream);

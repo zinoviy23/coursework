@@ -6,10 +6,10 @@ using System.Text;
 using System.Windows.Forms;
 using LessonLibrary;
 using System.IO;
-using JetBrains.Annotations;
 using LessonLibrary.Visualisation3D;
 using OpenTK;
 using OpenTK.Graphics;
+using WinFormCourseWork.Users;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using MatrixMode = OpenTK.Graphics.OpenGL.MatrixMode;
 
@@ -34,11 +34,6 @@ namespace WinFormCourseWork
         private CayleyTableTestLesson _currentTable;
 
         /// <summary>
-        /// Временный путь до таблицы
-        /// </summary>
-        private const string TablesFolderPath = @"lessons\CayleyTables";
-
-        /// <summary>
         /// Папка с таблицами Кэли
         /// </summary>
         private readonly DirectoryInfo _tablesFolder;
@@ -53,31 +48,6 @@ namespace WinFormCourseWork
         /// </summary>
         private readonly Dictionary<string, VisualisationLesson> _visualisationLessons =
             new Dictionary<string, VisualisationLesson>();
-
-        /// <summary>
-        /// Путь до файла с деревом уроков
-        /// </summary>
-        private const string LessonsTreeInfoPath = @"lessons\lessonstree.xml";
-
-        /// <summary>
-        /// Путь до шаблона с визуализациями подстановок
-        /// </summary>
-        private const string PermutationVisualisationFilePath = @"lessons\default\permutation_visualisation.xml";
-
-        /// <summary>
-        /// Путь до шаблона калькулятора подстановок
-        /// </summary>
-        private const string PermutationCalculatorFilePath = @"lessons\default\permutation_calculator.xml";
-
-        /// <summary>
-        /// путь до папки со стандартными файлами
-        /// </summary>
-        private const string DefultFilesPath = @"lessons\default";
-
-        /// <summary>
-        /// путь до файла с шаблоном разметки для визуализации 3d
-        /// </summary>
-        private const string Visualisation3DMarkupFilePath = @"lessons\default\visualisation_3d.xml";
 
         /// <summary>
         /// Объект для управления визуализациями
@@ -117,7 +87,7 @@ namespace WinFormCourseWork
 
             LoadLesson("title_page.xml");
 
-            _tablesFolder = new DirectoryInfo(TablesFolderPath);
+            _tablesFolder = new DirectoryInfo(MainFormPathes.TablesFolderPath);
 
             _rand = new Random();
 
@@ -131,18 +101,82 @@ namespace WinFormCourseWork
 
             InitVisualisationsDictionary();
 
-            Closed += (sender, args) => Log.Close();
+            Closed += (sender, args) =>
+            {
+                Log.Close();
+                WriteSettings();
+                SaveUsersTables();
+                SaveCurrentUser();
+            };
 
             _glControl.Visible = false;
             cayleyTableGridView.Visible = false;
 
             _visualisationController = new Visualisation3DController(_glControl, this);
 
-            LessonReader.ReadLessonsTreeInfo(lessonsTreeView, LessonsTreeInfoPath);
+            LessonReader.ReadLessonsTreeInfo(lessonsTreeView, MainFormPathes.LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
 
             SetUiView();  
             EnableButtons(null);
+        }
+
+        /// <summary>
+        /// Загружает настройки
+        /// </summary>
+        private static void LoadSettings()
+        {
+            if (File.Exists(MainFormPathes.SettingsFilePath))
+            {
+                try
+                {
+                    using (var settingsFileStream =
+                        new FileStream(MainFormPathes.SettingsFilePath, FileMode.Open, FileAccess.Read))
+                    {
+                        Settings.ReadSettingsFromStream(settingsFileStream);
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(ex.Message + $@"{'\n'}Установлены настройки по умолчанию", @"Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Settings.CreateEmpty();
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message + $@"{'\n'}Установлены настройки по умолчанию", @"Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Settings.CreateEmpty();
+                }
+            }
+            else
+            {
+                MessageBox.Show(@"Отсутсвует файл настроек. Установлены настройки по умолчанию", @"Предупреждение!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Settings.CreateEmpty();
+            }
+        }
+
+        private static void WriteSettings()
+        {
+            try
+            {
+                using (var settingsFileStream =
+                    new FileStream(MainFormPathes.SettingsFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    Settings.WriteToStream(settingsFileStream);
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($@"Не удалось записать настройки. {'\n'}" + ex.Message, @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($@"Не удалось записать настройки. {'\n'}" + ex.Message, @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -193,7 +227,7 @@ namespace WinFormCourseWork
                 }
 
                 //TODO: удалить это
-                var tmp = new StreamReader(Visualisation3DMarkupFilePath);
+                var tmp = new StreamReader(MainFormPathes.Visualisation3DMarkupFilePath);
                 htmlView.DocumentText = tmp.ReadToEnd();
                 tmp.Close();
 
@@ -227,7 +261,7 @@ namespace WinFormCourseWork
                     _visualisationController.HideVertexLabels();
                     try
                     {
-                        LessonReader.ReadPermutationPageTemplate(htmlView, PermutationVisualisationFilePath);
+                        LessonReader.ReadPermutationPageTemplate(htmlView, MainFormPathes.PermutationVisualisationFilePath);
                         PermutationVisualisation.CreateInstance(htmlView);
                     }
                     catch (ArgumentException ex)
@@ -247,7 +281,7 @@ namespace WinFormCourseWork
                     _visualisationController.HideVertexLabels();
                     try
                     {
-                        LessonReader.ReadPermutationPageTemplate(htmlView, PermutationCalculatorFilePath);
+                        LessonReader.ReadPermutationPageTemplate(htmlView, MainFormPathes.PermutationCalculatorFilePath);
                         PermutationCalculator.Create(htmlView);
                     }
                     catch (ArgumentException ex)
@@ -485,23 +519,23 @@ namespace WinFormCourseWork
         {
             _visualisationLessons["Tetrahedron"] = new TetrahedronVisualisation();
             _visualisationLessons["Tetrahedron"]
-                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Tetrahedron"));
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(MainFormPathes.DefultFilesPath + @"\Tetrahedron"));
 
             _visualisationLessons["Cube"] = new CubeVisualisation();
             _visualisationLessons["Cube"]
-                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Cube"));
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(MainFormPathes.DefultFilesPath + @"\Cube"));
 
             _visualisationLessons["Octahedron"] = new OctahedronVisualisation();
             _visualisationLessons["Octahedron"]
-                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Octahedron"));
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(MainFormPathes.DefultFilesPath + @"\Octahedron"));
 
             _visualisationLessons["Icosahedron"] = new IcosahedronVisualisation();
             _visualisationLessons["Icosahedron"]
-                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Icosahedron"));
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(MainFormPathes.DefultFilesPath + @"\Icosahedron"));
 
             _visualisationLessons["Dodecahedron"] = new DodecahedronVisualisation();
             _visualisationLessons["Dodecahedron"]
-                .SetAnimations(LessonReader.ReadAnimationsFromFolder(DefultFilesPath + @"\Dodecahedron"));
+                .SetAnimations(LessonReader.ReadAnimationsFromFolder(MainFormPathes.DefultFilesPath + @"\Dodecahedron"));
 
             _visualisationLessons["Polygon"] = new PolygonVisualisation();
         }
@@ -759,74 +793,194 @@ namespace WinFormCourseWork
                 e.IsInputKey = true;
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку вперёд
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NextButtonOnClick(object sender, EventArgs e)
         {
-            lessonsTreeView.SelectedNode = NextNode(_currentNode);
-        }
-
-        [NotNull]
-        private static TreeNode NextNode([NotNull] TreeNode node)
-        {
-            var current = node;
-            while (current.Parent != null && current.NextNode == null)
-            {
-                current = current.Parent;
-            }
-
-            if (current.Parent == null)
-                return node;
-
-            current = current.NextNode;
-            while (current.FirstNode != null)
-            {
-                current = current.FirstNode;
-            }
-
-            return current;
-        }
-
-        private void BackButtonOnClick(object sender, EventArgs e)
-        {
-            lessonsTreeView.SelectedNode = PreviousNode(_currentNode);
+            lessonsTreeView.SelectedNode = MainFormUtils.NextNode(_currentNode);
         }
 
         /// <summary>
-        /// Предыдущая вершина
+        /// Обработчик события нажатия на кнопку назад
         /// </summary>
-        /// <param name="node">вершина</param>
-        /// <returns>Предыдущая вершина</returns>
-        [NotNull]
-        private static TreeNode PreviousNode([NotNull] TreeNode node)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BackButtonOnClick(object sender, EventArgs e)
         {
-            var current = node;
-            while (current.Parent != null && current.PrevNode == null)
-            {
-                current = current.Parent;
-            }
-
-            if (current.Parent == null)
-                return node;
-
-            current = current.PrevNode;
-            while (current.LastNode != null)
-            {
-                current = current.LastNode;
-            }
-
-            return current;
+            lessonsTreeView.SelectedNode = MainFormUtils.PreviousNode(_currentNode);
         }
 
+        /// <summary>
+        /// Разрешает или запрещает кнопки впред, назад
+        /// </summary>
+        /// <param name="node"></param>
         private void EnableButtons(TreeNode node)
         {
             backButton.Enabled = nextButton.Enabled = false;
             if (node == null) return;
 
-            if (NextNode(node) != node)
+            if (MainFormUtils.NextNode(node) != node)
                 nextButton.Enabled = true;
 
-            if (PreviousNode(node) != node)
+            if (MainFormUtils.PreviousNode(node) != node)
                 backButton.Enabled = true;
 
+        }
+
+        /// <summary>
+        /// Обработчик события загрузки окна
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainFormOnLoad(object sender, EventArgs e)
+        {
+            LoadSettings();
+            LoadUsersTables();
+            if (Settings.CurrentUserName == null)
+            {
+                var userDialog = new UserForm();
+                var result = userDialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    Settings.CurrentUserName = userDialog.UserName;
+                }
+                else
+                {
+                    Close();
+                }
+            }
+
+            if (!UsersTables.UserContains(Settings.CurrentUserName))
+            {
+                UsersTables.AddUser(Settings.CurrentUserName);
+            }
+
+            LoadUser(UsersTables.GetUserFileName(Settings.CurrentUserName));
+        }
+
+        /// <summary>
+        /// Загружает список пользователей
+        /// </summary>
+        private static void LoadUsersTables()
+        {
+            if (File.Exists(MainFormPathes.UsersFile))
+            {
+                try
+                {
+                    using (var usersFileStream = new FileStream(MainFormPathes.UsersFile, FileMode.Open, FileAccess.Read))
+                    {
+                        UsersTables.ReadUsersFromFile(usersFileStream);
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(ex.Message + $@"{'\n'}Список пользователей создан заново.", @"Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UsersTables.CreateEmptyInstance();
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message + $@"{'\n'}Список пользователей создан заново.", @"Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UsersTables.CreateEmptyInstance();
+                }
+            }
+            else
+            {
+                UsersTables.CreateEmptyInstance();
+            }
+        }
+
+        /// <summary>
+        /// Сохраняет список пользователей
+        /// </summary>
+        private static void SaveUsersTables()
+        {
+            try
+            {
+                using (var usersFileStream =
+                    new FileStream(MainFormPathes.UsersFile, FileMode.Create, FileAccess.Write))
+                {
+                    UsersTables.WriteUsersInfo(usersFileStream);
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($@"Не удалось записать список пользоватлей. {'\n'}" + ex.Message, @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($@"Не удалось записать список пользователей. {'\n'}" + ex.Message, @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Загрузка пользователя
+        /// </summary>
+        /// <param name="userPath">путь до файла</param>
+        private static void LoadUser(string userPath)
+        {
+            if (userPath != null && File.Exists(userPath))
+            {
+                try
+                {
+                    using (var userFileStream = new FileStream(userPath, FileMode.Open, FileAccess.Read))
+                    {
+                        Settings.CurrentUser = new User(userFileStream);
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(ex.Message + $@"{'\n'}Пользователь создан заново", @"Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Settings.CurrentUser = new User(Settings.CurrentUserName);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message + $@"{'\n'}Пользователь создан заново", @"Ошибка!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Settings.CurrentUser = new User(Settings.CurrentUserName);
+                }
+            }
+            else
+            {
+                Settings.CurrentUser = new User(Settings.CurrentUserName);
+            }
+        }
+
+        /// <summary>
+        /// Сохраняет пользователя
+        /// </summary>
+        private static void SaveCurrentUser()
+        {
+            try
+            {
+                var userPath = UsersTables.GetUserFileName(Settings.CurrentUserName);
+                if (userPath == null)
+                    return;
+
+                using (var userFileStream =
+                    new FileStream(MainFormPathes.UserFolderPath + userPath, FileMode.Create, FileAccess.Write))
+                {
+                    Settings.CurrentUser.WriteUser(userFileStream);
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($@"Не удалось записать пользователя. {'\n'}" + ex.Message, @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($@"Не удалось записать пользователя. {'\n'}" + ex.Message, @"Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

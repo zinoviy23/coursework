@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -51,11 +52,18 @@ namespace WinFormCourseWork.Users
             }
         }
 
+        /// <summary>
+        /// Добавляет пользователя
+        /// </summary>
+        /// <param name="userName">имя пользователя</param>
         public static void AddUser(string userName)
         {
             _instance._users.Add(userName);
         }
 
+        /// <summary>
+        /// Создаёт пустой объект
+        /// </summary>
         public static void CreateEmptyInstance()
         {
             _instance = new UsersTables();
@@ -66,6 +74,10 @@ namespace WinFormCourseWork.Users
             _users = new List<string>();
         }
 
+        /// <summary>
+        /// Записывает информацию о количестве пользователей в поток
+        /// </summary>
+        /// <param name="stream">поток</param>
         public static void WriteUsersInfo(Stream stream)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
@@ -100,6 +112,12 @@ namespace WinFormCourseWork.Users
             return userIndex == -1 ? null : $"{userIndex}.json";
         }
 
-
+        /// <summary>
+        /// Есть ли такой пользователь
+        /// </summary>
+        /// <param name="userName">имя пользователя</param>
+        /// <returns>есть ли пользователь</returns>
+        public static bool UserContains(string userName) =>
+            _instance._users.Any(s => s.Equals(userName, StringComparison.InvariantCulture));
     }
 }

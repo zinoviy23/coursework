@@ -29,6 +29,9 @@ namespace WinFormCourseWork.Users
         [DataMember(Name = "Tests")]
         private Dictionary<string, UserTestAnswers> _tests = new Dictionary<string, UserTestAnswers>();
 
+        /// <summary>
+        /// Возвращает все тесты пользователя
+        /// </summary>
         [NotNull] public IReadOnlyDictionary<string, UserTestAnswers> Tests => _tests;
 
         /// <summary>
@@ -36,6 +39,10 @@ namespace WinFormCourseWork.Users
         /// </summary>
         public int AnswersCount => _tests.Aggregate(0, (i, pair) => i + pair.Value.AnswersCount);
 
+        /// <summary>
+        /// Конструктор, иницилизирующий пользователя из потока
+        /// </summary>
+        /// <param name="stream">поток</param>
         public User([NotNull] Stream stream)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
@@ -51,17 +58,29 @@ namespace WinFormCourseWork.Users
             {
                 throw new ArgumentException($"Из данного потока нельзя считать\n{ex.Message}");
             }
+            catch (SerializationException ex)
+            {
+                throw new ArgumentException($"Ошибка считывания информации о пользователе.\n{ex.Message}");
+            }
             finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCulture;
             }
         }
 
+        /// <summary>
+        /// Конструктор, иницилизирующий пользователя по имени
+        /// </summary>
+        /// <param name="name"></param>
         public User([NotNull] string name)
         {
             Name = name;
         }
 
+        /// <summary>
+        /// Записывает пользователя в поток
+        /// </summary>
+        /// <param name="stream">поток</param>
         public void WriteUser([NotNull] Stream stream)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
@@ -78,12 +97,22 @@ namespace WinFormCourseWork.Users
             {
                 throw new ArgumentException($"В переданный поток нельзя записать.\n{ex.Message}");
             }
+            catch (SerializationException ex)
+            {
+                throw new ArgumentException($"Ошибка записи информации о пользователе.\n{ex.Message}");
+            }
             finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCulture;
             }
         }
 
+        /// <summary>
+        /// Добавляет ответ к пользователю
+        /// </summary>
+        /// <param name="tag">тэг теста</param>
+        /// <param name="number">номер вопроса</param>
+        /// <param name="answer">ответ</param>
         public void AddAnswer(string tag, int number, string answer)
         {
             if (!_tests.ContainsKey(tag))

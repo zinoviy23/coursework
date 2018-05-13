@@ -9,21 +9,52 @@ using WinFormCourseWork.Users;
 
 namespace WinFormCourseWork
 {
+    /// <summary>
+    /// Класс для настроек
+    /// </summary>
     [DataContract(Name = "Settings")]
     public class Settings
     {
+        /// <summary>
+        /// Объект
+        /// </summary>
         private static Settings _instance;
 
+        /// <summary>
+        /// кол-во вопросов
+        /// </summary>
         [DataMember(Name = "AnswersCount")]
         private int _answersCount;
 
-        [DataMember(Name = "CurrentUser")]
-        private string _currentUser;
+        /// <summary>
+        /// имя пользователя
+        /// </summary>
+        [DataMember(Name = "CurrentUserName")]
+        private string _currentUserName;
 
+        /// <summary>
+        /// Количество вопросов всего
+        /// </summary>
         public static int AnswersCount => _instance._answersCount;
 
-        public static string CurrentUser => _instance._currentUser;
+        /// <summary>
+        /// Имя текущего пользователя
+        /// </summary>
+        public static string CurrentUserName
+        {
+            get =>_instance. _currentUserName;
+            set => _instance._currentUserName = value;
+        }
 
+        /// <summary>
+        /// Текущий пользователь
+        /// </summary>
+        public static User CurrentUser { get; set; }
+
+        /// <summary>
+        /// Считывает настройки из потока
+        /// </summary>
+        /// <param name="stream"></param>
         public static void ReadSettingsFromStream(Stream stream)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
@@ -37,12 +68,20 @@ namespace WinFormCourseWork
             {
                 throw new ArgumentException($"Из данного потока нельзя считать\n{ex.Message}");
             }
+            catch (SerializationException ex)
+            {
+                throw new ArgumentException($"Ошибка считывания настроек.\n{ex.Message}");
+            }
             finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCulture;
             }
         }
 
+        /// <summary>
+        /// Записывает настройки в поток
+        /// </summary>
+        /// <param name="stream">поток</param>
         public static void WriteToStream(Stream stream)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
@@ -59,6 +98,10 @@ namespace WinFormCourseWork
             {
                 throw new ArgumentException($"В переданный поток нельзя записать.\n{ex.Message}");
             }
+            catch (SerializationException ex)
+            {
+                throw new ArgumentException($"Ошибка записи настроек.\n{ex.Message}");
+            }
             finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCulture;
@@ -66,9 +109,8 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Только для тестов
+        /// Создаёт пустые настройки
         /// </summary>
-        [Obsolete("Используется только для тестов")]
         public static void CreateEmpty()
         {
             _instance = new Settings();
