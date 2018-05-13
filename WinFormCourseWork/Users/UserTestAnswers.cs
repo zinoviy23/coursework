@@ -27,7 +27,8 @@ namespace WinFormCourseWork.Users
         /// <param name="answer"></param>
         public void Add(int number, string answer)
         {
-            _answers.Add(number, answer);
+            if (!_answers.ContainsKey(number))
+                _answers.Add(number, answer);
         }
 
         /// <summary>

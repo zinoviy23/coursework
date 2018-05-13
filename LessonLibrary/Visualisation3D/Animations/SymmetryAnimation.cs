@@ -31,6 +31,16 @@ namespace LessonLibrary.Visualisation3D.Animations
         /// </summary>
         public bool IsFinish => Math.Abs(_currentCoef - (-1)) < 0.0001f;
 
+        /// <summary>
+        /// Сколько времени уже прошло от начала
+        /// </summary>
+        private float _currentWaitingTime;
+
+        /// <summary>
+        /// Сколько всего надо ждать
+        /// </summary>
+        private const float WaitingTime = 1;
+
         // применяет симметрию к вершине
         public Vector3 ApplyToEnd(Vector3 vertex)
         {
@@ -53,15 +63,23 @@ namespace LessonLibrary.Visualisation3D.Animations
             Plane = plane;
             Speed = speed;
             _currentCoef = 1;
+            _currentWaitingTime = 0;
         }
 
         /// <inheritdoc />
         /// делает следующий шаг
         public void NextStep(float deltaTime)
         {
-            _currentCoef -= deltaTime * Speed;
-            if (_currentCoef < -1)
-                _currentCoef = -1;
+            if (WaitingTime <= _currentWaitingTime)
+            {
+                _currentCoef -= deltaTime * Speed;
+                if (_currentCoef < -1)
+                    _currentCoef = -1;
+            }
+            else
+            {
+                _currentWaitingTime += deltaTime * Speed;
+            }
         }
         
         /// <inheritdoc />

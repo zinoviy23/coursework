@@ -296,7 +296,7 @@ namespace UnitTests
             foreach (var axis in vectors)
             {
                 for (var i = 1; i <= 3; i++)
-                    rotations.Add(new RotationAnimation(MathHelper.Pi / 2 * i, axis, MathHelper.Pi / 2));
+                    rotations.Add(new RotationAnimation(MathHelper.Pi / 2 * i, axis, MathHelper.Pi / 3));
             }
 
             for (var first = 0; first < 4; first++)
@@ -304,7 +304,7 @@ namespace UnitTests
                 var second = (first + 2) % 4 + 4;
                 for (var angle = 1; angle <= 2; angle++)
                     rotations.Add(new RotationAnimation(MathHelper.Pi * 2 / 3 * angle, vertices[second] - vertices[first],
-                        MathHelper.Pi / 2));
+                        MathHelper.Pi / 3));
             }
 
             vectors = new[]
@@ -313,7 +313,7 @@ namespace UnitTests
                 new Vector3(1, 1, 0), new Vector3(-1, 1, 0)  
             };
 
-            rotations.AddRange(vectors.Select(axis => new RotationAnimation(MathHelper.Pi, axis, MathHelper.Pi / 2)));
+            rotations.AddRange(vectors.Select(axis => new RotationAnimation(MathHelper.Pi, axis, MathHelper.Pi / 3)));
             var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
 
             for (var i = 0; i < rotations.Count; i++)
@@ -332,7 +332,7 @@ namespace UnitTests
         [TestMethod]
         public void OctahedronAnimationWritingTest()
         {
-            var rotations = new List<RotationAnimation> { new RotationAnimation(0, Vector3.UnitY, MathHelper.Pi / 2) };
+            var rotations = new List<RotationAnimation> { new RotationAnimation(0, Vector3.UnitY, MathHelper.Pi / 3) };
 
             var vertices = new OctahedronVisualisation().VerticesClone;
 
@@ -344,7 +344,7 @@ namespace UnitTests
                 for (var angleMult = 1; angleMult <= 3; angleMult++)
                 {
                     rotations.Add(new RotationAnimation(MathHelper.Pi / 2 * angleMult,
-                        vertices[tuple.Item1] - vertices[tuple.Item2], MathHelper.Pi / 2));
+                        vertices[tuple.Item1] - vertices[tuple.Item2], MathHelper.Pi / 3));
                 }
             }
 
@@ -357,9 +357,9 @@ namespace UnitTests
             rotations.AddRange(verticesTuple3.SelectMany(tuple => new []
             {
                 new RotationAnimation(MathHelper.Pi / 3 * 2,
-                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2),
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 3),
                 new RotationAnimation(MathHelper.Pi / 3 * 4,
-                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2)
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 3)
             }));
 
             verticesTuples = new[]
@@ -369,7 +369,7 @@ namespace UnitTests
             };
 
             rotations.AddRange(verticesTuples.Select(tuple => new RotationAnimation(MathHelper.Pi, 
-                (vertices[tuple.Item1] + vertices[tuple.Item2]) / 2, MathHelper.Pi / 2)));
+                (vertices[tuple.Item1] + vertices[tuple.Item2]) / 2, MathHelper.Pi / 3)));
 
             var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
 
@@ -389,7 +389,7 @@ namespace UnitTests
         [TestMethod]
         public void IcosahedronAnimationsWritingTest()
         {
-            var rotations = new List<RotationAnimation> { new RotationAnimation(0, Vector3.UnitY, MathHelper.Pi / 2) };
+            var rotations = new List<RotationAnimation> { new RotationAnimation(0, Vector3.UnitY, MathHelper.Pi / 3) };
 
             var vertices = new IcosahedronVisualisation().VerticesClone;
 
@@ -404,7 +404,7 @@ namespace UnitTests
                 const float angle = MathHelper.Pi / 5;
                 for (var i = 1; i <= 4; i++ )
                     rotations.Add(new RotationAnimation(angle * 2 * i, vertices[tuple.Item1] - vertices[tuple.Item2],
-                        MathHelper.Pi / 2));
+                        MathHelper.Pi / 3));
             }
 
             var verticesTuple3 = new[]
@@ -418,9 +418,9 @@ namespace UnitTests
             rotations.AddRange(verticesTuple3.SelectMany(tuple => new []
             {
                 new RotationAnimation(2 * MathHelper.Pi / 3,
-                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2),
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 3),
                 new RotationAnimation(4 * MathHelper.Pi / 3,
-                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 2)
+                    (vertices[tuple.Item1] + vertices[tuple.Item2] + vertices[tuple.Item3]) / 3, MathHelper.Pi / 3)
             }));
 
             verticesTuples = new[]
@@ -435,7 +435,7 @@ namespace UnitTests
 
             rotations.AddRange(verticesTuples.Select(tuple => 
                 new RotationAnimation(MathHelper.Pi, (vertices[tuple.Item1] + vertices[tuple.Item2]) / 2,
-                    MathHelper.Pi / 2)));
+                    MathHelper.Pi / 3)));
 
             var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
 

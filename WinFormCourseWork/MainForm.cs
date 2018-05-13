@@ -741,6 +741,11 @@ namespace WinFormCourseWork
         private void GlControl1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Space || !_visualisationController.GlContolLoaded) return;
+            ResetView();
+        }
+
+        private void ResetView()
+        {
             _userPosition = new Vector3(0, 0, 4);
             _userUp = new Vector3(0, 1, 0);
             var modelview = Matrix4.LookAt(_userPosition.X, _userPosition.Y, _userPosition.Z, 0, 0, 0, _userUp.X,
@@ -759,6 +764,9 @@ namespace WinFormCourseWork
         {
             if (e.KeyCode == Keys.F5)
                 e.IsInputKey = true;
+            if (e.KeyCode == Keys.Space && _visualisationController.GlContolLoaded && _glControl.Visible)
+                ResetView();
+
         }
 
         /// <summary>

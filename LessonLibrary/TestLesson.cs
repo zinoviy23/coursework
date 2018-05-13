@@ -92,6 +92,7 @@ namespace LessonLibrary
                             break;
                     }
                 }
+                _answers.UsersAnswers[answer.Key] = answer.Value;
             }
 
         }

@@ -35,8 +35,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ControlForm";
-            this.Text = "ControlForm";
+            this.Text = "Обучающий визуализатор";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ControlFormOnFormClosing);
             this.Load += new System.EventHandler(this.ControlForm_Load);
             this.ResumeLayout(false);
 

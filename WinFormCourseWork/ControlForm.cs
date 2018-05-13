@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WinFormCourseWork
@@ -45,6 +46,14 @@ namespace WinFormCourseWork
         private void ControlForm_Load(object sender, EventArgs e)
         {
             Opacity = 0.0;
+            Hide();
+            Size = new Size(0, 0);
+        }
+
+        private void ControlFormOnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_currentMainForm != null && _currentMainForm.Disposing)
+                _currentMainForm.Close();
         }
     }
 }

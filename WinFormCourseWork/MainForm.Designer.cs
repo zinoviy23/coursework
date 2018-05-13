@@ -204,7 +204,7 @@ namespace WinFormCourseWork
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Обучающий визуализатор";
             this.Load += new System.EventHandler(this.MainFormOnLoad);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).EndInit();

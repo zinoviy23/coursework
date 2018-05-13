@@ -49,6 +49,16 @@ namespace LessonLibrary.Visualisation3D.Animations
         private float _currentAngle;
 
         /// <summary>
+        /// Сколько времени уже прошло от начала
+        /// </summary>
+        private float _currentWaitingTime;
+
+        /// <summary>
+        /// Сколько всего надо ждать
+        /// </summary>
+        private const float WaitingTime = 1;
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="angle">Угол</param>
@@ -61,14 +71,22 @@ namespace LessonLibrary.Visualisation3D.Animations
             Speed = speed;
 
             _currentAngle = 0;
+            _currentWaitingTime = 0;
         }
 
         // следующий шаг
         public void NextStep(float deltaTime)
         {
-            _currentAngle += Speed * deltaTime;
-            if (_currentAngle > Angle)
-                _currentAngle = Angle;
+            if (_currentWaitingTime >= WaitingTime)
+            {
+                _currentAngle += Speed * deltaTime;
+                if (_currentAngle > Angle)
+                    _currentAngle = Angle;
+            }
+            else
+            {
+                _currentWaitingTime += Speed * deltaTime;
+            }
         }
 
         // применяет анимацию к точке
@@ -83,6 +101,7 @@ namespace LessonLibrary.Visualisation3D.Animations
         public void Reset()
         {
             _currentAngle = 0;
+            _currentWaitingTime = 0;
         }
 
         /// <inheritdoc />

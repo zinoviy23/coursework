@@ -4,6 +4,12 @@
     </head>
     <body>
         <h2>Самосовмещения</h2>
+        <div style="border-style: solid; border-width: 1px; margin-bottom: 5pt;">
+          <p>
+            Для вращения по горизонтали используйте <b>левую кнопку мыши</b>, а по вертикали - <b>правую кнопку мыши</b>.
+            Чтобы Сбросить все повороты камеры, нажмите <b>пробел</b>.
+          </p>
+        </div>
         <div>
           <input type="button" value="Показать предупреждение" onclick="showAttention()" id="show_button" style="background-color: #f44256;"/>
           <div style="background-color: #f44256; border-style: solid; width: 80%; display: none;" id="attention">
@@ -34,7 +40,7 @@
         </div>
         <div id="buttons" style="margin-top: 10pt;">
           <div>
-            <input type="button" value="Сбросить" id="reset_button" />
+            <input type="button" value="Сбросить движения" id="reset_button" />
           </div>
         </div>
     </body>

@@ -154,7 +154,7 @@ namespace LessonLibrary.Visualisation3D
 
             for (var i = 0; i < _verticesCount; i++)
             {
-                animations[i] = new RotationAnimation(angle * i, Vector3.UnitZ, MathHelper.Pi / 4);
+                animations[i] = new RotationAnimation(angle * i, Vector3.UnitZ, MathHelper.Pi / 5);
             }
 
 
@@ -163,7 +163,7 @@ namespace LessonLibrary.Visualisation3D
                 for (var i = 0; i < _verticesCount; i++)
                 {
                     animations[i + _verticesCount] =
-                        new SymmetryAnimation(new Plane(Vector3.Cross(InitVertices[i], Vector3.UnitZ), Vector3.Zero), 1);
+                        new SymmetryAnimation(new Plane(Vector3.Cross(InitVertices[i], Vector3.UnitZ), Vector3.Zero), 0.6f);
                 }
             }
             else
@@ -172,7 +172,7 @@ namespace LessonLibrary.Visualisation3D
                 {
                     animations[i + _verticesCount] =
                         new SymmetryAnimation(new Plane(Vector3.Cross(InitVertices[i], Vector3.UnitZ), Vector3.Zero),
-                            1);
+                            0.6f);
                 }
 
                 for (var i = 0; i < _verticesCount / 2; i++)
@@ -180,7 +180,7 @@ namespace LessonLibrary.Visualisation3D
                     animations[i + _verticesCount * 3 / 2] =
                         new SymmetryAnimation(
                             new Plane(Vector3.Cross(InitVertices[i] + InitVertices[i + 1], Vector3.UnitZ),
-                                Vector3.Zero), 1);
+                                Vector3.Zero), 0.6f);
                 }
             }
 
