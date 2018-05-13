@@ -21,3 +21,5 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWo
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.PermutationInput.resources
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csprojAssemblyReference.cache
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.UserForm.resources
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.ControlForm.resources
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.UserInfoForm.resources

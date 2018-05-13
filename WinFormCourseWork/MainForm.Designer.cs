@@ -39,6 +39,9 @@ namespace WinFormCourseWork
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.пользовательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonsPanel = new System.Windows.Forms.Panel();
             this.checkButton = new System.Windows.Forms.Button();
             this.nextButton = new System.Windows.Forms.Button();
@@ -95,7 +98,8 @@ namespace WinFormCourseWork
             // 
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.пользовательToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(856, 28);
@@ -118,6 +122,29 @@ namespace WinFormCourseWork
             this.checkTestToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.checkTestToolStripMenuItem.Text = "Проверить";
             this.checkTestToolStripMenuItem.Click += new System.EventHandler(this.CheckTestButtonOnClick);
+            // 
+            // пользовательToolStripMenuItem
+            // 
+            this.пользовательToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoUserToolStripMenuItem,
+            this.exitUserToolStripMenuItem});
+            this.пользовательToolStripMenuItem.Name = "пользовательToolStripMenuItem";
+            this.пользовательToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
+            this.пользовательToolStripMenuItem.Text = "Пользователь";
+            // 
+            // infoUserToolStripMenuItem
+            // 
+            this.infoUserToolStripMenuItem.Name = "infoUserToolStripMenuItem";
+            this.infoUserToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.infoUserToolStripMenuItem.Text = "Информация";
+            this.infoUserToolStripMenuItem.Click += new System.EventHandler(this.InfoUserToolStripMenuItemOnClick);
+            // 
+            // exitUserToolStripMenuItem
+            // 
+            this.exitUserToolStripMenuItem.Name = "exitUserToolStripMenuItem";
+            this.exitUserToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.exitUserToolStripMenuItem.Text = "Выйти из пользователя";
+            this.exitUserToolStripMenuItem.Click += new System.EventHandler(this.ExitUserToolStripMenuItemOnClick);
             // 
             // buttonsPanel
             // 
@@ -201,6 +228,9 @@ namespace WinFormCourseWork
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Button checkButton;
+        private System.Windows.Forms.ToolStripMenuItem пользовательToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem infoUserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitUserToolStripMenuItem;
     }
 }
 

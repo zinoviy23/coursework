@@ -106,9 +106,8 @@ namespace WinFormCourseWork
 
             InitVisualisationsDictionary();
 
-            Closed += (sender, args) =>
+            Closing += (sender, args) =>
             {
-                Log.Close();
                 MainFormSettingsLoader.WriteSettings();
                 MainFormSettingsLoader.SaveUsersTables();
                 MainFormSettingsLoader.SaveCurrentUser();
@@ -125,6 +124,11 @@ namespace WinFormCourseWork
             SetUiView();  
             EnableButtons(null);
         }
+
+        /// <summary>
+        /// Выход ли из пользователя
+        /// </summary>
+        public bool IsUserExit { get; set; }
 
         /// <summary>
         /// Обработчик нажатия на элемент уроков
@@ -826,5 +830,25 @@ namespace WinFormCourseWork
             MainFormSettingsLoader.LoadUser(MainFormPathes.UserFolderPath +
                                             UsersTables.GetUserFileName(Settings.CurrentUserName));
         }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку выхода из пользователя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExitUserToolStripMenuItemOnClick(object sender, EventArgs e)
+        {
+            Settings.CurrentUserName = null;
+            IsUserExit = true;
+            Hide();
+            Close();
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку информация о пользователе
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InfoUserToolStripMenuItemOnClick(object sender, EventArgs e) => new UserInfoForm().Show();
     }
 }
