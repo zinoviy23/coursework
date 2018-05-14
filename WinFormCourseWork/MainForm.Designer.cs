@@ -31,7 +31,7 @@ namespace WinFormCourseWork
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Материалы");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Материалы");
             this.lessonsTreeView = new System.Windows.Forms.TreeView();
             this.htmlView = new System.Windows.Forms.WebBrowser();
             this.glTimer = new System.Windows.Forms.Timer(this.components);
@@ -46,6 +46,7 @@ namespace WinFormCourseWork
             this.checkButton = new System.Windows.Forms.Button();
             this.nextButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
+            this.cayleyInfoTableLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cayleyTableGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.buttonsPanel.SuspendLayout();
@@ -57,10 +58,10 @@ namespace WinFormCourseWork
             this.lessonsTreeView.Indent = 7;
             this.lessonsTreeView.Location = new System.Drawing.Point(0, 28);
             this.lessonsTreeView.Name = "lessonsTreeView";
-            treeNode1.Name = "Узел0";
-            treeNode1.Text = "Материалы";
+            treeNode6.Name = "Узел0";
+            treeNode6.Text = "Материалы";
             this.lessonsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode6});
             this.lessonsTreeView.Size = new System.Drawing.Size(152, 525);
             this.lessonsTreeView.TabIndex = 0;
             this.lessonsTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.LessonsView_AfterSelect);
@@ -84,7 +85,6 @@ namespace WinFormCourseWork
             // 
             this.cayleyTableGridView.AllowUserToAddRows = false;
             this.cayleyTableGridView.AllowUserToDeleteRows = false;
-            this.cayleyTableGridView.AllowUserToOrderColumns = true;
             this.cayleyTableGridView.AllowUserToResizeColumns = false;
             this.cayleyTableGridView.AllowUserToResizeRows = false;
             this.cayleyTableGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -191,11 +191,24 @@ namespace WinFormCourseWork
             this.backButton.UseVisualStyleBackColor = true;
             this.backButton.Click += new System.EventHandler(this.BackButtonOnClick);
             // 
+            // cayleyInfoTableLabel
+            // 
+            this.cayleyInfoTableLabel.AutoSize = true;
+            this.cayleyInfoTableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cayleyInfoTableLabel.Location = new System.Drawing.Point(182, 145);
+            this.cayleyInfoTableLabel.Name = "cayleyInfoTableLabel";
+            this.cayleyInfoTableLabel.Size = new System.Drawing.Size(1495, 20);
+            this.cayleyInfoTableLabel.TabIndex = 5;
+            this.cayleyInfoTableLabel.Text = "Дополните таблицу, чтобы в итоге получилась таблица Кэли какой-нибудь группы. Пос" +
+    "ле ввода элемента в ячейку нажмите Enter. Для проверки нажмите кнопку \"Проверить" +
+    "\".";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 553);
+            this.Controls.Add(this.cayleyInfoTableLabel);
             this.Controls.Add(this.buttonsPanel);
             this.Controls.Add(this.cayleyTableGridView);
             this.Controls.Add(this.htmlView);
@@ -231,6 +244,7 @@ namespace WinFormCourseWork
         private System.Windows.Forms.ToolStripMenuItem пользовательToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoUserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitUserToolStripMenuItem;
+        private System.Windows.Forms.Label cayleyInfoTableLabel;
     }
 }
 

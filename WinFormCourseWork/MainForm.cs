@@ -371,6 +371,11 @@ namespace WinFormCourseWork
                     cell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
 
+                foreach (DataGridViewColumn column in cayleyTableGridView.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+
                 SetGridViewCellsSize();
             }
         }
@@ -527,6 +532,8 @@ namespace WinFormCourseWork
             checkButton.Location = new Point(buttonsPanel.Width / 2 - checkButton.Width / 2,
                 buttonsPanel.Height / 2 - checkButton.Height / 2);
 
+            cayleyInfoTableLabel.Visible = false;
+
             switch (_uiState)
             {
                 case UiState.Visualisation3D:
@@ -571,6 +578,14 @@ namespace WinFormCourseWork
             cayleyTableGridView.Size =
                 new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
                     Height / 2);
+
+            cayleyInfoTableLabel.Visible = true;
+            cayleyInfoTableLabel.AutoSize = true;
+            cayleyInfoTableLabel.MaximumSize = new Size(ClientSize.Width - lessonsTreeView.Width - 10,
+                0);
+            cayleyInfoTableLabel.Top = cayleyTableGridView.Bottom + 1;
+            cayleyInfoTableLabel.Left = lessonsTreeView.Right + 1;
+            
             SetGridViewCellsSize();
         }
 
