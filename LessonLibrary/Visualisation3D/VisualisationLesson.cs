@@ -303,6 +303,8 @@ namespace LessonLibrary.Visualisation3D
                     GL.Normal3(symmetry.Plane.Normal);
                     GL.Vertex3(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3);
                     GL.Vertex3(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3);
+                    GL.Vertex3(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3 - Vector3.UnitZ * 0.2f);
+                    GL.Vertex3(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3 - Vector3.UnitZ * 0.2f);
 
                     GL.End();
                     break;
@@ -465,6 +467,31 @@ namespace LessonLibrary.Visualisation3D
             }
 
             throw new ArgumentOutOfRangeException(nameof(index), @"Нет столько симметрий!");
+        }
+
+        /// <summary>
+        /// Возвращает координаты оси или <c>null</c>, если нет анимации.
+        /// </summary>
+        public Tuple<Vector3, Vector3> AxisCoordsOnScreen
+        {
+            get
+            {
+                if (CurrentAnimation == null)
+                    return null;
+
+                switch (CurrentAnimation)
+                {
+                    case RotationAnimation rotation:
+                        return new Tuple<Vector3, Vector3>(VertexScreenPosition(rotation.Axis.Normalized() * -1.5f),
+                            VertexScreenPosition(rotation.Axis.Normalized() * 1.5f));
+                    case SymmetryAnimation symmetry:
+                        return new Tuple<Vector3, Vector3>(
+                            VertexScreenPosition(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 1.7f),
+                            VertexScreenPosition(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 1.7f));
+                    default:
+                        return null;
+                }
+            }
         }
     }
 }

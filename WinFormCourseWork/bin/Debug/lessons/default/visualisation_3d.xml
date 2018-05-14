@@ -9,6 +9,13 @@
             Для вращения по горизонтали используйте <b>левую кнопку мыши</b>, а по вертикали - <b>правую кнопку мыши</b>.
             Чтобы Сбросить все повороты камеры, нажмите <b>пробел</b>.
           </p>
+          <p>
+            <span style="background-color: white; border-style: solid; border-width: 1pt;">n</span> - номер вершины.
+          </p>
+          <p>
+            <span style="background-color: darkseagreen; border-style: solid; border-width: 1pt;">n</span> - номер вершины,
+            которая была на этой позиции изначально.
+          </p>
         </div>
         <div>
           <input type="button" value="Показать предупреждение" onclick="showAttention()" id="show_button" style="background-color: #f44256;"/>

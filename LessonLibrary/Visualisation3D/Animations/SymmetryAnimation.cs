@@ -5,7 +5,7 @@ using OpenTK;
 
 namespace LessonLibrary.Visualisation3D.Animations
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IAnimation"/>
     /// <summary>
     /// Класс для анимации симметрии
     /// </summary>

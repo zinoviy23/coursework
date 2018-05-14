@@ -32,6 +32,11 @@ namespace WinFormCourseWork
         private Label[] _vertexLabels;
 
         /// <summary>
+        /// Надпись для оси
+        /// </summary>
+        private Label _axisLabel;
+
+        /// <summary>
         /// Массив исходных вершин на экране
         /// </summary>
         private Label[] _initVertexLabels;
@@ -71,6 +76,7 @@ namespace WinFormCourseWork
             InitVertexLabels(20);
             _glControl.Load += GlControlOnLoad;
             _glControl.Paint += GlControlOnPaint;
+            InitAxisLabel();
         }
 
         /// <summary>
@@ -139,6 +145,25 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
+        /// Иницилизирует подпись оси
+        /// </summary>
+        private void InitAxisLabel()
+        {
+            _axisLabel = new Label
+            {
+                Text = @"ОСЬ",
+                AutoSize = true,
+                BackColor = Color.Transparent,
+                Visible = false,
+                Size = new Size(20, 17),
+                Enabled = true,
+                Location = new Point(_mainForm.Width / 2, _mainForm.Height / 2)
+            };
+            _mainForm.Controls.Add(_axisLabel);
+            _axisLabel.BringToFront();
+        }
+
+        /// <summary>
         /// Создаёт нужное кол-во вершин
         /// </summary>
         public void InitVertexLabels(int size)
@@ -150,7 +175,7 @@ namespace WinFormCourseWork
                 {
                     Text = (i + 1).ToString(),
                     AutoSize = true,
-                    BackColor = Color.Transparent,
+                    BackColor = Color.White,
                     Visible = false,
                     Size = new Size(20, 17),
                     Enabled = true,
@@ -183,9 +208,9 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Убирает ненужные вершины
+        /// Убирает ненужные вершины, а также ось
         /// </summary>
-        public void HideVertexLabels()
+        public void HideVertexLabelsAndAxis()
         {
             foreach (var vertexLabel in _vertexLabels)
             {
@@ -196,6 +221,8 @@ namespace WinFormCourseWork
             {
                 initVertexLabel.Hide();
             }
+
+            _axisLabel.Hide();
         }
 
         /// <summary>
@@ -247,7 +274,7 @@ namespace WinFormCourseWork
         /// </summary>
         public void UpdateVerticesIndexies()
         {
-            HideVertexLabels();
+            HideVertexLabelsAndAxis();
 
             var points = CurrentVisualisation.ScreenPoints;
             var indexies = CurrentVisualisation.ImageVerticesIndexies;
@@ -267,18 +294,45 @@ namespace WinFormCourseWork
 
                 points[i] = points[i] / points[i].Z;
 
-                var x = _glControl.Width / 2 + (int)(points[i].X * _glControl.Width / 2);
-                var y = _glControl.Height - (int)((points[i].Y + 1) / 2 * _glControl.Height) - _glControl.Top;
-                if (x +_glControl.Location.X >= _glControl.Left && x + _glControl.Location.X <= _glControl.Right)
+                var screenPoint = GetScreenCoords(points[i]);
+                if (screenPoint.X + _glControl.Location.X >= _glControl.Left &&
+                    screenPoint.X + _glControl.Location.X <= _glControl.Right)
                 {
                     GetVertexLabel(i).Location =
-                        new Point(_glControl.Location.X + x - GetVertexLabel(i).Width, _glControl.Location.Y + y);
+                        new Point(_glControl.Location.X + screenPoint.X - GetVertexLabel(i).Width,
+                            _glControl.Location.Y + screenPoint.Y);
                 }
                 else
                 {
                     GetVertexLabel(i).Visible = false;
                 }
-                Log.WriteLine(_glControl.Right + " " + _glControl.Left + " " + _glControl.Location);
+                
+            }
+
+            var axisCoords = _currentVisualisation.AxisCoordsOnScreen;
+            if (axisCoords != null)
+            {
+                _axisLabel.Visible = true;
+                
+                var shownVertex = axisCoords.Item1;
+                if (shownVertex.Z > axisCoords.Item2.Z)
+                {
+                    shownVertex = axisCoords.Item2;
+                }
+
+                shownVertex = shownVertex / shownVertex.Z;
+
+                var screenPoint = GetScreenCoords(shownVertex);
+                if (screenPoint.X + _glControl.Location.X >= _glControl.Left &&
+                    screenPoint.X + _glControl.Location.X <= _glControl.Right)
+                {
+                    _axisLabel.Location = new Point(_glControl.Location.X + screenPoint.X - _axisLabel.Width / 2,
+                        _glControl.Location.Y + screenPoint.Y);
+                }
+                else
+                {
+                    _axisLabel.Visible = false;
+                }
             }
 
             if (IsAnimatingSessionStarted && !_isOneStepWaited)
@@ -297,6 +351,17 @@ namespace WinFormCourseWork
                 _initVertexLabels[indexies[i]].Top = GetVertexLabel(i).Top;
                 _initVertexLabels[indexies[i]].Left = GetVertexLabel(i).Right;
             }
+        }
+
+        /// <summary>
+        /// Получает координаты точки на экране
+        /// </summary>
+        /// <param name="point">Точка в пространстве</param>
+        /// <returns>Точка на экране</returns>
+        private Point GetScreenCoords(Vector3 point)
+        {
+            return new Point(_glControl.Width / 2 + (int)(point.X * _glControl.Width / 2),
+                _glControl.Height - (int)((point.Y + 1) / 2 * _glControl.Height) - _glControl.Top);
         }
 
         /// <summary>

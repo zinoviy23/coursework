@@ -197,7 +197,7 @@ namespace WinFormCourseWork
                     _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = true;
                     checkButton.Visible = true;
-                    _visualisationController.HideVertexLabels();
+                    _visualisationController.HideVertexLabelsAndAxis();
 
                     _uiState = UiState.CayleyTable;
                     break;
@@ -208,7 +208,7 @@ namespace WinFormCourseWork
                     _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
                     checkButton.Visible = false;
-                    _visualisationController.HideVertexLabels();
+                    _visualisationController.HideVertexLabelsAndAxis();
                     try
                     {
                         LessonReader.ReadPageTemplate(htmlView, MainFormPathes.PermutationVisualisationFilePath);
@@ -228,7 +228,7 @@ namespace WinFormCourseWork
                     _glControl.Visible = false;
                     checkTestToolStripMenuItem.Enabled = false;
                     checkButton.Visible = false;
-                    _visualisationController.HideVertexLabels();
+                    _visualisationController.HideVertexLabelsAndAxis();
                     try
                     {
                         LessonReader.ReadPageTemplate(htmlView, MainFormPathes.PermutationCalculatorFilePath);
@@ -249,7 +249,7 @@ namespace WinFormCourseWork
                     LoadLesson((string) node.Tag);
                     htmlView.Show();
                     _glControl.Visible = false;
-                    _visualisationController.HideVertexLabels();
+                    _visualisationController.HideVertexLabelsAndAxis();
 
                     _uiState = UiState.SimpleHtml;
                     break;
@@ -303,7 +303,7 @@ namespace WinFormCourseWork
         private void HtmlViewOnLoadHandlerBySimpleHtmlLesson(object sender, WebBrowserDocumentCompletedEventArgs args)
         {
             _currentLoadingLesson.HtmlView = htmlView;
-            Log.WriteLine(htmlView.DocumentText);
+            //Log.WriteLine(htmlView.DocumentText);
 
             if (_currentTest != null && Settings.CurrentUser.Tests.ContainsKey(_currentTag))
             {
