@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace LessonLibrary
@@ -48,7 +47,6 @@ namespace LessonLibrary
         public void UnSetCheckBoxAnswer(int questionIndex, string answ)
         {
             UsersAnswers[questionIndex] = UsersAnswers[questionIndex].Replace(answ, "");
-            Debug.WriteLine("Removed Current answer " + UsersAnswers[questionIndex]);
         }
 
         /// <summary>
@@ -59,7 +57,6 @@ namespace LessonLibrary
         public void SetCheckBoxAnswer(int questionIndex, string answ)
         {
             UsersAnswers[questionIndex] = UsersAnswers[questionIndex] + answ;
-            Debug.WriteLine("Added Current answer " + UsersAnswers[questionIndex]);
         }
 
         /// <summary>

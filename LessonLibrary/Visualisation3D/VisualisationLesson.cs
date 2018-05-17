@@ -303,8 +303,8 @@ namespace LessonLibrary.Visualisation3D
                     GL.Normal3(symmetry.Plane.Normal);
                     GL.Vertex3(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3);
                     GL.Vertex3(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3);
-                    GL.Vertex3(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3 - Vector3.UnitZ * 0.2f);
-                    GL.Vertex3(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3 - Vector3.UnitZ * 0.2f);
+                    GL.Vertex3(-Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3 - Vector3.UnitZ * 0.02f);
+                    GL.Vertex3(Vector3.Cross(-Vector3.UnitZ, symmetry.Plane.Normal).Normalized() * 3 - Vector3.UnitZ * 0.02f);
 
                     GL.End();
                     break;

@@ -5,6 +5,10 @@
     </comment>
     <root name="Теория">
         <leaf tag="lesson1.xml" type="text">Глава 1. Введение </leaf>
+        <leaf tag="lesson2.xml" type="text">Глава 2. Полугруппы </leaf>      
+        <leaf tag="lesson3.xml" type="text">Глава 3. Подстановки </leaf>
+        <leaf tag="lesson4.xml" type="text">Глава 4. Подстановки. Дополнение </leaf>
+        <leaf tag="lessonTable.xml" type="text">Таблица Кэли 1 </leaf>
     </root>
     <root name="Тесты">
         <leaf tag="test_lesson1.xml" type="test">Глава 1. Тест </leaf>

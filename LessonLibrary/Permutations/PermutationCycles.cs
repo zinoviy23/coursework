@@ -20,7 +20,7 @@ namespace LessonLibrary.Permutations
         /// Задаёт циклы по данной подстановке
         /// </summary>
         /// <param name="permutation">Подстановка, по которой строятся циклы</param>
-        public PermutationCycles([NotNull] Permutations.Permutation permutation)
+        public PermutationCycles([NotNull] Permutation permutation)
         {
             var used = new bool[permutation.Size];
             for (var i = 1; i <= permutation.Size; i++)
@@ -46,7 +46,7 @@ namespace LessonLibrary.Permutations
         /// Конструктор, который принимает лист элементов и по нему строит подстановку, а затем по ней циклы
         /// </summary>
         /// <param name="permutationElements">Лист с элементами подстановки</param>
-        public PermutationCycles([NotNull] List<int> permutationElements) : this(new Permutations.Permutation(permutationElements))
+        public PermutationCycles([NotNull] List<int> permutationElements) : this(new Permutation(permutationElements))
         {
         }
 
@@ -136,7 +136,7 @@ namespace LessonLibrary.Permutations
         /// <summary>
         /// Возвращает подстановку в нормальном представлении
         /// </summary>
-        public Permutations.Permutation Permutation => new Permutations.Permutation(GetPermutationListByCycles(_cycles));
+        public Permutation Permutation => new Permutation(GetPermutationListByCycles(_cycles));
 
 
         /// <inheritdoc />
@@ -190,7 +190,7 @@ namespace LessonLibrary.Permutations
         /// </summary>
         /// <param name="p">Подстановка</param>
         /// <returns>Лист пар, где первый элемент число, а второй это результат применения подстановки</returns>
-        public static List<Tuple<int, int, int>> GroupPermutationElementsByCycles(Permutations.Permutation p)
+        public static List<Tuple<int, int, int>> GroupPermutationElementsByCycles(Permutation p)
         {
             var result = new List<Tuple<int, int, int>>();
 
