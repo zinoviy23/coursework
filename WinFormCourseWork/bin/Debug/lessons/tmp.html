@@ -1,65 +1,15 @@
 <html>
     <body>
         <h2>Самосовмещения</h2>
-        <div id="info">
-          <p>
-            Повороты и симметрии <b>n-угольника</b> составляют группу мощности 2n.
-          </p>
-          <p style="display: inline;">
-            Например, <div style="display: inline;" id="rotation">1</div> и <div style="display: inline;" id="rotation">4</div> обратные друг другу.
-          </p>
-          <p style="display: inline;">
-            А <div style="display: inline;" id="symmetry">2</div> обратен сам себе.
-          </p>
-          <p style="display: inline;">
-            Рассмотрим теперь композиции движений. Например, <div style="display: inline;" id="rotation">3</div> умножить на
-            <div style="display: inline;" id="symmetry">58</div> это <div style="display: inline;" id="symmetry">57</div>.
-            А если применить эти повороты наоборот, то получиться <div style="display: inline;" id="symmetry">59</div>.
-          </p>
-        </div>
-        <div>
-          <input type="button" value="Показать предупреждение" onclick="showAttention()" id="show_button" style="background-color: #f44256;"/>
-          <div style="background-color: #f44256; border-style: solid; width: 80%; display: none;" id="attention">
-            <h4>Важно!</h4>
-            <p>
-              Номера элементов этой группы взяты для удобства и не несут никакой информации. Вы можете их перенумеровать как вам захочется.
-              Главное, чтобы вы помнили какому числу соответсвует какой номер и, исходя из этого, перемножали их.
-            </p>
-          </div>
-          <input type="button" value="Спрятать предупреждение" onclick="hideAttention()" id="hide_button" style="display: none; margin-top: 10pt;"/>
-          <script>
-            // показывает справку
-            function showAttention() {
-              document.getElementById('attention').style.display = "block";
-              document.getElementById('hide_button').style.display = "block";
-              document.getElementById('show_button').style.display = "none";
-            }
-            // прячет справку
-            function hideAttention() {
-              document.getElementById('attention').style.display = "none";
-              document.getElementById('show_button').style.display = "block";
-              document.getElementById('hide_button').style.display = "none";
-            }
+        <script>
+          function showAnswer(n) {
+            document.getElementById('answer' + n).style.display = "block";
+            document.getElementById('answerButton' + n).style.display = "none";
+          }
+          function hideAnswer(n) {
+            document.getElementById('answer' + n).style.display = "none";
+            document.getElementById('answerButton' + n).style.display = "inline";
+          }
         </script>
-        </div>
-        <div id="buttons" style="margin-top: 10pt;">
-          <div>
-            <input type="button" value="Сбросить" id="reset_button" />
-          </div>
-
-          <div>
-            <input type="button" class="rotation" value="kek" />
-          </div>
-        </div>
-        <style type="text/css">
-          .rotation {
-            border-radius: 50%;
-            background-color: #4CAF50;
-          }
-          .symmetry {
-            border-radius: 20%;
-            background-color: #008CBA;
-          }
-        </style>
     </body>
 </html>

@@ -1,9 +1,9 @@
 <test>
-    <q answer="Yes" type="radio">
+    <q answer="Да" type="radio">
       <p>
           1. Являются ли натуральные числа полугруппой по операции +?
-          <p><input value="Yes"></input>Да</p>
-          <p><input value="No"></input>Нет</p>
+          <p><input value="Да"></input>Да</p>
+          <p><input value="Нет"></input>Нет</p>
       </p>
     </q>
     <q answer="No" type="radio">

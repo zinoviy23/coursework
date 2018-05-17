@@ -6,10 +6,6 @@
       "Value": {
         "Answers": [
           {
-            "Key": 0,
-            "Value": "Yes"
-          },
-          {
             "Key": 1,
             "Value": "No"
           },
@@ -52,6 +48,10 @@
           {
             "Key": 9,
             "Value": "Yes"
+          },
+          {
+            "Key": 0,
+            "Value": "Да"
           }
         ]
       }

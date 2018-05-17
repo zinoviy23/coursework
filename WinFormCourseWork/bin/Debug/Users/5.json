@@ -1,0 +1,20 @@
+{
+  "Name": "Лоп",
+  "Tests": [
+    {
+      "Key": "test_lesson1.xml",
+      "Value": {
+        "Answers": [
+          {
+            "Key": 10,
+            "Value": "23"
+          },
+          {
+            "Key": 0,
+            "Value": "Да"
+          }
+        ]
+      }
+    }
+  ]
+}

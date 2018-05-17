@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -22,6 +23,21 @@ namespace LessonLibrary
         private readonly TestAnswers _answers;
 
         /// <summary>
+        /// Скрипты для показывание ответов в тестах
+        /// </summary>
+        private const string AnswersScriptHtml = @"
+        <script>
+          function showAnswer(n) {
+            document.getElementById('answer' + n).style.display = ""block"";
+            document.getElementById('answerButton' + n).style.display = ""none"";
+          }
+          function hideAnswer(n) {
+            document.getElementById('answer' + n).style.display = ""none"";
+            document.getElementById('answerButton' + n).style.display = ""inline"";
+          }
+        </script>";
+
+        /// <summary>
         /// Переопределённое свойство для получения HTML
         /// </summary>
         /// <inheritdoc cref="HtmlViewLesson"/>
@@ -29,10 +45,11 @@ namespace LessonLibrary
         {
             get
             {
-                var sb = new StringBuilder();
-                foreach (var question in Questions)
+                var sb = new StringBuilder(AnswersScriptHtml);
+                for (var index = 0; index < Questions.Count; index++)
                 {
-                    sb.Append(question.InnerHtml);
+                    var question = Questions[index];
+                    sb.Append(question.InnerHtml).Append(question.AnswerDivHtml(index));
                 }
 
                 return sb.ToString();
@@ -52,6 +69,12 @@ namespace LessonLibrary
                 return;
             foreach (HtmlElement input in inputs)
             {
+                //Debug.Print(input.GetAttribute("className"));
+                if (input.GetAttribute("className") == QuestionInfo.AnswersInfoClass)
+                {
+                    continue;
+                }
+
                 if (input.GetAttribute("type") != "text")
                 {
                     input.Click += OnAnswerClicked;
@@ -81,11 +104,12 @@ namespace LessonLibrary
                     {
                         case "radio":
                             if (input.GetAttribute("value") == answer.Value.Trim())
-                                input.SetAttribute("checked", "checked");
+                                input.SetAttribute("checked", "True");
                             break;
                         case "checkbox":
                             if (answer.Value.Contains(input.GetAttribute("value")))
-                                input.SetAttribute("checked", "checked");
+                                input.SetAttribute("checked", "True");
+
                             break;
                         case "text":
                             input.SetAttribute("value", answer.Value);
@@ -115,7 +139,8 @@ namespace LessonLibrary
                     _answers.SetRadioAnswer(questionNumber, usersAnswer);
                     break;
                 case "checkbox":
-                    if (element.GetAttribute("checked") != "checked")
+                    Debug.WriteLine("Lel");
+                    if (element.GetAttribute("checked") != "False")
                         _answers.SetCheckBoxAnswer(questionNumber, usersAnswer);
                     else
                         _answers.UnSetCheckBoxAnswer(questionNumber, usersAnswer);

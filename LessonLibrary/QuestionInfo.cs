@@ -33,6 +33,11 @@ namespace LessonLibrary
         public string InnerHtml => _node.InnerXml;
 
         /// <summary>
+        /// Класс всех input относящихся к показу ответов
+        /// </summary>
+        public const string AnswersInfoClass = @"answersClass";
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="questionNode">Вершина вопроса</param>
@@ -63,6 +68,24 @@ namespace LessonLibrary
                 input.SetAttribute("name", Name);
                 input.SetAttribute("type", Type);
             }
+        }
+
+        /// <summary>
+        /// Возвращает элемент с ответом на тест
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public string AnswerDivHtml(int n)
+        {
+            
+            return 
+                $@"<input type=""button"" value=""Показать ответ"" onclick=""showAnswer({n})""
+                    id=""answerButton{n}"" class=""{AnswersInfoClass}""/>
+                <div id=""answer{n}"" style=""display: none;"">
+                    <p>Ответ: {Answer}</p>
+                    <input type=""button"" value=""Спрятать ответ"" onclick=""hideAnswer({n})"" 
+                        class=""{AnswersInfoClass}""/>
+                </div>";
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+  "Name": "Вася",
+  "Tests": [
+    {
+      "Key": "test_lesson1.xml",
+      "Value": {
+        "Answers": [
+          {
+            "Key": 10,
+            "Value": "23"
+          }
+        ]
+      }
+    }
+  ]
+}
