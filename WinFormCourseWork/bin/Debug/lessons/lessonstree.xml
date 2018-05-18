@@ -3,29 +3,40 @@
         тэг table, visualisation лучше не трогать и оставлять как есть.
         у каждого листа должен быть тэг, и тэг может быть только у листов.
     </comment>
-    <root name="Теория">
-        <leaf tag="lesson1.xml" type="text">Глава 1. Введение </leaf>
-        <leaf tag="lesson2.xml" type="text">Глава 2. Подгруппы </leaf>
-        <leaf tag="lesson3.xml" type="text">Глава 3. Подстановки </leaf>
-        <leaf tag="lesson4.xml" type="text">Глава 4. Подстановки. Дополнение </leaf>
-        <leaf tag="lesson5.xml" type="text">Глава 5. Группы самосовмещений </leaf>
-        <leaf tag="lessonTable.xml" type="text">Таблица Кэли 1 </leaf>
+    <root name="Урок 1">
+      <leaf tag="lesson1.xml" type="text">Введение</leaf>
+      <leaf tag="test_lesson1.xml" type="test">Тест</leaf>
     </root>
-    <root name="Тесты">
-        <leaf tag="test_lesson1.xml" type="test">Глава 1. Тест </leaf>
-        <leaf tag="test_lesson2.xml" type="test">Глава 2. Тест </leaf>
-        <leaf tag="test_lesson3.xml" type="test">Глава 3. Тест </leaf>
-        <leaf tag="test_lesson4.xml" type="test">Глава 4. Тест </leaf>
-        <table tag="Cayley Table">Таблица Кэли</table>
+    <root name="Урок 2">
+      <leaf tag="lesson2.xml" type="text">Подгруппы</leaf>
+      <leaf tag="test_lesson2.xml" type="test">Тест</leaf>
     </root>
-    <root name="Визуализации">
-        <visualisation tag="VisualisationTetrahedron">Тетраэдр</visualisation>
-        <visualisation tag="VisualisationCube">Куб</visualisation>
-        <visualisation tag="VisualisationOctahedron">Октаэдр</visualisation>
-        <visualisation tag="VisualisationIcosahedron">Икосаэдр</visualisation>
-        <visualisation tag="VisualisationDodecahedron">Додекаэдр</visualisation>
-        <visualisation tag="VisualisationPolygon">Многоугольник</visualisation>
-        <visualisation tag="Permutation Visualisation">Подстановки и циклы</visualisation>
-        <visualisation tag="Permutation Calculator">Калькулятор подстановок</visualisation>
+    <root name="Урок 3">
+      <leaf tag="lesson3.xml" type="text">Подстановки</leaf>
+      <leaf tag="test_lesson3.xml" type="test">Тест</leaf>
+      <visualisation tag="Permutation Calculator">Калькулятор подстановок</visualisation>
     </root>
+    <root name="Урок 4">
+      <leaf tag="lesson4.xml" type="text">Подстановки. Дополнение</leaf>
+      <leaf tag="test_lesson4.xml" type="test">Тест</leaf>
+      <visualisation tag="Permutation Visualisation">Подстановки и циклы</visualisation>
+    </root>
+    <root name="Урок 5">
+      <leaf tag="lesson5.xml" type="text">Глава 5. Группы самосовмещений </leaf>
+      <visualisation tag="VisualisationTetrahedron">Тетраэдр</visualisation>
+      <visualisation tag="VisualisationCube">Куб</visualisation>
+      <visualisation tag="VisualisationOctahedron">Октаэдр</visualisation>
+      <visualisation tag="VisualisationIcosahedron">Икосаэдр</visualisation>
+      <visualisation tag="VisualisationDodecahedron">Додекаэдр</visualisation>
+      <visualisation tag="VisualisationPolygon">Многоугольник</visualisation>
+    </root>
+    <root name="Урок 6">
+      <leaf tag="lessonTable.xml" type="text">Таблица Кэли. Теория </leaf>
+      <table tag="Cayley Table">Таблица Кэли</table>
+    </root>
+    <root name="Информация">
+      <leaf tag="Lit.xml" type="text"> Литература </leaf>
+      <leaf tag="info.xml" type="text"> Информация </leaf>
+    </root>
+
 </lessonstree>
