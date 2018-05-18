@@ -1,7 +1,7 @@
 <html>
     <body>
         <h1>
-        Визуализация подстановок и циклов!
+        Разложение подстановки на циклы.
         </h1>
         <input type="button" value="Ввести" id="input_button"> </input>
         <div id="permutation">

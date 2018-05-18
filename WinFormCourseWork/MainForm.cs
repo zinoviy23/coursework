@@ -574,7 +574,8 @@ namespace WinFormCourseWork
         /// </summary>
         private void SetCayleyTableUiView()
         {
-            cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1, 1);
+            cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1,
+                menuStrip.Bottom + 1);
             cayleyTableGridView.Size =
                 new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
                     Height / 2);

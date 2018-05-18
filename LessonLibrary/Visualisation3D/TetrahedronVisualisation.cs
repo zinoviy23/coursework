@@ -138,7 +138,7 @@ namespace LessonLibrary.Visualisation3D
 
         public override string UserTutorialHtmlCode =>
             @"<p>
-                Повороты <b>тэтраэдра</b> составляют группу мощности 12.
+                Повороты <b>тетраэдра</b> составляют группу мощности 12.
             </p>
             <p style=""display: inline"">
                 Например, <div style=""display: inline"" id=""rotation"">1</div >

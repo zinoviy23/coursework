@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LessonLibrary.Permutations.Permutation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAgAgEqAEUAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Permutations\Permutation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LessonLibrary.Permutations.PermutationCycles" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAEhAAAAgAAAIAQAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Permutations\PermutationCycles.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.Animations.RotationAnimation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACABAABQAEgAAAAAABAQgAAIABAEAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\Animations\RotationAnimation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.Animations.SymmetryAnimation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACABAABAAEhAAAAAABAQgAAIABAAIAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\Animations\SymmetryAnimation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.CubeVisualisation" Collapsed="true">
+    <Position X="1" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAABAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\CubeVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.DodecahedronVisualisation" Collapsed="true">
+    <Position X="5.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAABAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\DodecahedronVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.IcosahedronVisualisation" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAABAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\IcosahedronVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.OctahedronVisualisation" Collapsed="true">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAABAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\OctahedronVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.PolygonVisualisation" Collapsed="true">
+    <Position X="12.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgIAAAAAAAAAAAAAAAIBAAAAAACAAAABAAAAAQAAA=</HashCode>
+      <FileName>Visualisation3D\PolygonVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.TetrahedronVisualisation" Collapsed="true">
+    <Position X="3.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAABAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\TetrahedronVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.VisualisationLesson" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAmoEiEBAABgQAAAQAIAUQCEAADBAgERAAACAgAWE=</HashCode>
+      <FileName>Visualisation3D\VisualisationLesson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.VisualisationTransform" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgAAIAAAAAEAAgAAAAAAAAAASAAAA=</HashCode>
+      <FileName>Visualisation3D\VisualisationTransform.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.Visualisation3D.WorldInfo" Collapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Visualisation3D\WorldInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.CayleyTableTestLesson" Collapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAACgAAAAgAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CayleyTableTestLesson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.HtmlViewLesson" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAEIAAAAAAAAAAAAAAAYAAA=</HashCode>
+      <FileName>HtmlViewLesson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.LessonReader" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAEAAAAAAgAAAAAAAAIAAAAAAAgAIAAAAAAAAA=</HashCode>
+      <FileName>LessonReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.QuestionInfo" Collapsed="true">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAFAAAAACAAAAAAAAAARAAAAAAAABAQAAAgAAAAA=</HashCode>
+      <FileName>QuestionInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.SimpleLesson" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABgAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SimpleLesson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.TestAnswers" Collapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAAAAAAAAAAAAAAgCAAAQADAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TestAnswers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LessonLibrary.TestLesson" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAIAAACECEAAAAAAAAEAAABAAAAAAA=</HashCode>
+      <FileName>TestLesson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="LessonLibrary.Visualisation3D.Animations.IAnimation" Collapsed="true">
+    <Position X="14.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACABAABAAEAAAAAAABAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visualisation3D\Animations\IAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
