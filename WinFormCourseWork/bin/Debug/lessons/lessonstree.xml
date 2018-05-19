@@ -13,13 +13,13 @@
     </root>
     <root name="Урок 3">
       <leaf tag="lesson3.xml" type="text">Подстановки</leaf>
-      <leaf tag="test_lesson3.xml" type="test">Тест</leaf>
       <visualisation tag="Permutation Calculator">Калькулятор подстановок</visualisation>
+      <leaf tag="test_lesson3.xml" type="test">Тест</leaf>
     </root>
     <root name="Урок 4">
       <leaf tag="lesson4.xml" type="text">Подстановки. Дополнение</leaf>
-      <leaf tag="test_lesson4.xml" type="test">Тест</leaf>
       <visualisation tag="Permutation Visualisation">Подстановки и циклы</visualisation>
+      <leaf tag="test_lesson4.xml" type="test">Тест</leaf>
     </root>
     <root name="Урок 5">
       <leaf tag="lesson5.xml" type="text">Глава 5. Группы самосовмещений </leaf>
