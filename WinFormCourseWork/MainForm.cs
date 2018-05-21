@@ -21,6 +21,9 @@ namespace WinFormCourseWork
     /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// отображение 3Д
+        /// </summary>
         private readonly GLControl _glControl;
 
         /// <summary>
@@ -87,6 +90,8 @@ namespace WinFormCourseWork
             _glControl.MouseMove += GlControl1_MouseMove;
             _glControl.MouseUp += GlControl1_MouseUp;
             _glControl.KeyUp += GlControl1_KeyDown;
+            _glControl.BorderStyle = BorderStyle.Fixed3D;
+            
             
             Controls.Add(_glControl);
 
@@ -95,14 +100,6 @@ namespace WinFormCourseWork
             _tablesFolder = new DirectoryInfo(MainFormPathes.TablesFolderPath);
 
             _rand = new Random();
-
-            InitGrid(new[,]
-            {
-                {"\\", "1", "2", "3"},
-                {"1", "1", "*", "3"},
-                {"2", "2", "3", "6"},
-                {"3", "3", "6", "*"},
-            });
 
             InitVisualisationsDictionary();
 
@@ -117,9 +114,18 @@ namespace WinFormCourseWork
             cayleyTableGridView.Visible = false;
 
             _visualisationController = new Visualisation3DController(_glControl, this);
+            try
+            {
+                LessonReader.ReadLessonsTreeInfo(lessonsTreeView, MainFormPathes.LessonsTreeInfoPath);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($@"Ошибка при загрузке уроков! Попробуйте переустановить программу. {'\n'}" + ex.Message);
+            }
 
-            LessonReader.ReadLessonsTreeInfo(lessonsTreeView, MainFormPathes.LessonsTreeInfoPath);
             lessonsTreeView.Nodes[0].Expand();
+            
+
 
             SetUiView();  
             EnableButtons(null);
@@ -128,7 +134,7 @@ namespace WinFormCourseWork
         /// <summary>
         /// Выход ли из пользователя
         /// </summary>
-        public bool IsUserExit { get; set; }
+        public bool IsUserExit { get; private set; }
 
         /// <summary>
         /// Обработчик нажатия на элемент уроков
@@ -338,11 +344,23 @@ namespace WinFormCourseWork
         /// <param name="values">Значения</param>
         private void InitGrid(string[,] values)
         {
+            cayleyTableGridView.EnableHeadersVisualStyles = false;
+            cayleyTableGridView.Font = new Font(cayleyTableGridView.Font, FontStyle.Bold);
+
             for (var column = 1; column < values.GetLength(1); column++)
             {
                 cayleyTableGridView.Columns.Add(values[0, column], values[0, column]);
                 cayleyTableGridView.Columns[column - 1].HeaderCell.Style.Alignment =
                     DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            var colors = new Dictionary<string, Color>();
+            for (var i = 1; i < values.GetLength(1); i++)
+            {
+                if (i < PermutationVisualisation.Colors.Length)
+                {
+                    colors[values[0, i]] = PermutationVisualisation.Colors[i];
+                }
             }
 
             for (var row = 1; row < values.GetLength(0); row++)
@@ -359,11 +377,13 @@ namespace WinFormCourseWork
                 cayleyTableGridView.Rows[cayleyTableGridView.RowCount - 1].HeaderCell.Style.Alignment =
                     DataGridViewContentAlignment.MiddleCenter;
 
-                var cellStyle = new DataGridViewCellStyle {ForeColor = Color.DarkGreen};
+                
                 foreach (DataGridViewCell cell in cayleyTableGridView.Rows[cayleyTableGridView.RowCount - 1].Cells)
                 {
+                    
                     if (cell.Value != null)
                     {
+                        var cellStyle = new DataGridViewCellStyle { ForeColor = colors[(string)cell.Value]};
                         cell.ReadOnly = true;
                         cell.Style = cellStyle;
                     }
@@ -371,13 +391,17 @@ namespace WinFormCourseWork
                     cell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
 
-                foreach (DataGridViewColumn column in cayleyTableGridView.Columns)
-                {
-                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                }
-
-                SetGridViewCellsSize();
+                var headerCell = cayleyTableGridView.Rows[cayleyTableGridView.RowCount - 1].HeaderCell;
+                headerCell.Style.ForeColor = colors[(string) headerCell.Value];
             }
+
+            foreach (DataGridViewColumn column in cayleyTableGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                column.HeaderCell.Style.ForeColor = colors[(string) column.HeaderCell.Value];
+            }
+
+            SetGridViewCellsSize();
         }
 
         /// <summary>
@@ -558,7 +582,7 @@ namespace WinFormCourseWork
             htmlView.Size = new Size(Math.Max(250, (ClientSize.Width - lessonsTreeView.Width) / 2),
                 ClientSize.Height - menuStrip.Height - buttonsPanel.Height);
             htmlView.Top = menuStrip.Height + 1;
-            htmlView.Left = ClientSize.Width - htmlView.Width;
+            htmlView.Left = ClientSize.Width - htmlView.Width - 10;
 
             _glControl.Size =
                 new Size(Width - htmlView.Width - lessonsTreeView.Size.Width - 15,
@@ -574,16 +598,27 @@ namespace WinFormCourseWork
         /// </summary>
         private void SetCayleyTableUiView()
         {
-            cayleyTableGridView.Location = new Point(lessonsTreeView.Location.X + lessonsTreeView.Width + 1,
-                menuStrip.Bottom + 1);
-            cayleyTableGridView.Size =
-                new Size(Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
-                    Height / 2);
+            const int tableSize = 500;
 
             cayleyInfoTableLabel.Visible = true;
             cayleyInfoTableLabel.AutoSize = true;
             cayleyInfoTableLabel.MaximumSize = new Size(ClientSize.Width - lessonsTreeView.Width - 10,
                 0);
+
+            var tmpSize = new Size(
+                Width - htmlView.Margin.Left - lessonsTreeView.Margin.Right - lessonsTreeView.Size.Width - 15,
+                (ClientSize.Height - menuStrip.Height - buttonsPanel.Height - cayleyInfoTableLabel.Height));
+
+            cayleyTableGridView.Size =
+                new Size(Math.Min(tmpSize.Width, tableSize),
+                    Math.Min(tmpSize.Height, tableSize));
+
+            cayleyTableGridView.Location =
+                new Point(
+                    lessonsTreeView.Right + (ClientSize.Width - lessonsTreeView.Width - cayleyTableGridView.Width) / 2,
+                    menuStrip.Bottom + 1);
+            
+
             cayleyInfoTableLabel.Top = cayleyTableGridView.Bottom + 1;
             cayleyInfoTableLabel.Left = lessonsTreeView.Right + 1;
             
@@ -608,13 +643,13 @@ namespace WinFormCourseWork
         {
             foreach (DataGridViewColumn column in cayleyTableGridView.Columns)
             {
-                column.Width = (cayleyTableGridView.Width - cayleyTableGridView.RowHeadersWidth - 10)
+                column.Width = (cayleyTableGridView.Width - cayleyTableGridView.RowHeadersWidth - 5)
                                / cayleyTableGridView.ColumnCount;
             }
 
             foreach (DataGridViewRow row in cayleyTableGridView.Rows)
             {
-                row.Height = (cayleyTableGridView.Height - cayleyTableGridView.ColumnHeadersHeight - 10)
+                row.Height = (cayleyTableGridView.Height - cayleyTableGridView.ColumnHeadersHeight - 5)
                              / cayleyTableGridView.RowCount;
             }
         }
@@ -628,7 +663,11 @@ namespace WinFormCourseWork
         private bool _timeCountingStarted;
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
-
+        /// <summary>
+        /// Обработчик тика таймера
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (!_timeCountingStarted)
@@ -703,6 +742,11 @@ namespace WinFormCourseWork
             //_currentVisualisation.Transform.Rotate(new Vector3(1f, 1f, 1f));
         }
  
+        /// <summary>
+        /// Обоаботчик изменения размера окна
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Resize(object sender, EventArgs e)
         {
             SetUiView();
@@ -715,6 +759,11 @@ namespace WinFormCourseWork
         private Vector3 _userPosition = new Vector3(0, 0, 4);
         private Vector3 _userUp = new Vector3(0, 1, 0);
 
+        /// <summary>
+        /// Обработчик клика мыщкой на glcontrol
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GlControl1_MouseDown(object sender, MouseEventArgs e)
         {
             if (_isRotatingX || _isRotatingY)
@@ -736,6 +785,11 @@ namespace WinFormCourseWork
             _delta = new Point();
         }
 
+        /// <summary>
+        /// Обработчик подъема кнопки мышки на glcontrol
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GlControl1_MouseUp(object sender, MouseEventArgs e)
         {
             switch (e.Button)
@@ -749,6 +803,11 @@ namespace WinFormCourseWork
             }
         }
 
+        /// <summary>
+        /// Обработчик движения мышки на glcontrol
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GlControl1_MouseMove(object sender, MouseEventArgs e)
         {
             if (_isRotatingY || _isRotatingX) _delta = new Point(e.X - _clickPoint.X, e.Y - _clickPoint.Y);
@@ -760,6 +819,9 @@ namespace WinFormCourseWork
             ResetView();
         }
 
+        /// <summary>
+        /// Сбрасывает вид
+        /// </summary>
         private void ResetView()
         {
             _userPosition = new Vector3(0, 0, 4);

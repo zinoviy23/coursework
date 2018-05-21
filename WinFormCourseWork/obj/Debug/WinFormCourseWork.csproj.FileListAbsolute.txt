@@ -1,11 +1,6 @@
-C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\WinFormCourseWork.exe.config
-C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\WinFormCourseWork.exe
-C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\WinFormCourseWork.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.Properties.Resources.resources
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csproj.GenerateResource.Cache
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.csproj.CoreCompileInputs.cache
-C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.exe
-C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\LessonLibrary.dll
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\LessonLibrary.pdb
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.MainForm.resources
@@ -23,3 +18,8 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWo
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.UserForm.resources
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.ControlForm.resources
 C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\WinFormCourseWork.UserInfoForm.resources
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\THVisualizer.exe.config
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\THVisualizer.exe
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\bin\Debug\THVisualizer.pdb
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\THVisualizer.exe
+C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWork\obj\Debug\THVisualizer.pdb

@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WinFormCourseWork.Users.User" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAABAAAAAAAAAAAAEAAAQAAAAQAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Users\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.Users.UsersTables" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAIAAAQACAIAgAAAAAAAIBAA=</HashCode>
+      <FileName>Users\UsersTables.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.Users.UserTestAnswers" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAABAAAAAAAAAAAAAAACAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Users\UserTestAnswers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.ControlForm" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAICAAAAAAAACAAAACAQAAAAAAAEAAAAAEAAA=</HashCode>
+      <FileName>ControlForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.Log" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAGAAAA=</HashCode>
+      <FileName>Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.MainForm" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>bJAIg1GAGCIIAhBAKCCFEyACiYBcBpIIsCBggQQAAVE=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.MainFormPathes" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAhAAgAAAAAAAAAEAAAEAAAAAAAAAAAIAAAAAQEI=</HashCode>
+      <FileName>MainFormPathes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.MainFormSettingsLoader" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAIAAAAAAAAAAAgAAAAAACAIBAAAAAAA=</HashCode>
+      <FileName>MainFormSettingsLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.MainFormUtils" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainFormUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.PermutationCalculator" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgEEAggABCAAAAAEAAAAAAAAAAAAAEAAAAAAABAAAAU=</HashCode>
+      <FileName>PermutationCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.PermutationInput" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACCAAAAAAAiADACDBQEAAQCAAQEgAAEAAGA=</HashCode>
+      <FileName>PermutationInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.PermutationVisualisation" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEBEgABAAAAAAAAAAAAAAAAAQIAAAAAAAAgBAAAAA=</HashCode>
+      <FileName>PermutationVisualisation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.PolygonSizeInput" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABCCCACABBCDACAAAACAAACAABAAAAAAgQAAAA=</HashCode>
+      <FileName>PolygonSizeInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.Program" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.Settings" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEABAAQIAAAoAAAAAAAAIAAAAAgAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.UserForm" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAACAQCAAAKACAACUCEBACAAABAQAAAAAAAAA=</HashCode>
+      <FileName>UserForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.UserInfoForm" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAACAAABAAAACAAAACCAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>UserInfoForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WinFormCourseWork.Visualisation3DController" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAIIAAAsWAQQIAAAAAABIAEAFCMCEBABQIAAAACDDA=</HashCode>
+      <FileName>Visualisation3DController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="WinFormCourseWork.UiState" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAgAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>UiState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

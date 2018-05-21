@@ -5,6 +5,9 @@ using WinFormCourseWork.Users;
 
 namespace WinFormCourseWork
 {
+    /// <summary>
+    /// Класс для настроек приложения
+    /// </summary>
     internal static class MainFormSettingsLoader
     {
         /// <summary>
@@ -43,6 +46,9 @@ namespace WinFormCourseWork
             }
         }
 
+        /// <summary>
+        /// Записывает настройки
+        /// </summary>
         public static void WriteSettings()
         {
             try

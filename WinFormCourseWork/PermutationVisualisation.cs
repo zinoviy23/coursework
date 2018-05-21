@@ -13,8 +13,14 @@ namespace WinFormCourseWork
     /// </summary>
     public class PermutationVisualisation
     {
+        /// <summary>
+        /// Единственный объект
+        /// </summary>
         private static PermutationVisualisation _instance;
 
+        /// <summary>
+        /// Цвета
+        /// </summary>
         public static readonly Color[] Colors =
         {
             Color.Black, Color.Blue, Color.Red, Color.Green, Color.DarkCyan, Color.BlueViolet, Color.Sienna,
@@ -38,6 +44,11 @@ namespace WinFormCourseWork
             _htmlView.DocumentCompleted += HtmlViewOnDocumentLoaded;
         }
 
+        /// <summary>
+        /// Загрузка страницы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void HtmlViewOnDocumentLoaded(object sender, WebBrowserDocumentCompletedEventArgs args)
         {
             var inputButton = _htmlView.Document?.GetElementById("input_button");
@@ -49,6 +60,11 @@ namespace WinFormCourseWork
             //_htmlView.DocumentCompleted -= HtmlViewOnDocumentLoaded;
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку ввести
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="htmlElementEventArgs"></param>
         private void InputButtonOnClick(object sender, HtmlElementEventArgs htmlElementEventArgs)
         {
             var permutationInput = new PermutationInput();

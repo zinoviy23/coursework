@@ -337,7 +337,7 @@ namespace LessonLibrary.Visualisation3D
         /// <param name="animation">Движение ввиде анимации</param>
         /// <returns>Подстановка</returns>
         [NotNull]
-        public Permutations.Permutation ConvertAnimationToPermuation([NotNull] IAnimation animation)
+        public Permutations.Permutation ConvertAnimationToPermutation([NotNull] IAnimation animation)
         {
             var permutationBottom = new List<int>(InitVertices.Length);
 

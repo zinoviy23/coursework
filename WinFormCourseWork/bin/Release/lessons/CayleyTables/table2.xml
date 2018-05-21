@@ -1,0 +1,11 @@
+<table>
+    <line>\ p q r s t u v w</line>
+    <line>p v u t w r * * s</line>
+    <line>q u v * * s * * r</line>
+    <line>r t * v q p w * *</line>
+    <line>s * r u p q t * v</line>
+    <line>t r w p u v s * *</line>
+    <line>u q * s r * v * t</line>
+    <line>v * * * * * * v *</line>
+    <line>w * t q v u r * *</line>
+</table>

@@ -1,0 +1,105 @@
+<test>
+    <q answer="1" type="checkbox">
+      <p>
+          1. Натуральные(без 0) числа по операции + являются...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="12" type="checkbox">
+      <p>
+          2. Натуральные(без 0) числа по операции * являются...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="1234" type="checkbox">
+      <p>
+          3. Целые числа по операции + являются...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="12" type="checkbox">
+      <p>
+          4. Целые числа по операции * являются...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="1234" type="checkbox">
+      <p>
+          5. Вещественные(без 0) числа по операции * являются...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="1234" type="checkbox">
+      <p>
+          Рассмотрим остатки по модулю <i>n</i>. Их можно складывать и перемножать. Это множество называют Z<sub>n</sub>. <br />
+          6. Z<sub>n</sub> по сложению является...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="12" type="checkbox">
+      <p>
+          7. Z<sub>6</sub>(без 0) по умножению является...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="1234" type="checkbox">
+      <p>
+          8. Z<sub>7</sub>(без 0) по умножению является...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="1234" type="checkbox">
+      <p>
+          9. Z<sub>p</sub>(без 0, p - простое) по умножению является...
+          <p><input value="1"></input>1. полугруппой</p>
+          <p><input value="2"></input>2. моноидом</p>
+          <p><input value="3"></input>3. группой</p>
+          <p><input value="4"></input>4. абелевой группой</p>
+      </p>
+    </q>
+    <q answer="3" type="radio">
+      <p>
+          10. Обратным к 5 по умножению в группе Z<sub>7</sub> будет...
+          <p><input value="1"></input>1</p>
+          <p><input value="2"></input>2</p>
+          <p><input value="3"></input>3</p>
+          <p><input value="4"></input>4</p>
+          <p><input value="4"></input>5</p>
+          <p><input value="4"></input>6</p>
+      </p>
+    </q>
+    <q answer="4" type="radio">
+      <p>
+          11. Обратным к 2 по сложению в группе Z<sub>5</sub> будет...
+          <p><input value="1"></input>0</p>
+          <p><input value="1"></input>1</p>
+          <p><input value="2"></input>2</p>
+          <p><input value="3"></input>3</p>
+          <p><input value="4"></input>4</p>
+      </p>
+    </q>
+</test>

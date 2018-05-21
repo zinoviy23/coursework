@@ -13,17 +13,17 @@ namespace LessonLibrary.Visualisation3D
         /// <summary>
         /// Положение в пространстве
         /// </summary>
-        public Vector3 Position { get; set; } = new Vector3(0, 0, 0);
+        public Vector3 Position { get; } = new Vector3(0, 0, 0);
 
         /// <summary>
         /// Поворот в пространстве
         /// </summary>
-        public Vector3 Rotation { get; set; } = new Vector3(0, 0, 0);
+        public Vector3 Rotation { get; } = new Vector3(0, 0, 0);
 
         /// <summary>
         /// Расширение в пространстве
         /// </summary>
-        public Vector3 Scale { get; set; } = new Vector3(1, 1, 1);
+        public Vector3 Scale { get; } = new Vector3(1, 1, 1);
 
         /// <summary>
         /// Конструктор с параметрами
@@ -80,15 +80,6 @@ namespace LessonLibrary.Visualisation3D
 
                 return zRot * yRot * xRot * translate;
             }
-        }
-
-        /// <summary>
-        /// Поворачивает объект
-        /// </summary>
-        /// <param name="rotation"></param>
-        public void Rotate(Vector3 rotation)
-        {
-            Rotation += rotation;
         }
     }
 }

@@ -15,6 +15,11 @@ namespace WinFormCourseWork
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик события загрузки окна
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserInfoFormOnLoad(object sender, EventArgs e)
         {
             nameLabel.Text = Settings.CurrentUserName;

@@ -90,7 +90,7 @@ namespace WinFormCourseWork
             GlContolLoaded = true;
             GL.Viewport(new Point(0 , _glControl.Location.Y), _glControl.Size);
 
-            GL.ClearColor(Color.DarkGray);
+            GL.ClearColor(Color.White);
             
             GL.ShadeModel(ShadingModel.Smooth);
             GL.Enable(EnableCap.Lighting);
@@ -187,6 +187,9 @@ namespace WinFormCourseWork
             InitInitVertexLabels(size);
         }
 
+        /// <summary>
+        /// Создаёт нужное кол-во начальных вершин
+        /// </summary>
         private void InitInitVertexLabels(int size)
         {
             _initVertexLabels = new Label[size];
@@ -468,7 +471,7 @@ namespace WinFormCourseWork
 
                 p.InnerHtml += "<div>Подстановка соответсвующая самосовмещению:" +
                     PermutationVisualisation.ListOfTuplesToHtml(CurrentVisualisation
-                        .ConvertAnimationToPermuation(animation).TupleList) + "</div>";
+                        .ConvertAnimationToPermutation(animation).TupleList) + "</div>";
                 
                 div.AppendChild(button);
 

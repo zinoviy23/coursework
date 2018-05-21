@@ -21,7 +21,7 @@ namespace WinFormCourseWork
             _currentMainForm = new MainForm();
             _currentMainForm.Show();
             _currentMainForm.FormClosed += CurrentMainFormOnFormClosed;
-            Closed += (sender, args) => Log.Close();
+            //Closed += (sender, args) => Log.Close();
         }
 
         /// <summary>

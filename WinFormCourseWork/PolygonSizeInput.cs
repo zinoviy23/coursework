@@ -4,6 +4,10 @@ using System.Windows.Forms;
 
 namespace WinFormCourseWork
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Класс для формы ввода размера многоугольника
+    /// </summary>
     public partial class PolygonSizeInput : Form
     {
         /// <summary>
