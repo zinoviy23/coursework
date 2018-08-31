@@ -24,7 +24,7 @@ namespace WinFormCourseWork
         public static readonly Color[] Colors =
         {
             Color.Black, Color.Blue, Color.Red, Color.Green, Color.DarkCyan, Color.BlueViolet, Color.Sienna,
-            Color.Chartreuse, Color.Yellow, Color.DeepPink, Color.Gray, Color.Indigo, Color.MidnightBlue,
+            Color.DarkRed, Color.Violet, Color.DeepPink, Color.Gray, Color.Indigo, Color.MidnightBlue,
             Color.SpringGreen, Color.Tomato, Color.Olive
         };
 

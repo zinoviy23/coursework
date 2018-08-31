@@ -18,10 +18,6 @@ namespace WinFormCourseWork
         public ControlForm()
         {
             InitializeComponent();
-            _currentMainForm = new MainForm();
-            _currentMainForm.Show();
-            _currentMainForm.FormClosed += CurrentMainFormOnFormClosed;
-            //Closed += (sender, args) => Log.Close();
         }
 
         /// <summary>
@@ -33,9 +29,8 @@ namespace WinFormCourseWork
         {
             if (_currentMainForm.IsUserExit)
             {
-                _currentMainForm = new MainForm();
+                _currentMainForm = new MainForm(CurrentMainFormOnFormClosed);
                 _currentMainForm.Show();
-                _currentMainForm.FormClosed += CurrentMainFormOnFormClosed;
             }
             else
             {
@@ -44,10 +39,12 @@ namespace WinFormCourseWork
         }
 
         private void ControlForm_Load(object sender, EventArgs e)
-        {
+        { 
             Opacity = 0.0;
             Hide();
             Size = new Size(0, 0);
+            _currentMainForm = new MainForm(CurrentMainFormOnFormClosed);
+            _currentMainForm.Show();
         }
 
         private void ControlFormOnFormClosing(object sender, FormClosingEventArgs e)

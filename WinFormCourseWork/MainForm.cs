@@ -76,7 +76,7 @@ namespace WinFormCourseWork
         /// Конструктор формы
         /// </summary>
         /// <inheritdoc cref="Form"/>
-        public MainForm()
+        public MainForm(FormClosedEventHandler onMainFormClosed)
         {
             InitializeComponent();
 
@@ -109,6 +109,7 @@ namespace WinFormCourseWork
                 MainFormSettingsLoader.SaveUsersTables();
                 MainFormSettingsLoader.SaveCurrentUser();
             };
+            FormClosed += onMainFormClosed;
 
             _glControl.Visible = false;
             cayleyTableGridView.Visible = false;
@@ -904,6 +905,8 @@ namespace WinFormCourseWork
                 }
                 else
                 {
+                    //MessageBox.Show("kek");
+                    IsUserExit = false;
                     Close();
                 }
             }

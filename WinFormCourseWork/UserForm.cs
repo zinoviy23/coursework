@@ -18,7 +18,7 @@ namespace WinFormCourseWork
         /// <summary>
         /// Выход по кнопке ок или нет
         /// </summary>
-        private bool _goodExit = true;
+        private bool _goodExit;
 
         /// <summary>
         /// Имя пользователя
@@ -28,6 +28,7 @@ namespace WinFormCourseWork
         public UserForm()
         {
             InitializeComponent();
+            DialogResult = DialogResult.Abort;
         }
 
         /// <summary>
