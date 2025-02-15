@@ -4,12 +4,12 @@ using JetBrains.Annotations;
 namespace WinFormCourseWork
 {
     /// <summary>
-    /// Класс для всяких полезных методов
+    /// РљР»Р°СЃСЃ РґР»СЏ РІСЃСЏРєРёС… РїРѕР»РµР·РЅС‹С… РјРµС‚РѕРґРѕРІ
     /// </summary>
     internal static class MainFormUtils
     {
         /// <summary>
-        /// Получение следующей вершиы
+        /// РџРѕР»СѓС‡РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РІРµСЂС€РёС‹
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -35,10 +35,10 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Предыдущая вершина
+        /// РџСЂРµРґС‹РґСѓС‰Р°СЏ РІРµСЂС€РёРЅР°
         /// </summary>
-        /// <param name="node">вершина</param>
-        /// <returns>Предыдущая вершина</returns>
+        /// <param name="node">РІРµСЂС€РёРЅР°</param>
+        /// <returns>РџСЂРµРґС‹РґСѓС‰Р°СЏ РІРµСЂС€РёРЅР°</returns>
         [NotNull]
         public static TreeNode PreviousNode([NotNull] TreeNode node)
         {

@@ -130,7 +130,7 @@ namespace UnitTests
                 {"0", "0", "1"},
                 {"1", "1", "0"}
             };
-            var cayleyTable = LessonReader.ReadCayleyTableTestLesson(@"lessons\CayleyTables\table_test.xml");
+            var cayleyTable = LessonReader.ReadCayleyTableTestLesson(@"..\..\lessons\CayleyTables\table_test.xml");
             for (var i = 0; i < expectedTable.GetLength(0); i++)
                 for (var j = 0; j < expectedTable.GetLength(1); j++)
                     Assert.AreEqual(expectedTable[i, j], cayleyTable.StartTable[i, j]);
@@ -316,6 +316,7 @@ namespace UnitTests
             rotations.AddRange(vectors.Select(axis => new RotationAnimation(MathHelper.Pi, axis, MathHelper.Pi / 3)));
             var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
 
+            EnsureClearDirectory("Cube");
             for (var i = 0; i < rotations.Count; i++)
             {
                 var name = $@"Cube\r{i.ToString($"D{2}")}.xml";
@@ -323,6 +324,19 @@ namespace UnitTests
                 {
                     xmlSer.WriteObject(writer, rotations[i]);
                 }
+            }
+        }
+
+        private static void EnsureClearDirectory(string dir)
+        {
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            else
+            {
+                Directory.Delete(dir, true);
+                Directory.CreateDirectory(dir);
             }
         }
 
@@ -373,6 +387,7 @@ namespace UnitTests
 
             var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
 
+            EnsureClearDirectory("Octahedron");
             for (var i = 0; i < rotations.Count; i++)
             {
                 var name = $@"Octahedron\r{i.ToString($"D{2}")}.xml";
@@ -439,6 +454,7 @@ namespace UnitTests
 
             var xmlSer = new DataContractSerializer(typeof(RotationAnimation));
 
+            EnsureClearDirectory("Icosahedron");
             for (var i = 0; i < rotations.Count; i++)
             {
                 var name = $@"Icosahedron\r{i.ToString($"D{2}")}.xml";

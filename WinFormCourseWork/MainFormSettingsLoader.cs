@@ -6,12 +6,12 @@ using WinFormCourseWork.Users;
 namespace WinFormCourseWork
 {
     /// <summary>
-    /// Класс для настроек приложения
+    /// РљР»Р°СЃСЃ РґР»СЏ РЅР°СЃС‚СЂРѕРµРє РїСЂРёР»РѕР¶РµРЅРёСЏ
     /// </summary>
     internal static class MainFormSettingsLoader
     {
         /// <summary>
-        /// Загружает настройки
+        /// Р—Р°РіСЂСѓР¶Р°РµС‚ РЅР°СЃС‚СЂРѕР№РєРё
         /// </summary>
         public static void LoadSettings()
         {
@@ -27,27 +27,27 @@ namespace WinFormCourseWork
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Установлены настройки по умолчанию", @"Ошибка!",
+                    MessageBox.Show(ex.Message + $@"{'\n'}РЈСЃС‚Р°РЅРѕРІР»РµРЅС‹ РЅР°СЃС‚СЂРѕР№РєРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ", @"РћС€РёР±РєР°!",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Settings.CreateEmpty();
                 }
                 catch (ArgumentException ex)
                 {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Установлены настройки по умолчанию", @"Ошибка!",
+                    MessageBox.Show(ex.Message + $@"{'\n'}РЈСЃС‚Р°РЅРѕРІР»РµРЅС‹ РЅР°СЃС‚СЂРѕР№РєРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ", @"РћС€РёР±РєР°!",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Settings.CreateEmpty();
                 }
             }
             else
             {
-                MessageBox.Show(@"Отсутсвует файл настроек. Установлены настройки по умолчанию", @"Предупреждение!",
+                MessageBox.Show(@"РћС‚СЃСѓС‚СЃРІСѓРµС‚ С„Р°Р№Р» РЅР°СЃС‚СЂРѕРµРє. РЈСЃС‚Р°РЅРѕРІР»РµРЅС‹ РЅР°СЃС‚СЂРѕР№РєРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ", @"РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ!",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Settings.CreateEmpty();
             }
         }
 
         /// <summary>
-        /// Записывает настройки
+        /// Р—Р°РїРёСЃС‹РІР°РµС‚ РЅР°СЃС‚СЂРѕР№РєРё
         /// </summary>
         public static void WriteSettings()
         {
@@ -61,18 +61,18 @@ namespace WinFormCourseWork
             }
             catch (IOException ex)
             {
-                MessageBox.Show($@"Не удалось записать настройки. {'\n'}" + ex.Message, @"Ошибка!",
+                MessageBox.Show($@"РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РЅР°СЃС‚СЂРѕР№РєРё. {'\n'}" + ex.Message, @"РћС€РёР±РєР°!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show($@"Не удалось записать настройки. {'\n'}" + ex.Message, @"Ошибка!",
+                MessageBox.Show($@"РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РЅР°СЃС‚СЂРѕР№РєРё. {'\n'}" + ex.Message, @"РћС€РёР±РєР°!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Загружает список пользователей
+        /// Р—Р°РіСЂСѓР¶Р°РµС‚ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
         /// </summary>
         public static void LoadUsersTables()
         {
@@ -87,13 +87,13 @@ namespace WinFormCourseWork
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Список пользователей создан заново.", @"Ошибка!",
+                    MessageBox.Show(ex.Message + $@"{'\n'}РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃРѕР·РґР°РЅ Р·Р°РЅРѕРІРѕ.", @"РћС€РёР±РєР°!",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     UsersTables.CreateEmptyInstance();
                 }
                 catch (ArgumentException ex)
                 {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Список пользователей создан заново.", @"Ошибка!",
+                    MessageBox.Show(ex.Message + $@"{'\n'}РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃРѕР·РґР°РЅ Р·Р°РЅРѕРІРѕ.", @"РћС€РёР±РєР°!",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     UsersTables.CreateEmptyInstance();
                 }
@@ -105,7 +105,7 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Сохраняет список пользователей
+        /// РЎРѕС…СЂР°РЅСЏРµС‚ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
         /// </summary>
         public static void SaveUsersTables()
         {
@@ -119,20 +119,20 @@ namespace WinFormCourseWork
             }
             catch (IOException ex)
             {
-                MessageBox.Show($@"Не удалось записать список пользоватлей. {'\n'}" + ex.Message, @"Ошибка!",
+                MessageBox.Show($@"РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚Р»РµР№. {'\n'}" + ex.Message, @"РћС€РёР±РєР°!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show($@"Не удалось записать список пользователей. {'\n'}" + ex.Message, @"Ошибка!",
+                MessageBox.Show($@"РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№. {'\n'}" + ex.Message, @"РћС€РёР±РєР°!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Загрузка пользователя
+        /// Р—Р°РіСЂСѓР·РєР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
-        /// <param name="userPath">путь до файла</param>
+        /// <param name="userPath">РїСѓС‚СЊ РґРѕ С„Р°Р№Р»Р°</param>
         public static void LoadUser(string userPath)
         {
             if (userPath != null && File.Exists(userPath))
@@ -146,13 +146,13 @@ namespace WinFormCourseWork
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Пользователь создан заново", @"Ошибка!",
+                    MessageBox.Show(ex.Message + $@"{'\n'}РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃРѕР·РґР°РЅ Р·Р°РЅРѕРІРѕ", @"РћС€РёР±РєР°!",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Settings.CurrentUser = new User(Settings.CurrentUserName);
                 }
                 catch (ArgumentException ex)
                 {
-                    MessageBox.Show(ex.Message + $@"{'\n'}Пользователь создан заново", @"Ошибка!",
+                    MessageBox.Show(ex.Message + $@"{'\n'}РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃРѕР·РґР°РЅ Р·Р°РЅРѕРІРѕ", @"РћС€РёР±РєР°!",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Settings.CurrentUser = new User(Settings.CurrentUserName);
                 }
@@ -164,7 +164,7 @@ namespace WinFormCourseWork
         }
 
         /// <summary>
-        /// Сохраняет пользователя
+        /// РЎРѕС…СЂР°РЅСЏРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         /// </summary>
         public static void SaveCurrentUser()
         {
@@ -182,12 +182,12 @@ namespace WinFormCourseWork
             }
             catch (IOException ex)
             {
-                MessageBox.Show($@"Не удалось записать пользователя. {'\n'}" + ex.Message, @"Ошибка!",
+                MessageBox.Show($@"РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ. {'\n'}" + ex.Message, @"РћС€РёР±РєР°!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show($@"Не удалось записать пользователя. {'\n'}" + ex.Message, @"Ошибка!",
+                MessageBox.Show($@"РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ. {'\n'}" + ex.Message, @"РћС€РёР±РєР°!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

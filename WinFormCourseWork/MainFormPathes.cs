@@ -1,52 +1,52 @@
 namespace WinFormCourseWork
 {
     /// <summary>
-    /// Класс для путей приложения
+    /// РљР»Р°СЃСЃ РґР»СЏ РїСѓС‚РµР№ РїСЂРёР»РѕР¶РµРЅРёСЏ
     /// </summary>
     internal static class MainFormPathes
     {
         /// <summary>
-        /// Временный путь до таблицы
+        /// Р’СЂРµРјРµРЅРЅС‹Р№ РїСѓС‚СЊ РґРѕ С‚Р°Р±Р»РёС†С‹
         /// </summary>
         public const string TablesFolderPath = @"lessons\CayleyTables";
 
         /// <summary>
-        /// Путь до файла с деревом уроков
+        /// РџСѓС‚СЊ РґРѕ С„Р°Р№Р»Р° СЃ РґРµСЂРµРІРѕРј СѓСЂРѕРєРѕРІ
         /// </summary>
         public const string LessonsTreeInfoPath = @"lessons\lessonstree.xml";
 
         /// <summary>
-        /// Путь до шаблона с визуализациями подстановок
+        /// РџСѓС‚СЊ РґРѕ С€Р°Р±Р»РѕРЅР° СЃ РІРёР·СѓР°Р»РёР·Р°С†РёСЏРјРё РїРѕРґСЃС‚Р°РЅРѕРІРѕРє
         /// </summary>
         public const string PermutationVisualisationFilePath = @"lessons\default\permutation_visualisation.xml";
 
         /// <summary>
-        /// Путь до шаблона калькулятора подстановок
+        /// РџСѓС‚СЊ РґРѕ С€Р°Р±Р»РѕРЅР° РєР°Р»СЊРєСѓР»СЏС‚РѕСЂР° РїРѕРґСЃС‚Р°РЅРѕРІРѕРє
         /// </summary>
         public const string PermutationCalculatorFilePath = @"lessons\default\permutation_calculator.xml";
 
         /// <summary>
-        /// путь до папки со стандартными файлами
+        /// РїСѓС‚СЊ РґРѕ РїР°РїРєРё СЃРѕ СЃС‚Р°РЅРґР°СЂС‚РЅС‹РјРё С„Р°Р№Р»Р°РјРё
         /// </summary>
         public const string DefultFilesPath = @"lessons\default";
 
         /// <summary>
-        /// путь до файла с шаблоном разметки для визуализации 3d
+        /// РїСѓС‚СЊ РґРѕ С„Р°Р№Р»Р° СЃ С€Р°Р±Р»РѕРЅРѕРј СЂР°Р·РјРµС‚РєРё РґР»СЏ РІРёР·СѓР°Р»РёР·Р°С†РёРё 3d
         /// </summary>
         public const string Visualisation3DMarkupFilePath = @"lessons\default\visualisation_3d.xml";
 
         /// <summary>
-        /// Путь до файла с настройками
+        /// РџСѓС‚СЊ РґРѕ С„Р°Р№Р»Р° СЃ РЅР°СЃС‚СЂРѕР№РєР°РјРё
         /// </summary>
         public const string SettingsFilePath = @"settings.config";
 
         /// <summary>
-        /// Путь до папки с пользователями
+        /// РџСѓС‚СЊ РґРѕ РїР°РїРєРё СЃ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё
         /// </summary>
         public const string UserFolderPath = @"Users\";
 
         /// <summary>
-        /// Путь до файла со списком пользователей
+        /// РџСѓС‚СЊ РґРѕ С„Р°Р№Р»Р° СЃРѕ СЃРїРёСЃРєРѕРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
         /// </summary>
         public const string UsersFile = UserFolderPath + @"users.json";
     }

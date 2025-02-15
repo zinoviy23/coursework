@@ -8,3 +8,8 @@ C:\Users\Alexandr\Proga\NewProga\HSE\Proga\CourseWork\CourseWork\WinFormCourseWo
 *.zip
 UnitTests/bin/
 .vs/
+**/bin/
+**/obj/
+*.DotSettings.user
+TestResults
+packages
